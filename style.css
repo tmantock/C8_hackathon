@@ -13,8 +13,12 @@ body{
 
 .navbar_container{
 }
+<<<<<<< HEAD
 
 .navbar_brand {
+=======
+.navbar-brand {
+>>>>>>> origin/master
     font-size: 2em;
     padding: 0;
     margin: 0;
