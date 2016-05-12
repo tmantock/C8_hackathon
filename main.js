@@ -114,7 +114,7 @@ function make_tweet_divs(tweet_object_array){
 //input: string  yt_search, string twitter_search, string venue_name, num lat, num lon
 //output: new tour_date object
 
-function Tour_date(yt_search, twitter_search, venue_name, lat, lon{
+function Tour_date(yt_search, twitter_search, venue_name, lat, lon){
     this.yt_search = yt_search;
     this.twitter_search = twitter_search;
     this.venue_name = venue_name;
