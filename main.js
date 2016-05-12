@@ -4,7 +4,7 @@
 
 // ------ Twitter API call
 $(document).ready(function(){
-    apis.twitter.getData('Beyonce concert',
+    apis.twitter.getData('beyonce On the run tour',
         function(success, response){
             var my_tweets = response.tweets.statuses;
             for(var i = 0 ; i < response.tweets.statuses.length; i++){
