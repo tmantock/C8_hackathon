@@ -3,7 +3,9 @@ Hackathon project involving the combination of different data sources into an ap
 
 ### Requirements
 - Combine at least 3 **external** resources via AJAX requests and present their information in an application
-
+- Must be documented loosely on JSDOC standards
+- Must be issue-managed via a a service like <a href="https://www.zenhub.io/" target="_blank">zenhub for github</a>, <a href="https://trello.com/" target="_blank">trello</a>, <a href="https://www.meistertask.com" target="_blank">meistertask</a>, etc
+- Should encorporate <a href="https://www.google.com/design/spec/material-design/introduction.html" target="_blank">Google Material standards</a>
 
 ### Judging Criteria
 - **Appeal** : is it visually appealing / well put together
