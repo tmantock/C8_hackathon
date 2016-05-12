@@ -87,9 +87,10 @@ function make_tweet_divs(tweet_object_array){
     var temp_tweet_date = $('<div>').addClass('tweet_date');
     for (var i = 0; i < tweet_object_array.length; i++){
         var current_tweet = tweet_object_array[i];
-        temp_text.html(current_tweet.tweet_text);
+        temp_text.html(current_tweet.text);
         temp_pic.attr('src', current_tweet.user_pic);
-        temp_tweet_date.html(current_tweet.tweet_date);
+        temp_user_name.html(current_tweet.user_name);
+        temp_tweet_date.html(current_tweet.date_created);
         temp_div.append(temp_pic, temp_user_name, temp_text);
         $('.twitter_container').append(temp_div);
     }
@@ -113,4 +114,9 @@ Tour_date.prototype.update_globals = function(){
     venue_name = this.venue_name;
     google_lat = this.lat;
     google_lon = this.lon;
+};
+
+Tour_date.prototype.make_dom_object = function(){
+    var new_tour_date_dom = $('<div>');
+    new_tour_date_dom.addClass('')
 };
