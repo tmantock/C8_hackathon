@@ -1,7 +1,6 @@
 /**
  * Created by Mantock on 5/12/16.
  */
-
 /*
 **dropdown () - Function to create a dropdown list for main page
  */
@@ -37,7 +36,8 @@ function dropdown () {
 function page_scroll () {
     
 }
-
+var artist1 = [];
+var nickleback = [];
 
 // ------ Twitter API call
 $(document).ready(function(){
@@ -52,4 +52,3 @@ $(document).ready(function(){
         }
     );
 });
-
