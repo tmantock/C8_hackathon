@@ -2,25 +2,27 @@ body{
     overflow: hidden;
     height: 100vh;
     width: 100vw;
+    margin: 0;
 }
 .navbar {
-    height: 5%;
+    height: 10%;
     width: 100%;
-    mso-background: transparent;
+    margin: 0;
+    background: transparent;
 }
 
 .navbar_container{
-    width: 100%;
 }
+
 .navbar-brand {
     font-size: 2em;
-    display: inline-block;
+    padding: 0;
+    margin: 0;
 }
 
 .landing_container {
-    top: 5%;
     position: relative;
-    height: 95%;
+    height: 100%;
     width: 100%;
 }
 
@@ -32,7 +34,7 @@ body{
 }
 
 #main_page {
- background: black;
+ background: gray;
 }
 
 .landing_welcome {
@@ -52,4 +54,56 @@ body{
     transform: translateY(-45%);
 }
 
+.youtube_container {
+    height: 50%;
+    width: 100%;
+}
+
+.dummy {
+    height: 100%;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.music_content {
+    height: 100%;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.twiiter_feed {
+    height: 100%;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.col-md-9,
+.col-md-3,
+.col-md-10 {
+    padding: 0;
+    margin: 0;
+}
+
+.modal_button_container {
+    height: 10%;
+    width: 100%;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.button,
+.tour_dates {
+    height: 100%;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.tour_holder {
+    height: 40%;
+}
+
+.modal_button {
+    height: 90%;
+    width: 40%;
+}
 
