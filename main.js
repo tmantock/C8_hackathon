@@ -63,4 +63,22 @@ $(document).ready(function() {
 // function page_scroll () {
 // }
     
-
+//function make_tweet_divs
+//input: array of objects containing information about tweets
+//output: none
+//result: appends one div per tweet to the twitter container;
+function make_tweet_divs(tweet_object_array){
+    var temp_div = $('<div>').addClass('tweet_div');
+    var temp_text = $('<div>').addClass('tweet_text');
+    var temp_pic = $('<img>').addClass('tweet_user_pic');
+    var temp_user_name = $('<div>').addClass('tweet_user_name');
+    var temp_tweet_date = $('<div>').addClass('tweet_date');
+    for (var i = 0; i < tweet_object_array.length; i++){
+        var current_tweet = tweet_object_array[i];
+        temp_text.html(current_tweet.tweet_text);
+        temp_pic.attr('src', current_tweet.user_pic);
+        temp_tweet_date.html(current_tweet.tweet_date);
+        temp_div.append(temp_pic, temp_user_name, temp_text);
+        $('.twitter_container').append(temp_div);
+    }
+}
