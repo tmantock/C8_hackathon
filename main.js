@@ -20,6 +20,8 @@ var artist_disc = '';
 var artist1 = [];
 var nickleback = [];
 
+//variable for onclick
+var drop = true;
 $(document).ready(function() {
     apis.youtube.getData('beyonce', 5, function (success, response) {
         // console.log(success);
@@ -45,35 +47,45 @@ $(document).ready(function() {
 });
 
     function dropdown() {
+        if(drop == true) {
         var welcome_position = $('.landing_welcome').position().top;
-        var welcome_height = $('.landing_welcome').height();
+            var welcome_height = $('.landing_welcome').height();
 
-        var drop_div = $('<div>').css({
-            height: '10vh',
-            width: '45vw',
-            border: '3px solid black',
-            position: 'absolute',
-            top: '45%',
-            left: '45%',
-            transform: 'translate(-45%,-45%)'
-        }).addClass('drop_animate');
-        var drop_text = $('<h1>').text('Beyonce').css({
-            textAlign: 'center',
-            position: 'relative',
-            top: '25%',
-            transform: 'translateY(-45%)',
-            visibility: 'hidden'
-        }).addClass('artist_list');
-        $(drop_div).append(drop_text);
-        $('.landing_container').append(drop_div);
+            var drop_div = $('<div>').css({
+                height: '10vh',
+                width: '45vw',
+                border: '3px solid black',
+                position: 'absolute',
+                top: '45%',
+                left: '45%',
+                transform: 'translate(-45%,-45%)'
+            }).addClass('drop_animate');
+            var drop_text = $('<h1>').text('Beyonce').css({
+                textAlign: 'center',
+                position: 'relative',
+                top: '25%',
+                transform: 'translateY(-45%)',
+                visibility: 'hidden'
+            }).addClass('artist_list');
+            $(drop_div).append(drop_text);
+            $('.landing_container').append(drop_div);
 
-        $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
-            $('.artist_list').css('visibility', 'visible');
-        });
+            $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
+                $('.artist_list').attr('onclick','page_scroll()').css('visibility', 'visible');
+            });
+
+            drop = false;
+        }
     }
 
     
 function page_scroll () {
+    var x = $('.navbar').position().top;
+    var xHeight = $('#main_page').height();
+    var nHeight = $('.navbar').height();
+
+    $('.drop_animate').toggle('slow');
+    $('#main_page').animate({top:(-1*xHeight) + (-1*nHeight)+'px'},900);
 }
 
 
@@ -108,9 +120,10 @@ function make_tweet_divs(tweet_object_array){
     var temp_tweet_date = $('<div>').addClass('tweet_date');
     for (var i = 0; i < tweet_object_array.length; i++){
         var current_tweet = tweet_object_array[i];
-        temp_text.html(current_tweet.tweet_text);
+        temp_text.html(current_tweet.text);
         temp_pic.attr('src', current_tweet.user_pic);
-        temp_tweet_date.html(current_tweet.tweet_date);
+        temp_user_name.html(current_tweet.user_name);
+        temp_tweet_date.html(current_tweet.date_created);
         temp_div.append(temp_pic, temp_user_name, temp_text);
         $('.twitter_container').append(temp_div);
     }
@@ -120,7 +133,7 @@ function make_tweet_divs(tweet_object_array){
 //input: string  yt_search, string twitter_search, string venue_name, num lat, num lon
 //output: new tour_date object
 
-function Tour_date(yt_search, twitter_search, venue_name, lat, lon{
+function Tour_date(yt_search, twitter_search, venue_name, lat, lon){
     this.yt_search = yt_search;
     this.twitter_search = twitter_search;
     this.venue_name = venue_name;
@@ -134,4 +147,9 @@ Tour_date.prototype.update_globals = function(){
     venue_name = this.venue_name;
     google_lat = this.lat;
     google_lon = this.lon;
+};
+
+Tour_date.prototype.make_dom_object = function(){
+    var new_tour_date_dom = $('<div>');
+    new_tour_date_dom.addClass('')
 };
