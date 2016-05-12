@@ -5,6 +5,18 @@
 **dropdown () - Function to create a dropdown list for main page
  */
 
+//These globals will be used inside update_content to insert content into the page.
+//They are updated every time a tour_date object is clicked
+
+var yt_search_str = '';
+var twitter_search_str = '';
+var venue_name = '';
+var google_lat = 0;
+var google_lon = 0;
+var artist_pic_src = '';
+var artist_bio = '';
+var artist_disc = '';
+
 var artist1 = [];
 var nickleback = [];
 
@@ -82,3 +94,23 @@ function make_tweet_divs(tweet_object_array){
         $('.twitter_container').append(temp_div);
     }
 }
+
+//tour_date_object constructor
+//input: string  yt_search, string twitter_search, string venue_name, num lat, num lon
+//output: new tour_date object
+
+function Tour_date(yt_search, twitter_search, venue_name, lat, lon{
+    this.yt_search = yt_search;
+    this.twitter_search = twitter_search;
+    this.venue_name = venue_name;
+    this.lat = lat;
+    this.lon = lon;
+}
+
+Tour_date.prototype.update_globals = function(){
+    yt_search_str = this.yt_search;
+    twitter_search_str = this.twitter_search;
+    venue_name = this.venue_name;
+    google_lat = this.lat;
+    google_lon = this.lon;
+};
