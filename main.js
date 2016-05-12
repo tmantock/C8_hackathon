@@ -32,14 +32,9 @@ $(document).ready(function() {
             // console.log(artist1)
         }
     });
-        apis.twitter.getData('beyonce I am... tour',
+    
+    apis.twitter.getData('beyonce I am... tour',
             function (success, response) {
-                var my_tweets = response.tweets.statuses;
-                for (var i = 0; i < response.tweets.statuses.length; i++) {
-                    // console.log(my_tweets[i].created_at);
-                    // console.log(my_tweets[i].text);
-                }
-                console.log(response);
                 process_twitter_api(response);
     });
 });
@@ -120,7 +115,7 @@ function make_tweet_divs(tweet_object_array){
 //input: string  yt_search, string twitter_search, string venue_name, num lat, num lon
 //output: new tour_date object
 
-function Tour_date(yt_search, twitter_search, venue_name, lat, lon{
+function Tour_date(yt_search, twitter_search, venue_name, lat, lon) {
     this.yt_search = yt_search;
     this.twitter_search = twitter_search;
     this.venue_name = venue_name;
@@ -135,3 +130,37 @@ Tour_date.prototype.update_globals = function(){
     google_lat = this.lat;
     google_lon = this.lon;
 };
+
+//Make youtube video play
+//This function creates an YouTube player after the API code downloads.
+var player;
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        height: '390',
+        width: '640',
+        videoId: 'M7lc1UVf-VE',
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
+}
+
+// The API will call this function when the video player is ready.
+function onPlayerReady(event) {
+    event.target.playVideo();
+}
+
+// The API calls this function when the player's state changes.
+//    The function indicates that when playing a video (state=1),
+//    the player should play for six seconds and then stop.
+var done = false;
+function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING && !done) {
+        setTimeout(stopVideo, 12000);
+        done = true;
+    }
+}
+function stopVideo() {
+    player.stopVideo();
+}
