@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="initial-scale=1, user-scalable=no">
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -20,10 +21,14 @@
 </head>
 <body>
     <nav class ='navbar navbar-inverse navbar-fixed-top'>
-        <div class = 'container'>
-            <a class = 'navbar-brand'>Ramrod Entertainment</a>
+        <div class = 'nav_container container'>
+            <a href ='#' class = 'navbar-brand'>Ramrod Entertainment</a>
         </div>
     </nav>
+    <div id = 'home_page' class = 'landing_container'>
+        <div class = 'landing_welcome' onclick="dropdown()"><h1>Choose Your Experience</h1></div>
+    </div>
+    <div id = 'main_page' class = 'landing_container'></div>
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/js/material.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/js/ripples.min.js"></script>
 </body>
