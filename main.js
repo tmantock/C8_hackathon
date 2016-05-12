@@ -8,6 +8,8 @@
 var artist1 = [];
 var nickleback = [];
 
+//variable for onclick
+var drop = true;
 $(document).ready(function() {
     apis.youtube.getData('beyonce', 5, function (success, response) {
         console.log(success);
@@ -32,35 +34,47 @@ $(document).ready(function() {
 });
 
     function dropdown() {
+        if(drop == true) {
         var welcome_position = $('.landing_welcome').position().top;
-        var welcome_height = $('.landing_welcome').height();
+            var welcome_height = $('.landing_welcome').height();
 
-        var drop_div = $('<div>').css({
-            height: '10vh',
-            width: '45vw',
-            border: '3px solid black',
-            position: 'absolute',
-            top: '45%',
-            left: '45%',
-            transform: 'translate(-45%,-45%)'
-        }).addClass('drop_animate');
-        var drop_text = $('<h1>').text('Beyonce').css({
-            textAlign: 'center',
-            position: 'relative',
-            top: '25%',
-            transform: 'translateY(-45%)',
-            visibility: 'hidden'
-        }).addClass('artist_list');
-        $(drop_div).append(drop_text);
-        $('.landing_container').append(drop_div);
+            var drop_div = $('<div>').css({
+                height: '10vh',
+                width: '45vw',
+                border: '3px solid black',
+                position: 'absolute',
+                top: '45%',
+                left: '45%',
+                transform: 'translate(-45%,-45%)'
+            }).addClass('drop_animate');
+            var drop_text = $('<h1>').text('Beyonce').css({
+                textAlign: 'center',
+                position: 'relative',
+                top: '25%',
+                transform: 'translateY(-45%)',
+                visibility: 'hidden'
+            }).addClass('artist_list');
+            $(drop_div).append(drop_text);
+            $('.landing_container').append(drop_div);
 
-        $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
-            $('.artist_list').css('visibility', 'visible');
-        });
+            $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
+                $('.artist_list').attr('onclick','page_scroll()').css('visibility', 'visible');
+            });
+
+            drop = false;
+        }
     }
 
     
-// function page_scroll () {
-// }
+function page_scroll () {
+    var x = $('.navbar').position().top;
+    var xHeight = $('#main_page').height();
+    var nHeight = $('.navbar').height();
+
+    $('.drop_animate').toggle('slow');
+    $('#main_page').animate({top:(-1*xHeight) + (-1*nHeight)+'px'},900);
+}
+
+
     
 
