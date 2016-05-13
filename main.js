@@ -45,7 +45,8 @@ function dropdown() {
                 position: 'relative',
                 top: '25%',
                 transform: 'translateY(-45%)',
-                visibility: 'hidden'
+                visibility: 'hidden',
+                cursor: 'default'
             }).addClass('artist_list').on('click', video_load);
             $(drop_div).append(drop_text);
             $('.landing_container').append(drop_div);

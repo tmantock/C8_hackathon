@@ -29,7 +29,9 @@ body{
     background-repeat: no-repeat;
     background-position: center center;
 }
-
+.landing_welcome > h1 {
+    cursor: default;
+}
 #main_page {
     background-size: cover;
     background-repeat: no-repeat;
