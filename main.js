@@ -19,6 +19,8 @@ var venue_name = 0;
 var artist_pic_src = '';
 var artist_bio = '';
 var artist_disc = '';
+var youtube_array = [];
+var vid_index = 0;
 
 //Global variables to store information about artists
 
@@ -39,6 +41,16 @@ $(document).ready(function() {
     $('#myCarousel').on('click', '.tour_date', function(){
         tour_date_click(this);
     });
+    $( '#speaker_right').on('click', function(){
+        console.log('BRUH');
+        next_video();
+    });
+
+    $('#speaker_left').on('click', function(){
+        prev_video();
+    });
+    
+  
 
 });
 
@@ -47,13 +59,10 @@ $(document).ready(function() {
 //output: changes the global venue name and lat lon when clicked
 function tour_date_click(clicked_element){
     // clicked_element = this;
-    console.log('suh');
     var a = clicked_element;
     var b = global_tour_dates[Number($(a).attr('data-id'))];
     google_lat = b.venue_lat_lon.lat;
     google_lon = b.venue_lat_lon.lon;
-    console.log(b);
-    console.log (google_lat, google_lon);
     venue_name = b.venue_name;
     $('#myModal .modal-dialog .modal-content .modal-header .modal-title').html(venue_name);
     initialize();
@@ -88,7 +97,6 @@ function dropdown() {
 
 //input: click event
 //output: dropdown menu is created
-
 function page_scroll (event) {
     var key = event.which;
     if(key == 13) {
@@ -105,6 +113,12 @@ function page_scroll (event) {
     $('#main_page').animate({top:(-1*xHeight) + 'px'},900, function() {
     })
     }
+
+    // $('.next_vid').click( function(){
+    //     console.log("IS this working");
+    //
+    //
+    // });
 }
 
 //Create a Process for Twitter's API
@@ -136,13 +150,14 @@ function twitterList (tweet_object_array) {
     var temp_pic = $('<img>').addClass('tweet_user_pic');
     var temp_user_name = $('<div>').addClass('tweet_user_name');
     var temp_tweet_date = $('<div>').addClass('tweet_date');
+    var tweet_icon = $('<i>').addClass('fa fa-twitter-square tweet_icon').attr('aria-hidden','true');
     var current_tweet = tweet_object_array[0];
     temp_text.html(current_tweet.text);
     temp_pic.attr('src', current_tweet.user_pic);
     console.log(tweet_object_array[0]);
     temp_user_name.html('@' + current_tweet.user_name);
     temp_tweet_date.html(current_tweet.date_created);
-    temp_div.append(temp_pic, temp_user_name, temp_text);
+    temp_div.append(temp_pic, temp_user_name, tweet_icon, temp_text);
     $('.twitter_feed').append(temp_div);
     var counter = 1;
 
@@ -152,12 +167,13 @@ function twitterList (tweet_object_array) {
         temp_pic = $('<img>').addClass('tweet_user_pic');
         temp_user_name = $('<div>').addClass('tweet_user_name');
         temp_tweet_date = $('<div>').addClass('tweet_date');
+        tweet_icon = $('<i>').addClass('fa fa-twitter-square tweet_icon').attr('aria-hidden','true');
         current_tweet = tweet_object_array[i];
         temp_text.html(current_tweet.text);
         temp_pic.attr('src', current_tweet.user_pic);
         temp_user_name.html('@' + current_tweet.user_name);
         temp_tweet_date.html(current_tweet.date_created);
-        temp_div.append(temp_pic, temp_user_name, temp_text);
+        temp_div.append(temp_pic, temp_user_name, tweet_icon, temp_text);
         var lastPosition = $('.twitter_feed .twitter_card:first-child').position().top;
         var lastHeight = $('.twitter_feed .twitter_card:first-child').height();
         $('.twitter_feed').append(temp_div.attr('data-count',counter).css({top: lastPosition + 15}));
@@ -196,10 +212,10 @@ Tour_date.prototype.make_dom_object = function(first, id){
         tour_date_dom.addClass('active');
     }
     tour_date_dom.attr('data-id', ''+id);
-    var city_div = $('<div>').html(this.venue_city);
+    var city_div = $('<div>').html('City: ' + this.venue_city);
     var date = $('<div>');
-    var venue_div = $('<div>').html(this.venue_name);
-    date.html(this.event_date);
+    var venue_div = $('<div>').html('Venue: ' + this.venue_name);
+    date.html('Date: ' + this.event_date);
     // tour_date_dom.html(this.venue_city);
     tour_date_dom.append(venue_div, city_div, date);
 
@@ -235,9 +251,17 @@ function populate_carousel(event_list){
     console.log('carousel populated?')
 }
 
+function load_google(){
+    var b = global_tour_dates[$('.item.active').attr('data-id')];
+    google_lat = b.venue_lat_lon.lat;
+    google_lon = b.venue_lat_lon.lon;
+    venue_name = b.venue_name;
+    $('#myModal .modal-dialog .modal-content .modal-header .modal-title').html(venue_name);
+    initialize();
+}
+
 //input: none
 //output: google modal populated with content based off of the current venue
-
 function initialize() {
     var att = {lat: Number(google_lat), lng: Number(google_lon) };
     var map = new google.maps.Map(document.getElementById('map2'), {
@@ -304,9 +328,11 @@ function video_search(YT_search) {
     apis.youtube.getData(YT_search, 5, function (success, response) {
         if (success) {
             console.log(response);
-            vid_id = response.video[0].id;
+            vid_id = response.video[vid_index].id;
             console.log('Response Video: ', response.video[0].id);
             youtube(response);
+            var temp_array = youtube_array;
+            
             onYouTubePlayerAPIReady();
         }
     });
@@ -320,7 +346,7 @@ function speaker () {
     $('.speaker').append(speaker_div.css('top',speaker_position));
     var second_speaker_position;
     var large_speaker;
-    var backward = $('<span>').addClass('glyphicon glyphicon-step-backward speaker_glyph');
+    var backward = $('<span>').addClass('glyphicon glyphicon-step-backward speaker_glyph prev_vid');
     var forward = $('<span>').addClass('glyphicon glyphicon-step-forward speaker_glyph');
 
     $('.speaker_animate').animate({top: speaker_position + 250 + 'px'},1000, function () {
@@ -329,7 +355,7 @@ function speaker () {
     });
     setTimeout(function () {
         second_speaker_position = $('.speaker_animate').position().top;
-        large_speaker = $('<div>').addClass('speaker_hole speaker_grow');
+        large_speaker = $('<div>').addClass('speaker_hole speaker_grow next_vid');
         $('.speaker').append(large_speaker.css('top', second_speaker_position));
         $('.speaker_grow').animate({top: '-=25', height: '+=50', width: '+=50'},500);
     },1000);
@@ -374,7 +400,7 @@ function ramrod_leave () {
 
 
 function youtube(response){
-    var youtube_array =[];
+    
     var tube = response.video;
     for (var x = 0; x < tube.length; x++){
         var youtube_obj = {};
@@ -383,6 +409,7 @@ function youtube(response){
         youtube_array.push(youtube_obj);
     }
     console.log("My Youtube array", youtube_array);
+    return youtube_array;
     
 }
 
@@ -408,6 +435,36 @@ function twitter_feed_update (twitter_search) {
             var temp_array = process_twitter_api(response);
         });
     speaker ();
+}
+
+
+function next_video (){
+    if(vid_index === youtube_array.length-1){
+        return;
+    }
+    else{
+        vid_index++;
+        vid_id = youtube_array[vid_index].id;
+        console.log(vid_id);
+        $('iframe').remove();
+        var new_youtube = $('<div>').attr('id','ytplayer');
+        $('.youtube').append(new_youtube);
+        onYouTubePlayerAPIReady()
+    } 
+}
+
+function prev_video (){
+    if(vid_index === 0) {
+        return;
+    }
+    else{
+        vid_index--;
+        vid_id = youtube_array[vid_index].id;
+        $('iframe').remove();
+        var new_youtube = $('<div>').attr('id','ytplayer');
+        $('.youtube').append(new_youtube);
+        onYouTubePlayerAPIReady()
+    }
 }
 
 function nickleback() {
