@@ -57,10 +57,16 @@ body{
     height: 50%;
     width: 100%;
 }
-
+.tweet_user_name, .tweet_user_pic {
+    display: inline-block;
+}
+div > .tweet_user_name {
+    font-size: larger;
+    font-weight: 500;
+    width: 65%
+}
 .dummy {
     height: 100%;
-    border: 1px solid black;
     box-sizing: border-box;
 }
 
@@ -108,10 +114,11 @@ body{
     height: 90%;
     width: 40%;
 }
+
 #ytplayer {
-    height: 310px;
-    width: 430px;
-    margin-left: 29%;
+    height: 100%;
+    width: 50%;
+    margin-left: 25%;
 }
 
 #map2 {

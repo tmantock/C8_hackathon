@@ -23,13 +23,7 @@ var nickleback = [];
 $(document).ready(function() {
     $('#myModal').load('map2, pano2');
     $("#myModal").on("shown.bs.modal", function () {initialize();});
-    apis.youtube.getData('single ladies', 5, function (success, response) {
-        if (success) {
-            vid_id = response.video[0].id;
-            console.log('Response Video: ', response.video[1].id);
-            onYouTubePlayerAPIReady();
-        }
-    });
+
 });
 
 function dropdown() {
@@ -52,7 +46,7 @@ function dropdown() {
                 top: '25%',
                 transform: 'translateY(-45%)',
                 visibility: 'hidden'
-            }).addClass('artist_list');
+            }).addClass('artist_list').on('click', video_load);
             $(drop_div).append(drop_text);
             $('.landing_container').append(drop_div);
 
@@ -92,7 +86,7 @@ function process_twitter_api(response) {
         var new_tweet_obj = {};
         new_tweet_obj.text = t_location[i].text;
         new_tweet_obj.user_pic = t_location[i].user.profile_image_url;
-        new_tweet_obj.user_name = t_location[i].name;
+        new_tweet_obj.user_name = t_location[i].user.screen_name;
         new_tweet_obj.date_created = t_location[i].created_at;
         tweet_array.push(new_tweet_obj);
     }
@@ -162,7 +156,7 @@ Tour_date.prototype.make_dom_object = function(){
     var new_tour_date_dom = $('<div>');
     new_tour_date_dom.addClass('')
 };
-    
+
 function initialize() {
     var att = {lat: 32.747778, lng: -97.092778 };
     var map = new google.maps.Map(document.getElementById('map2'), {
@@ -179,7 +173,15 @@ function initialize() {
         });
     map.setStreetView(panorama);
 }
-
+function video_load () {
+    apis.youtube.getData('single ladies', 5, function (success, response) {
+        if (success) {
+            vid_id = response.video[0].id;
+            console.log('Response Video: ', response.video[1].id);
+            onYouTubePlayerAPIReady();
+        }
+    });
+}
 
 // Load the IFrame Player API code asynchronously.
 var tag = document.createElement('script');
@@ -197,4 +199,4 @@ function onYouTubePlayerAPIReady() {
         videoId: vid_id
     });
 }
-    
+
