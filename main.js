@@ -35,31 +35,31 @@ $(document).ready(function() {
 function dropdown() {
     if (drop == true) {
         var welcome_position = $('.landing_welcome').position().top;
-        var welcome_height = $('.landing_welcome').height();
+            var welcome_height = $('.landing_welcome').height();
 
-        var drop_div = $('<div>').css({
-            height: '10vh',
-            width: '45vw',
-            border: '3px solid black',
-            position: 'absolute',
-            top: '45%',
-            left: '45%',
-            transform: 'translate(-45%,-45%)'
-        }).addClass('drop_animate');
-        var drop_text = $('<h1>').text('Beyonce').css({
-            textAlign: 'center',
-            position: 'relative',
-            top: '25%',
-            transform: 'translateY(-45%)',
-            visibility: 'hidden'
-        }).addClass('artist_list');
-        $(drop_div).append(drop_text);
-        $('.landing_container').append(drop_div);
+            var drop_div = $('<div>').css({
+                height: '10vh',
+                width: '45vw',
+                border: '3px solid black',
+                position: 'absolute',
+                top: '45%',
+                left: '45%',
+                transform: 'translate(-45%,-45%)'
+            }).addClass('drop_animate');
+            var drop_text = $('<h1>').text('Beyonce').css({
+                textAlign: 'center',
+                position: 'relative',
+                top: '25%',
+                transform: 'translateY(-45%)',
+                visibility: 'hidden'
+            }).addClass('artist_list');
+            $(drop_div).append(drop_text);
+            $('.landing_container').append(drop_div);
 
-        $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
-            $('.artist_list').attr('onclick', 'page_scroll()').css('visibility', 'visible');
-        });
-
+            $('#main_page').css('background',"linear-gradient(rgba(255,255,255,.15),rgba(255,255,255,.25)),url('http://wallpapersdsc.net/wp-content/uploads/2016/01/Beyonce-Wallpapers-HD.jpg')");
+            $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
+                $('.artist_list').attr('onclick','page_scroll()').css('visibility', 'visible');
+            });
         drop = false;
     }
 }
@@ -81,7 +81,6 @@ function page_scroll () {
     });
 }
 
-
 //Create a Process for Twitter's API
 //Input Raw Json from Twitter API
 //Output Array of objects holding the info we need
@@ -102,7 +101,6 @@ function process_twitter_api(response) {
     return tweet_array;
 }
 
-
 function twitterList (tweet_object_array) {
     //var firstDiv = $('<div>').addClass('twitter_card').attr('data',1);
     var temp_div = $('<div>').addClass('twitter_card');
@@ -113,6 +111,8 @@ function twitterList (tweet_object_array) {
     var current_tweet = tweet_object_array[0];
     temp_text.html(current_tweet.text);
     temp_pic.attr('src', current_tweet.user_pic);
+    console.log(tweet_object_array[0]);
+    temp_user_name.html(current_tweet.user_name);
     temp_tweet_date.html(current_tweet.date_created);
     temp_div.append(temp_pic, temp_user_name, temp_text);
     $('.twitter_feed').append(temp_div);
@@ -126,6 +126,7 @@ function twitterList (tweet_object_array) {
         var current_tweet = tweet_object_array[i];
         temp_text.html(current_tweet.text);
         temp_pic.attr('src', current_tweet.user_pic);
+        temp_user_name.html(current_tweet.user_name);
         temp_tweet_date.html(current_tweet.date_created);
         temp_div.append(temp_pic, temp_user_name, temp_text);
         var lastPosition = $('.twitter_feed .twitter_card:first-child').position().top;

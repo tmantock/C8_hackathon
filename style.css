@@ -31,7 +31,9 @@ body{
 }
 
 #main_page {
- background: gray;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 .landing_welcome {
@@ -142,7 +144,7 @@ body{
 .twitter_card {
     border: 1px solid black;
     position: absolute;
-    background: dodgerblue;
+    background: #EEEEEE;
     height: 40%;
     width: 100%;
 }
@@ -152,10 +154,16 @@ body{
     height: 50%;
     border: 1px solid black;
     color: black;
+    margin: 10% 0 5% 3%;
 }
 .tweet_user_name,
 .tweet_date {
     width: 90%;
     height: 10%;
     border: 1px solid black;
+    margin: 3% 3%;
+}
+
+.tweet_user_pic {
+    margin: 3%;
 }
