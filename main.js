@@ -23,6 +23,11 @@ var nickleback = [];
 //variable for onclick
 var drop = true;
 $(document).ready(function() {
+
+    $('#myModal').load('map2, pano2');
+    $("#myModal").on("shown.bs.modal", function () {initialize();});
+
+
     apis.youtube.getData('beyonce', 5, function (success, response) {
         // console.log(success);
         if (success) {
@@ -154,3 +159,20 @@ Tour_date.prototype.make_dom_object = function(){
     var new_tour_date_dom = $('<div>');
     new_tour_date_dom.addClass('')
 };
+
+function initialize() {
+    var att = {lat: 32.747778, lng: -97.092778 };
+    var map = new google.maps.Map(document.getElementById('map2'), {
+        center: att,
+        zoom: 15
+    });
+    var panorama = new google.maps.StreetViewPanorama(
+        document.getElementById('pano2'), {
+            position: att,
+            pov: {
+                heading: 34,
+                pitch: 10
+            }
+        });
+    map.setStreetView(panorama);
+}
