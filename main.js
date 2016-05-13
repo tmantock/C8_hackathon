@@ -35,20 +35,24 @@ $('.artist_list').on('keydown', function (event){
 $(document).ready(function() {
     $('#myModal').load('map2, pano2');
     $("#myModal").on("shown.bs.modal", function () {initialize();});
-    $('#myCarousel').on('click', '.tour_div', tour_date_click);
+    $('#myCarousel').on('click', '.tour_date', function(){
+        tour_date_click(this);
+    });
 });
 
 //function tour_date_click
 //input: dom element that was clicked
 //output: changes the global venue name and lat lon when clicked
 function tour_date_click(clicked_element){
+    // clicked_element = this;
+    console.log('suh');
     var a = clicked_element;
-    var b = global_tour_dates[Number(a.attr('data-id'))];
+    var b = global_tour_dates[Number($(a).attr('data-id'))];
     google_lat = b.venue_lat_lon.lat;
     google_lon = b.venue_lat_lon.lon;
     $('#myModal .modal-dialog .modal-content .modal-header .modal-title').html();
     venue_name = b.venue_name;
-
+    initialize();
     //here is where we should update the google modal
 }
 
