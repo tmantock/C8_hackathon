@@ -307,7 +307,13 @@ function speaker () {
     $('.speaker').append(speaker_div.css('top',speaker_position));
     var second_speaker_position;
     var large_speaker;
-    $('.speaker_animate').animate({top: speaker_position + 250 + 'px'},1000);
+    var backward = $('<span>').addClass('glyphicon glyphicon-step-backward speaker_glyph');
+    var forward = $('<span>').addClass('glyphicon glyphicon-step-forward speaker_glyph');
+
+    $('.speaker_animate').animate({top: speaker_position + 250 + 'px'},1000, function () {
+        $('#speaker_left .speaker_animate').append(backward);
+        $('#speaker_right .speaker_animate').append(forward);
+    });
     setTimeout(function () {
         second_speaker_position = $('.speaker_animate').position().top;
         large_speaker = $('<div>').addClass('speaker_hole speaker_grow');
