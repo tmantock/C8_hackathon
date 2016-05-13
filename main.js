@@ -9,6 +9,8 @@
 //The choices that change these variables are:
 //----Choosing a new venue
 //----Choosing a new artist
+
+var drop = true;
 var yt_search_str = '';
 var twitter_search_str = '';
 var venue_name = '';
@@ -27,30 +29,20 @@ var beyonce = {
 };
 var bey_tour = beyonce.artist_tour;
 
-
-//variable for onclick
-var drop = true;
 $(document).ready(function() {
-
     $('#myModal').load('map2, pano2');
     $("#myModal").on("shown.bs.modal", function () {initialize();});
-
-
-    apis.youtube.getData('beyonce', 5, function (success, response) {
-        // console.log(success);
+    apis.youtube.getData('single ladies', 5, function (success, response) {
         if (success) {
-            for (var x = 0; x < response.video.length; x++) {
-                artist1.push(response.video[x]);
-                // console.log('response', response);
-
-            }
-            // console.log(artist1)
+            vid_id = response.video[0].id;
+            console.log('Response Video: ', response.video[1].id);
+            onYouTubePlayerAPIReady();
         }
     });
 });
 
-    function dropdown() {
-        if(drop == true) {
+function dropdown() {
+    if (drop == true) {
         var welcome_position = $('.landing_welcome').position().top;
             var welcome_height = $('.landing_welcome').height();
 
@@ -73,15 +65,14 @@ $(document).ready(function() {
             $(drop_div).append(drop_text);
             $('.landing_container').append(drop_div);
 
+            $('#main_page').css('background',"linear-gradient(rgba(255,255,255,.15),rgba(255,255,255,.25)),url('http://wallpapersdsc.net/wp-content/uploads/2016/01/Beyonce-Wallpapers-HD.jpg')");
             $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
                 $('.artist_list').attr('onclick','page_scroll()').css('visibility', 'visible');
             });
-
-            drop = false;
-        }
+        drop = false;
     }
+}
 
-    
 function page_scroll () {
     var x = $('.navbar').position().top;
     var xHeight = $('#main_page').height();
@@ -93,15 +84,11 @@ function page_scroll () {
             function (success, response) {
                 var my_tweets = response.tweets.statuses;
                 for (var i = 0; i < response.tweets.statuses.length; i++) {
-                    console.log(my_tweets[i].created_at);
-                    console.log(my_tweets[i].text);
                 }
-                console.log(response);
                 var temp_array = process_twitter_api(response);
             });
     });
 }
-
 
 //Create a Process for Twitter's API
 //Input Raw Json from Twitter API
@@ -119,30 +106,10 @@ function process_twitter_api(response) {
         tweet_array.push(new_tweet_obj);
     }
     console.log(tweet_array);
+    twitterList(tweet_array);
     return tweet_array;
 }
 
-    
-//function make_tweet_divs
-//input: array of objects containing information about tweets
-//output: none
-//result: appends one div per tweet to the twitter container;
-function make_tweet_divs(tweet_object_array){
-    var temp_div = $('<div>').addClass('tweet_div');
-    var temp_text = $('<div>').addClass('tweet_text');
-    var temp_pic = $('<img>').addClass('tweet_user_pic');
-    var temp_user_name = $('<div>').addClass('tweet_user_name');
-    var temp_tweet_date = $('<div>').addClass('tweet_date');
-    for (var i = 0; i < tweet_object_array.length; i++){
-        var current_tweet = tweet_object_array[i];
-        temp_text.html(current_tweet.text);
-        temp_pic.attr('src', current_tweet.user_pic);
-        temp_user_name.html(current_tweet.user_name);
-        temp_tweet_date.html(current_tweet.date_created);
-        temp_div.append(temp_pic, temp_user_name, temp_text);
-        $('.twitter_container').append(temp_div);
-    }
-}
 function twitterList (tweet_object_array) {
     //var firstDiv = $('<div>').addClass('twitter_card').attr('data',1);
     var temp_div = $('<div>').addClass('twitter_card');
@@ -151,9 +118,11 @@ function twitterList (tweet_object_array) {
     var temp_user_name = $('<div>').addClass('tweet_user_name');
     var temp_tweet_date = $('<div>').addClass('tweet_date');
     var current_tweet = tweet_object_array[0];
-    temp_text.html(current_tweet.tweet_text);
+    temp_text.html(current_tweet.text);
     temp_pic.attr('src', current_tweet.user_pic);
-    temp_tweet_date.html(current_tweet.tweet_date);
+    console.log(tweet_object_array[0]);
+    temp_user_name.html(current_tweet.user_name);
+    temp_tweet_date.html(current_tweet.date_created);
     temp_div.append(temp_pic, temp_user_name, temp_text);
     $('.twitter_feed').append(temp_div);
     var counter = 1;
@@ -163,10 +132,11 @@ function twitterList (tweet_object_array) {
         var temp_pic = $('<img>').addClass('tweet_user_pic');
         var temp_user_name = $('<div>').addClass('tweet_user_name');
         var temp_tweet_date = $('<div>').addClass('tweet_date');
-        var current_tweet = tweet_object_array[0];
-        temp_text.html(current_tweet.tweet_text);
+        var current_tweet = tweet_object_array[i];
+        temp_text.html(current_tweet.text);
         temp_pic.attr('src', current_tweet.user_pic);
-        temp_tweet_date.html(current_tweet.tweet_date);
+        temp_user_name.html(current_tweet.user_name);
+        temp_tweet_date.html(current_tweet.date_created);
         temp_div.append(temp_pic, temp_user_name, temp_text);
         var lastPosition = $('.twitter_feed .twitter_card:first-child').position().top;
         var lastHeight = $('.twitter_feed .twitter_card:first-child').height();
@@ -179,7 +149,9 @@ function twitterList (tweet_object_array) {
 //input: string  yt_search, string twitter_search, string venue_name, num lat, num lon
 //output: new tour_date object
 
+
 function Tour_date(yt_search, twitter_search, venue_name, lat, lon){
+
     this.yt_search = yt_search;
     this.twitter_search = twitter_search;
     this.venue_name = venue_name;
@@ -195,31 +167,11 @@ Tour_date.prototype.update_globals = function(){
     google_lon = this.lon;
 };
 
-//Create a Process for Twitter's API
-//Input Raw Json from Twitter API
-//Output Array of objects holding the info we need
-//Info needed in each object user_pic  user_name  tweet_text  tweet_date
-function process_twitter_api(response) {
-    var tweet_array = [];
-    var t_location = response.tweets.statuses;
-    for (var i = 0; i < t_location.length ; i++){
-        var new_tweet_obj = {};
-        new_tweet_obj.text = t_location[i].text;
-        new_tweet_obj.user_pic = t_location[i].user.profile_image_url;
-        new_tweet_obj.user_name = t_location[i].name;
-        new_tweet_obj.date_created = t_location[i].created_at;
-        tweet_array.push(new_tweet_obj);
-    }
-    console.log(tweet_array);
-    twitterList(tweet_array);
-    return tweet_array;
-}
-
 Tour_date.prototype.make_dom_object = function(){
     var new_tour_date_dom = $('<div>');
     new_tour_date_dom.addClass('')
 };
-
+    
 function initialize() {
     var att = {lat: 32.747778, lng: -97.092778 };
     var map = new google.maps.Map(document.getElementById('map2'), {
@@ -240,3 +192,21 @@ function initialize() {
 function populate_bey_tour(){
     
 }
+
+// Load the IFrame Player API code asynchronously.
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/player_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// Replace the 'ytplayer' element with an <iframe> and
+// YouTube player after the API code downloads.
+var player;
+function onYouTubePlayerAPIReady() {
+    player = new YT.Player('ytplayer', {
+        height: '390',
+        width: '640',
+        videoId: vid_id
+    });
+}
+    
