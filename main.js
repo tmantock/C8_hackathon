@@ -23,6 +23,14 @@ var artist_disc = '';
 
 var global_tour_dates = [];
 
+$('.artist_list').on('keydown', function (event){
+    var keycode = event.which;
+    var key = keycode.keyCode;
+    if (key == 13) {
+        video_search
+    }
+});
+
 $(document).ready(function() {
     $('#myModal').load('map2, pano2');
     $("#myModal").on("shown.bs.modal", function () {initialize();});
@@ -47,25 +55,20 @@ function dropdown() {
                 left: '45%',
                 transform: 'translate(-45%,-45%)'
             }).addClass('drop_animate');
-            var drop_text = $('<h1>').text('Beyonce').css({
-                textAlign: 'center',
-                position: 'relative',
-                top: '25%',
-                transform: 'translateY(-45%)',
-                visibility: 'hidden',
-                cursor: 'default'
-            }).addClass('artist_list').on('click', video_load);
+            var drop_text = $('<input>').addClass('artist_list').attr('onkeydown','page_scroll(event)');
             $(drop_div).append(drop_text);
             $('.landing_container').append(drop_div);
         
             $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
-                $('.artist_list').attr('onclick','page_scroll()').css('visibility', 'visible');
             });
         drop = false;
     }
 }
 
-function page_scroll () {
+function page_scroll (event) {
+    var key = event.which;
+    if(key == 13) {
+        video_search($('.artist_list').val());
     var xposition = $('#home_page').position().top;
     var xHeight = $('#home_page').height();
 
@@ -80,6 +83,7 @@ function page_scroll () {
             });
         speaker ();
     });
+    }
 }
 
 //Create a Process for Twitter's API
@@ -264,6 +268,17 @@ function onYouTubePlayerAPIReady() {
         height: '390',
         width: '640',
         videoId: vid_id
+    });
+}
+
+//Function to switch the youtube video
+function video_search(YT_search) {
+    apis.youtube.getData(YT_search, 5, function (success, response) {
+        if (success) {
+            vid_id = response.video[0].id;
+            console.log('Response Video: ', response.video[0].id);
+            onYouTubePlayerAPIReady();
+        }
     });
 }
 //function speaker
