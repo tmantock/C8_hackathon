@@ -35,9 +35,7 @@ body{
     cursor: default;
 }
 #main_page {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
+    top: 7%;
 }
 
 .landing_welcome {
@@ -154,15 +152,17 @@ body{
 .twitter_card {
     position: absolute;
     background: #FAFAFA;
-    height: 40%;
+    height: 30%;
     width: 90%;
     left: 45%;
     transform: translateX(-45%);
+    box-shadow: 10px 10px 5px #888888;;
 }
 
 .tweet_text {
     width: 90%;
     height: 40%;
+    font-size: 1.3em;
     color: black;
     margin: 10% 0 5% 3%;
 }
@@ -257,7 +257,7 @@ body{
     margin-left: 25%;
 }
 
-.speaker_puls {
+.speaker_pulse {
     height: 5%;
     width: 20%;
     box-sizing: border-box;
@@ -269,4 +269,60 @@ body{
     left: 45%;
     transform: translateX(-45%);
     background: #ffffff;
+}
+
+.nav-list> ul > li  {
+    cursor: default;
+}
+
+
+.tour_div {
+    color: white;
+    font-size: 2em;
+}
+
+.tour_div div:first-child {
+    position: relative;
+    top: 25%;
+    transform: translateY(-25%);
+}
+
+.tour_div div:nth-child(2) {
+    position: relative;
+    top: 30%;
+    transform: translateY(-30%);
+}
+
+.tour_div div:nth-child(3) {
+    position: relative;
+    top: 40%;
+    transform: translateY(-40%);
+}
+
+::-webkit-input-placeholder {
+    font-size: 50%;
+    color: #212121;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    font-size: 50%;
+    color: #212121;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    font-size: 50%;
+    color: #212121;
+}
+
+:-ms-input-placeholder {
+    font-size: 50%;
+    color: #212121;
+}
+
+
+.tweet_icon {
+    font-size: 2em;
+    color: black;
+    display: inline-block;
+    margin-left: 20%;
 }

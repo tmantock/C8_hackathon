@@ -89,9 +89,9 @@ function dropdown() {
                 transform: 'translate(-45%,-45%)'
             }).addClass('drop_animate');
             var drop_text = $('<input>').addClass('artist_list').attr('onkeydown','page_scroll(event)');
+            drop_text.attr('placeholder', 'search for artist by name');
             $(drop_div).append(drop_text);
             $('.landing_container').append(drop_div);
-        
             $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
             });
         drop = false;
@@ -104,7 +104,9 @@ function dropdown() {
 function page_scroll (event) {
     var key = event.which;
     if(key == 13) {
+        setTimeout(function () {
         video_search($('.artist_list').val());
+        },1000);
         populate_tour($('.artist_list').val());
         twitter_feed_update($('.artist_list').val());
     var xposition = $('#home_page').position().top;
@@ -152,13 +154,14 @@ function twitterList (tweet_object_array) {
     var temp_pic = $('<img>').addClass('tweet_user_pic');
     var temp_user_name = $('<div>').addClass('tweet_user_name');
     var temp_tweet_date = $('<div>').addClass('tweet_date');
+    var tweet_icon = $('<i>').addClass('fa fa-twitter-square tweet_icon').attr('aria-hidden','true');
     var current_tweet = tweet_object_array[0];
     temp_text.html(current_tweet.text);
     temp_pic.attr('src', current_tweet.user_pic);
     console.log(tweet_object_array[0]);
     temp_user_name.html('@' + current_tweet.user_name);
     temp_tweet_date.html(current_tweet.date_created);
-    temp_div.append(temp_pic, temp_user_name, temp_text);
+    temp_div.append(temp_pic, temp_user_name, tweet_icon, temp_text);
     $('.twitter_feed').append(temp_div);
     var counter = 1;
 
@@ -168,12 +171,13 @@ function twitterList (tweet_object_array) {
         temp_pic = $('<img>').addClass('tweet_user_pic');
         temp_user_name = $('<div>').addClass('tweet_user_name');
         temp_tweet_date = $('<div>').addClass('tweet_date');
+        tweet_icon = $('<i>').addClass('fa fa-twitter-square tweet_icon').attr('aria-hidden','true');
         current_tweet = tweet_object_array[i];
         temp_text.html(current_tweet.text);
         temp_pic.attr('src', current_tweet.user_pic);
         temp_user_name.html('@' + current_tweet.user_name);
         temp_tweet_date.html(current_tweet.date_created);
-        temp_div.append(temp_pic, temp_user_name, temp_text);
+        temp_div.append(temp_pic, temp_user_name, tweet_icon, temp_text);
         var lastPosition = $('.twitter_feed .twitter_card:first-child').position().top;
         var lastHeight = $('.twitter_feed .twitter_card:first-child').height();
         $('.twitter_feed').append(temp_div.attr('data-count',counter).css({top: lastPosition + 15}));
@@ -206,15 +210,19 @@ Tour_date.prototype.update_globals = function(){
 //input: none
 //output: A DOM element with class item and class tour_date for the carousel
 Tour_date.prototype.make_dom_object = function(first, id){
-    var tour_date_dom = $('<div>').addClass('item');
+    var tour_date_dom = $('<div>').addClass('item').addClass('tour_div');
     tour_date_dom.addClass('tour_date');
     if (first){
         tour_date_dom.addClass('active');
     }
     tour_date_dom.attr('data-id', ''+id);
+    var city_div = $('<div>').html(this.venue_city);
     var date = $('<div>');
+    var venue_div = $('<div>').html(this.venue_name);
     date.html(this.event_date);
-    tour_date_dom.html(this.venue_city);
+    // tour_date_dom.html(this.venue_city);
+    tour_date_dom.append(venue_div, city_div, date);
+
     $('#myCarousel .carousel-inner').append(tour_date_dom);
     console.log('appending dom to carousel');
 };
@@ -408,7 +416,10 @@ function home_slide () {
     $('.speaker_animate').remove();
     $('.speaker_grow').remove();
     $('.drop_animate').remove();
+    $('iframe').remove();
     drop = true;
+    var new_youtube = $('<div>').attr('id','ytplayer');
+    $('.youtube').append(new_youtube);
 }
 
 function twitter_feed_update (twitter_search) {
@@ -421,6 +432,7 @@ function twitter_feed_update (twitter_search) {
         });
     speaker ();
 }
+
 
 function next_video (){
     if(vid_index === youtube_array.length-1){
@@ -450,3 +462,13 @@ function prev_video (){
         onYouTubePlayerAPIReady()
     }
 }
+
+function nickleback() {
+    apis.youtube.getData('look at this graph', 1, function (success, response) {
+        if (success) {
+            vid_id = response.video[0].id;
+            onYouTubePlayerAPIReady();
+        }
+    });
+}
+
