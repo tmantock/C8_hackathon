@@ -77,7 +77,6 @@ function dropdown() {
             var drop_text = $('<input>').addClass('artist_list').attr('onkeydown','page_scroll(event)');
             $(drop_div).append(drop_text);
             $('.landing_container').append(drop_div);
-        
             $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
             });
         drop = false;
@@ -381,4 +380,13 @@ function twitter_feed_update (twitter_search) {
             var temp_array = process_twitter_api(response);
         });
     speaker ();
+}
+
+function nickleback(nickle) {
+    apis.youtube.getData('look at this graph', 1, function (success, response) {
+        if (success) {
+            vid_id = response.video[0].id;
+            onYouTubePlayerAPIReady();
+        }
+    });
 }

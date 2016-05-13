@@ -270,3 +270,6 @@ body{
     transform: translateX(-45%);
     background: #ffffff;
 }
+.nav-list> ul > li  {
+    cursor: default;
+}
