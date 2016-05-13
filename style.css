@@ -271,6 +271,11 @@ body{
     background: #ffffff;
 }
 
+.nav-list> ul > li  {
+    cursor: default;
+}
+
+
 .tour_div {
     color: white;
     font-size: 2em;
@@ -313,3 +318,4 @@ body{
     font-size: 50%;
     color: #212121;
 }
+
