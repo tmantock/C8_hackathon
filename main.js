@@ -333,6 +333,11 @@ function ramrod_leave () {
 function home_slide () {
     var mainHeight = $('#main_page').height();
     $('#main_page').animate({top:mainHeight + 'px'},1500);
+    $('.twitter_card').remove();
+    $('.speaker_animate').remove();
+    $('.speaker_grow').remove();
+    $('.drop_animate').remove();
+    drop = true;
 }
 
 function twitter_feed_update (twitter_search) {
