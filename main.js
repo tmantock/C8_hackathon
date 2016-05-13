@@ -50,8 +50,10 @@ function tour_date_click(clicked_element){
     var b = global_tour_dates[Number($(a).attr('data-id'))];
     google_lat = b.venue_lat_lon.lat;
     google_lon = b.venue_lat_lon.lon;
-    $('#myModal .modal-dialog .modal-content .modal-header .modal-title').html();
+    console.log(b);
+    console.log (google_lat, google_lon);
     venue_name = b.venue_name;
+    $('#myModal .modal-dialog .modal-content .modal-header .modal-title').html(venue_name);
     initialize();
     //here is where we should update the google modal
 }
@@ -229,7 +231,7 @@ function populate_carousel(event_list){
 //output: google modal populated with content based off of the current venue
 
 function initialize() {
-    var att = {lat: 32.747778, lng: -97.092778 };
+    var att = {lat: Number(google_lat), lng: Number(google_lon) };
     var map = new google.maps.Map(document.getElementById('map2'), {
         center: att,
         zoom: 15
@@ -259,7 +261,7 @@ function populate_tour(artist_name){
                 temp_obj.event_date = a.datetime;
                 temp_obj.venue_name = a.venue.name;
                 temp_obj.venue_city = a.venue.city;
-                temp_obj.venue_lat_lon = {lat: a.venue.latitude, lon:a.venue.longitute};
+                temp_obj.venue_lat_lon = {lat: a.venue.latitude, lon:a.venue.longitude};
                 console.log ('key: ' + key + ', info:', temp_obj);
                 global_tour_dates.push(temp_obj);
             }
