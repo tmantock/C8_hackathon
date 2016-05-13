@@ -7,6 +7,7 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <!-- Material Design fonts -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <script src="http://learning-fuze.github.io/hackathon/api-obj.js"></script>
@@ -14,6 +15,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/css/ripples.min.css">
     <link rel ="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/css/ripples.min.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFXSBQkCOBaFDldoxSNn3w22PscDJCfwQ"></script>
+
 
 
     <!--Main Stylesheet-->
@@ -37,7 +40,7 @@
             <div class = 'modal_button_container'>
                 <div class = 'col-md-4 button'><button class = 'btn-success modal_button'>Artist Information</button></div>
                 <div class = 'col-md-4 button'><button class = 'btn-success modal_button'>Tour Information</button></div>
-                <div class = 'col-md-4 button'><button class = 'btn-success modal_button'>Venue Information</button></div>
+                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal" onclick="initialize();">Venue Information</button>
             </div>
             <div class = "tour_holder">
                 <div class = 'col-md-4 tour_dates'></div>
@@ -47,6 +50,37 @@
         </div>
         <div class = 'twitter_feed col-md-2'></div>
     </div>
+
+    <!--Modal Start-->
+    <div class="container">
+        <h2>Concert Venue</h2>
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade modal-lg" id="myModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">ATT Stadium</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="modal-map">
+                            <div id="map2"></div>
+                            <div id="pano2"></div>
+                            <div><a href="https://www.google.com/maps/place/AT%26T+Stadium/@32.7472844,-97.0966879,17z/data=!3m1!4b1!4m5!3m4!1s0x864e7d86c8884727:0x6d1e60e88c6a9df8!8m2!3d32.7472844!4d-97.0944939" target="_blank"><button id="mod-button">Click for Directions</button></a></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Shut this modal down</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal End-->
+
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/js/material.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/js/ripples.min.js"></script>
 </body>
