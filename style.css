@@ -244,6 +244,14 @@ body{
     visibility: visible;
 }
 
+.tour_date{
+    background-color: blue;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+
 .speaker_glyph {
     color: white;
     margin-left: 25%;
@@ -262,4 +270,3 @@ body{
     transform: translateX(-45%);
     background: #ffffff;
 }
-

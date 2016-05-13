@@ -15,6 +15,7 @@ var yt_search_str = '';
 var twitter_search_str = '';
 var google_lat = 0;
 var google_lon = 0;
+var venue_name = 0;
 var artist_pic_src = '';
 var artist_bio = '';
 var artist_disc = '';
@@ -34,8 +35,28 @@ $('.artist_list').on('keydown', function (event){
 $(document).ready(function() {
     $('#myModal').load('map2, pano2');
     $("#myModal").on("shown.bs.modal", function () {initialize();});
-
+    $('#myCarousel').on('click', '.tour_date', function(){
+        tour_date_click(this);
+    });
 });
+
+//function tour_date_click
+//input: dom element that was clicked
+//output: changes the global venue name and lat lon when clicked
+function tour_date_click(clicked_element){
+    // clicked_element = this;
+    console.log('suh');
+    var a = clicked_element;
+    var b = global_tour_dates[Number($(a).attr('data-id'))];
+    google_lat = b.venue_lat_lon.lat;
+    google_lon = b.venue_lat_lon.lon;
+    console.log(b);
+    console.log (google_lat, google_lon);
+    venue_name = b.venue_name;
+    $('#myModal .modal-dialog .modal-content .modal-header .modal-title').html(venue_name);
+    initialize();
+    //here is where we should update the google modal
+}
 
 //function dropdown:
 //input: none
@@ -44,7 +65,6 @@ function dropdown() {
     if (drop == true) {
         var welcome_position = $('.landing_welcome').position().top;
             var welcome_height = $('.landing_welcome').height();
-
             var drop_div = $('<div>').css({
                 height: '10vh',
                 width: '43vw',
@@ -63,6 +83,9 @@ function dropdown() {
         drop = false;
     }
 }
+
+//input: click event
+//output: dropdown menu is created
 
 function page_scroll (event) {
     var key = event.which;
@@ -194,7 +217,7 @@ function populate_carousel(event_list){
     var first = true;
     for (var i = 0; i < a.length; i++){
         var b = $('<li>').attr('data-target', '#myCarousel');
-        var c = new Tour_date(a[i], first);
+        var c = new Tour_date(a[i], first, i);
         if (first == true){
             first = false;
         }
@@ -208,7 +231,7 @@ function populate_carousel(event_list){
 //output: google modal populated with content based off of the current venue
 
 function initialize() {
-    var att = {lat: 32.747778, lng: -97.092778 };
+    var att = {lat: Number(google_lat), lng: Number(google_lon) };
     var map = new google.maps.Map(document.getElementById('map2'), {
         center: att,
         zoom: 15
@@ -238,7 +261,7 @@ function populate_tour(artist_name){
                 temp_obj.event_date = a.datetime;
                 temp_obj.venue_name = a.venue.name;
                 temp_obj.venue_city = a.venue.city;
-                temp_obj.venue_lat_lon = {lat: a.venue.latitude, lon:a.venue.longitute};
+                temp_obj.venue_lat_lon = {lat: a.venue.latitude, lon:a.venue.longitude};
                 console.log ('key: ' + key + ', info:', temp_obj);
                 global_tour_dates.push(temp_obj);
             }
