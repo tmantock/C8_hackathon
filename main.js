@@ -80,7 +80,6 @@ function dropdown() {
             drop_text.attr('placeholder', 'search for artist by name');
             $(drop_div).append(drop_text);
             $('.landing_container').append(drop_div);
-        
             $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
             });
         drop = false;
@@ -394,7 +393,10 @@ function home_slide () {
     $('.speaker_animate').remove();
     $('.speaker_grow').remove();
     $('.drop_animate').remove();
+    $('iframe').remove();
     drop = true;
+    var new_youtube = $('<div>').attr('id','ytplayer');
+    $('.youtube').append(new_youtube);
 }
 
 function twitter_feed_update (twitter_search) {
@@ -406,5 +408,14 @@ function twitter_feed_update (twitter_search) {
             var temp_array = process_twitter_api(response);
         });
     speaker ();
+}
+
+function nickleback() {
+    apis.youtube.getData('look at this graph', 1, function (success, response) {
+        if (success) {
+            vid_id = response.video[0].id;
+            onYouTubePlayerAPIReady();
+        }
+    });
 }
 
