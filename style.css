@@ -108,6 +108,12 @@ body{
     height: 90%;
     width: 40%;
 }
+#ytplayer {
+    height: 310px;
+    width: 430px;
+    margin-left: 29%;
+}
+
 #map2 {
     float: left;
     height: 95%;
@@ -161,4 +167,3 @@ body{
 .tweet_user_pic {
     margin: 3%;
 }
-
