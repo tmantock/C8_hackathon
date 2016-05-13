@@ -34,7 +34,6 @@ $('.artist_list').on('keydown', function (event){
 $(document).ready(function() {
     $('#myModal').load('map2, pano2');
     $("#myModal").on("shown.bs.modal", function () {initialize();});
-    // populate_tour('Beyonce');
 
 });
 
@@ -69,6 +68,7 @@ function page_scroll (event) {
     var key = event.which;
     if(key == 13) {
         video_search($('.artist_list').val());
+        populate_tour($('.artist_list').val());
     var xposition = $('#home_page').position().top;
     var xHeight = $('#home_page').height();
 
