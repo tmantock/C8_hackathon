@@ -7,6 +7,7 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <!-- Material Design fonts -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <script src="http://learning-fuze.github.io/hackathon/api-obj.js"></script>
@@ -14,6 +15,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/css/ripples.min.css">
     <link rel ="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/css/ripples.min.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFXSBQkCOBaFDldoxSNn3w22PscDJCfwQ"></script>
+
 
 
     <!--Main Stylesheet-->
@@ -35,9 +38,9 @@
                 <div class="col-lg-1 col-md-1 dummy"></div>
             </div>
             <div class = 'modal_button_container'>
-                <div class = 'col-md-4 button'><button class = 'btn-success modal_button'>Artist Information</button></div>
+                <div class = 'col-md-4 button'><button type="button" class="btn-success modal_button" data-toggle="modal" data-target=".bs-example-modal-lg">Artist Information</button></div>
                 <div class = 'col-md-4 button'><button class = 'btn-success modal_button'>Tour Information</button></div>
-                <div class = 'col-md-4 button'><button class = 'btn-success modal_button'>Venue Information</button></div>
+                <div class = 'col-md-4 button'><button type="button" class="btn-success modal_button" data-toggle="modal" data-target="#myModal" onclick="initialize();">Venue Information</button></div>
             </div>
             <div class = "tour_holder">
                 <div class = 'col-md-4 tour_dates'></div>
@@ -45,7 +48,64 @@
                 <div class = 'col-md-4 tour_dates'></div>
             </div>
         </div>
-        <div class = 'twiiter_feed col-md-2'></div>
+        <div class = 'twitter_feed col-md-2'></div>
+    </div>
+
+    <!--Modal Start-->
+    <div class="container">
+        <h2>Concert Venue</h2>
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade modal-lg" id="myModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">ATT Stadium</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="modal-map">
+                            <div id="map2"></div>
+                            <div id="pano2"></div>
+                            <div><a href="https://www.google.com/maps/place/AT%26T+Stadium/@32.7472844,-97.0966879,17z/data=!3m1!4b1!4m5!3m4!1s0x864e7d86c8884727:0x6d1e60e88c6a9df8!8m2!3d32.7472844!4d-97.0944939" target="_blank"><button id="mod-button">Click for Directions</button></a></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Shut this modal down</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal End-->
+    <!--Artist Modal-->
+    <div class="modal fade bs-example-modal-lg monk" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class='modal-title text-capitalize col-md-offset-4'>Beyonce</h1>
+                </div>
+                <div class="modal-body">
+
+                    <img class="col-xs-3 col-xs-offset-2" src="http://a.abcnews.com/images/Entertainment/ht_beyonce_150216_1x1_1600.jpg">
+                    <h4>Born: September 4, 1981 (age 34), Houston, TX</h4>
+                    <h4>    Spouse: Jay Z (m. 2008) </h4>
+                    <h4>    Children: Blue Ivy Carter </h4>
+                    <h4> Education: Parker Elementary School, Alief Elsik High School, More</h4>
+                    <h4>    Music group: Destiny's Child (1990 – 2006) </h4>
+                </div>
+                <p>Teaming up with her cousin, Kelly Rowland, and two classmates, Beyoncé formed an all-female singing group. Her father, Matthew Knowles, served as the band's manager. The group went through some name and line-up changes before landing a record deal in 1997 with Columbia Records. Destiny's Child soon became one of the most popular R&B acts, with the release of their first, self-titled album. Gaining momentum, the group scored its first No. 1 single on the pop charts with "Bills, Bills, Bills," off their second album. The recording also featured another smash hit, "Say My Name."
+
+                    While enjoying her group's success, Beyoncé began exploring other projects. She made her acting debut in 2001 with a starring role in MTV's Carmen: A Hip Hopera. She then co-starred with Mike Myers in the Austin Powers spy parody Goldmember the following year. On the musical front, Beyoncé took center stage as a solo artist, releasing her first album, Dangerously in Love, in 2003. The recording became a huge success for her both commercially and critically. It sold millions of copies and won five Grammy Awards. On the album, Beyoncé worked with a number of different artists, including Missy Elliott, Sean Paul and Jay-Z. She was rumored to be dating Jay-Z around this time, but the couple did not publicly acknowledge their relationship.
+                </p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/js/material.min.js"></script>
