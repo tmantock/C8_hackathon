@@ -35,9 +35,11 @@ $('.artist_list').on('keydown', function (event){
 $(document).ready(function() {
     $('#myModal').load('map2, pano2');
     $("#myModal").on("shown.bs.modal", function () {initialize();});
+
     $('#myCarousel').on('click', '.tour_date', function(){
         tour_date_click(this);
     });
+
 });
 
 //function tour_date_click
@@ -75,6 +77,7 @@ function dropdown() {
                 transform: 'translate(-45%,-45%)'
             }).addClass('drop_animate');
             var drop_text = $('<input>').addClass('artist_list').attr('onkeydown','page_scroll(event)');
+            drop_text.attr('placeholder', 'search for artist by name');
             $(drop_div).append(drop_text);
             $('.landing_container').append(drop_div);
             $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
@@ -89,7 +92,9 @@ function dropdown() {
 function page_scroll (event) {
     var key = event.which;
     if(key == 13) {
+        setTimeout(function () {
         video_search($('.artist_list').val());
+        },1000);
         populate_tour($('.artist_list').val());
         twitter_feed_update($('.artist_list').val());
     var xposition = $('#home_page').position().top;
@@ -167,7 +172,7 @@ function twitterList (tweet_object_array) {
 function Tour_date(date_object, first, id){
     console.log('constructing new object');
     b = date_object;
-    this.event_date = b.event_date
+    this.event_date = b.event_date;
     this.venue_city = b.venue_city;
     this.venue_name = b.venue_name;
     this.lat = b.venue_lat_lon.lat;
@@ -185,15 +190,19 @@ Tour_date.prototype.update_globals = function(){
 //input: none
 //output: A DOM element with class item and class tour_date for the carousel
 Tour_date.prototype.make_dom_object = function(first, id){
-    var tour_date_dom = $('<div>').addClass('item');
+    var tour_date_dom = $('<div>').addClass('item').addClass('tour_div');
     tour_date_dom.addClass('tour_date');
     if (first){
         tour_date_dom.addClass('active');
     }
     tour_date_dom.attr('data-id', ''+id);
+    var city_div = $('<div>').html(this.venue_city);
     var date = $('<div>');
+    var venue_div = $('<div>').html(this.venue_name);
     date.html(this.event_date);
-    tour_date_dom.html(this.venue_city);
+    // tour_date_dom.html(this.venue_city);
+    tour_date_dom.append(venue_div, city_div, date);
+
     $('#myCarousel .carousel-inner').append(tour_date_dom);
     console.log('appending dom to carousel');
 };
@@ -278,6 +287,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // Replace the 'ytplayer' element with an <iframe> and
 // YouTube player after the API code downloads.
+
 var player;
 function onYouTubePlayerAPIReady() {
     player = new YT.Player('ytplayer', {
@@ -285,14 +295,18 @@ function onYouTubePlayerAPIReady() {
         width: '640',
         videoId: vid_id
     });
+ 
 }
+
 
 //Function to switch the youtube video
 function video_search(YT_search) {
     apis.youtube.getData(YT_search, 5, function (success, response) {
         if (success) {
+            console.log(response);
             vid_id = response.video[0].id;
             console.log('Response Video: ', response.video[0].id);
+            youtube(response);
             onYouTubePlayerAPIReady();
         }
     });
@@ -358,6 +372,20 @@ function ramrod_leave () {
     et = 0;
 }
 
+
+function youtube(response){
+    var youtube_array =[];
+    var tube = response.video;
+    for (var x = 0; x < tube.length; x++){
+        var youtube_obj = {};
+        youtube_obj.id = tube[x].id;
+        youtube_obj.title = tube[x].title;
+        youtube_array.push(youtube_obj);
+    }
+    console.log("My Youtube array", youtube_array);
+    
+}
+
 function home_slide () {
     var mainHeight = $('#main_page').height();
     $('#main_page').animate({top:mainHeight + 'px'},1500);
@@ -382,7 +410,7 @@ function twitter_feed_update (twitter_search) {
     speaker ();
 }
 
-function nickleback(nickle) {
+function nickleback() {
     apis.youtube.getData('look at this graph', 1, function (success, response) {
         if (success) {
             vid_id = response.video[0].id;
@@ -390,3 +418,4 @@ function nickleback(nickle) {
         }
     });
 }
+
