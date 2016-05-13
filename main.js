@@ -92,7 +92,7 @@ function process_twitter_api(response) {
         var new_tweet_obj = {};
         new_tweet_obj.text = t_location[i].text;
         new_tweet_obj.user_pic = t_location[i].user.profile_image_url;
-        new_tweet_obj.user_name = t_location[i].name;
+        new_tweet_obj.user_name = t_location[i].user.screen_name;
         new_tweet_obj.date_created = t_location[i].created_at;
         tweet_array.push(new_tweet_obj);
     }
@@ -112,7 +112,7 @@ function twitterList (tweet_object_array) {
     temp_text.html(current_tweet.text);
     temp_pic.attr('src', current_tweet.user_pic);
     console.log(tweet_object_array[0]);
-    temp_user_name.html(current_tweet.user_name);
+    temp_user_name.html('@' + current_tweet.user_name);
     temp_tweet_date.html(current_tweet.date_created);
     temp_div.append(temp_pic, temp_user_name, temp_text);
     $('.twitter_feed').append(temp_div);
@@ -126,7 +126,7 @@ function twitterList (tweet_object_array) {
         var current_tweet = tweet_object_array[i];
         temp_text.html(current_tweet.text);
         temp_pic.attr('src', current_tweet.user_pic);
-        temp_user_name.html(current_tweet.user_name);
+        temp_user_name.html('@' + current_tweet.user_name);
         temp_tweet_date.html(current_tweet.date_created);
         temp_div.append(temp_pic, temp_user_name, temp_text);
         var lastPosition = $('.twitter_feed .twitter_card:first-child').position().top;
