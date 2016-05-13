@@ -106,7 +106,7 @@ function twitterList (tweet_object_array) {
     temp_text.html(current_tweet.text);
     temp_pic.attr('src', current_tweet.user_pic);
     console.log(tweet_object_array[0]);
-    temp_user_name.html(current_tweet.user_name);
+    temp_user_name.html('@' + current_tweet.user_name);
     temp_tweet_date.html(current_tweet.date_created);
     temp_div.append(temp_pic, temp_user_name, temp_text);
     $('.twitter_feed').append(temp_div);
@@ -120,7 +120,7 @@ function twitterList (tweet_object_array) {
         var current_tweet = tweet_object_array[i];
         temp_text.html(current_tweet.text);
         temp_pic.attr('src', current_tweet.user_pic);
-        temp_user_name.html(current_tweet.user_name);
+        temp_user_name.html('@' + current_tweet.user_name);
         temp_tweet_date.html(current_tweet.date_created);
         temp_div.append(temp_pic, temp_user_name, temp_text);
         var lastPosition = $('.twitter_feed .twitter_card:first-child').position().top;

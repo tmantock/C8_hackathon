@@ -152,25 +152,30 @@ div > .tweet_user_name {
     border: 1px solid black;
     position: absolute;
     background: #EEEEEE;
-    height: 40%;
+    height: 25%;
     width: 100%;
 }
 
 .tweet_text {
     width: 90%;
     height: 50%;
-    border: 1px solid black;
     color: black;
     margin: 10% 0 5% 3%;
 }
 .tweet_user_name,
 .tweet_date {
-    width: 90%;
+    color: blue;
+    width: 40%;
     height: 10%;
-    border: 1px solid black;
     margin: 3% 3%;
 }
 
-.tweet_user_pic {
+.tweet_user_name:first-letter {
+    color: black;
+}
+
+.tweet_user_pic,
+.tweet_user_name {
     margin: 3%;
+    display: inline-block;
 }
