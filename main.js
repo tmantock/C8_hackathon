@@ -35,7 +35,7 @@ $('.artist_list').on('keydown', function (event){
 $(document).ready(function() {
     $('#myModal').load('map2, pano2');
     $("#myModal").on("shown.bs.modal", function () {initialize();});
-    // $('#myCarousel').on('click', '.tour_div', )
+    $('#myCarousel').on('click', '.tour_div', tour_date_click);
 });
 
 //function tour_date_click
@@ -46,7 +46,9 @@ function tour_date_click(clicked_element){
     var b = global_tour_dates[Number(a.attr('data-id'))];
     google_lat = b.venue_lat_lon.lat;
     google_lon = b.venue_lat_lon.lon;
+    $('#myModal .modal-dialog .modal-content .modal-header .modal-title').html();
     venue_name = b.venue_name;
+
     //here is where we should update the google modal
 }
 
@@ -77,7 +79,7 @@ function dropdown() {
 }
 
 //input: click event
-//output: click event
+//output: dropdown menu is created
 
 function page_scroll (event) {
     var key = event.which;
