@@ -38,21 +38,18 @@ function onYouTubePlayerAPIReady() {
     });
 }
 
-
+$('#myModal').load('map2, pano2');
+$("#myModal").on("shown.bs.modal", function () {initialize();});
 //variable for onclick
 var drop = true;
 $(document).ready(function() {
-    apis.youtube.getData('beyonce single ladies' +
-        '', 5, function (success, response) {
+    apis.youtube.getData('beyonce', 5, function (success, response) {
         if (success) {
-            // for (var x = 0; x < response.video.length; x++) {
-            //     artist1.push(response.video[x]);
-            // }
             vid_id = response.video[0].id;
-            console.log('Response Video: ' , response.video[1].id);
             onYouTubePlayerAPIReady();
         }
     });
+
     apis.twitter.getData('beyonce I am... tour',
             function (success, response) {
                 process_twitter_api(response);
@@ -98,7 +95,18 @@ function page_scroll () {
     var nHeight = $('.navbar').height();
 
     $('.drop_animate').toggle('slow');
-    $('#main_page').animate({top:(-1*xHeight) + (-1*nHeight)+'px'},900);
+    $('#main_page').animate({top:(-1*xHeight) + (-1*nHeight)+'px'},900, function () {
+        apis.twitter.getData('beyonce I am... tour',
+            function (success, response) {
+                var my_tweets = response.tweets.statuses;
+                for (var i = 0; i < response.tweets.statuses.length; i++) {
+                    console.log(my_tweets[i].created_at);
+                    console.log(my_tweets[i].text);
+                }
+                console.log(response);
+                var temp_array = process_twitter_api(response);
+            });
+    });
 }
 
 
@@ -120,6 +128,7 @@ function process_twitter_api(response) {
     console.log(tweet_array);
     return tweet_array;
 }
+
     
 //function make_tweet_divs
 //input: array of objects containing information about tweets
@@ -139,6 +148,37 @@ function make_tweet_divs(tweet_object_array){
         temp_tweet_date.html(current_tweet.date_created);
         temp_div.append(temp_pic, temp_user_name, temp_text);
         $('.twitter_container').append(temp_div);
+    }
+}
+function twitterList (tweet_object_array) {
+    //var firstDiv = $('<div>').addClass('twitter_card').attr('data',1);
+    var temp_div = $('<div>').addClass('twitter_card');
+    var temp_text = $('<div>').addClass('tweet_text');
+    var temp_pic = $('<img>').addClass('tweet_user_pic');
+    var temp_user_name = $('<div>').addClass('tweet_user_name');
+    var temp_tweet_date = $('<div>').addClass('tweet_date');
+    var current_tweet = tweet_object_array[0];
+    temp_text.html(current_tweet.tweet_text);
+    temp_pic.attr('src', current_tweet.user_pic);
+    temp_tweet_date.html(current_tweet.tweet_date);
+    temp_div.append(temp_pic, temp_user_name, temp_text);
+    $('.twitter_feed').append(temp_div);
+    var counter = 1;
+    for(i=1; i<tweet_object_array.length; i++) { //array should start at 1
+        var temp_div = $('<div>').addClass('twitter_card');
+        var temp_text = $('<div>').addClass('tweet_text');
+        var temp_pic = $('<img>').addClass('tweet_user_pic');
+        var temp_user_name = $('<div>').addClass('tweet_user_name');
+        var temp_tweet_date = $('<div>').addClass('tweet_date');
+        var current_tweet = tweet_object_array[0];
+        temp_text.html(current_tweet.tweet_text);
+        temp_pic.attr('src', current_tweet.user_pic);
+        temp_tweet_date.html(current_tweet.tweet_date);
+        temp_div.append(temp_pic, temp_user_name, temp_text);
+        var lastPosition = $('.twitter_feed .twitter_card:first-child').position().top;
+        var lastHeight = $('.twitter_feed .twitter_card:first-child').height();
+        $('.twitter_feed').append(temp_div.attr('data-count',counter));
+        $('.twitter_feed div:last-child').animate({top:(lastHeight * counter++) + lastPosition + 'px'}, 1000);
     }
 }
 
@@ -164,8 +204,45 @@ Tour_date.prototype.update_globals = function(){
     google_lon = this.lon;
 };
 
+//Create a Process for Twitter's API
+//Input Raw Json from Twitter API
+//Output Array of objects holding the info we need
+//Info needed in each object user_pic  user_name  tweet_text  tweet_date
+function process_twitter_api(response) {
+    var tweet_array = [];
+    var t_location = response.tweets.statuses;
+    for (var i = 0; i < t_location.length ; i++){
+        var new_tweet_obj = {};
+        new_tweet_obj.text = t_location[i].text;
+        new_tweet_obj.user_pic = t_location[i].user.profile_image_url;
+        new_tweet_obj.user_name = t_location[i].name;
+        new_tweet_obj.date_created = t_location[i].created_at;
+        tweet_array.push(new_tweet_obj);
+    }
+    console.log(tweet_array);
+    twitterList(tweet_array);
+    return tweet_array;
+}
+
 Tour_date.prototype.make_dom_object = function(){
     var new_tour_date_dom = $('<div>');
     new_tour_date_dom.addClass('')
 };
+
+function initialize() {
+    var att = {lat: 32.747778, lng: -97.092778 };
+    var map = new google.maps.Map(document.getElementById('map2'), {
+        center: att,
+        zoom: 15
+    });
+    var panorama = new google.maps.StreetViewPanorama(
+        document.getElementById('pano2'), {
+            position: att,
+            pov: {
+                heading: 34,
+                pitch: 10
+            }
+        });
+    map.setStreetView(panorama);
+}
 

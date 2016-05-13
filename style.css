@@ -11,9 +11,6 @@ body{
     background: transparent;
 }
 
-.navbar_container{
-}
-
 .navbar-brand {
     font-size: 2em;
     padding: 0;
@@ -71,15 +68,18 @@ body{
     box-sizing: border-box;
 }
 
-.twiiter_feed {
+.twitter_feed {
     height: 100%;
     border: 1px solid black;
     box-sizing: border-box;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .col-md-9,
 .col-md-3,
-.col-md-10 {
+.col-md-10,
+.twitter_feed {
     padding: 0;
     margin: 0;
 }
@@ -106,8 +106,59 @@ body{
     height: 90%;
     width: 40%;
 }
+<<<<<<< HEAD
 #ytplayer {
     height: 310px;
     width: 430px;
     margin-left: 29%;
 }
+=======
+#map2 {
+    float: left;
+    height: 95%;
+    width: 45%;
+    padding: 5%;
+}
+#pano2 {
+    float: right;
+    height: 95%;
+    width: 45%;
+    padding: 5%;
+}
+#modal-map {
+    height: 60vh;
+}
+#mod-button {
+    clear: both;
+}
+.modal-title{
+    text-align: center;
+}
+.beyonce {
+    width: 50%;
+    height: 50%;
+    clear: both;
+}
+
+.twitter_card {
+    border: 1px solid black;
+    position: absolute;
+    background: dodgerblue;
+    height: 40%;
+    width: 100%;
+}
+
+.tweet_text {
+    width: 90%;
+    height: 50%;
+    border: 1px solid black;
+    color: black;
+}
+.tweet_user_name,
+.tweet_date {
+    width: 90%;
+    height: 10%;
+    border: 1px solid black;
+}
+
+>>>>>>> 8a1439c38eb64646b2b0fbe084d435a4188b6d6c
