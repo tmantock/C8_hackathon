@@ -244,3 +244,22 @@ body{
     visibility: visible;
 }
 
+.speaker_glyph {
+    color: white;
+    margin-left: 25%;
+}
+
+.speaker_puls {
+    height: 5%;
+    width: 20%;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0;
+    border-radius: 50%;
+    position: absolute;
+    top: 20%;
+    left: 45%;
+    transform: translateX(-45%);
+    background: #ffffff;
+}
+
