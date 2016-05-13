@@ -34,15 +34,7 @@ $(document).ready(function() {
             console.log(artist1)
         }
     });
-        apis.twitter.getData('beyonce I am... tour',
-            function (success, response) {
-                var my_tweets = response.tweets.statuses;
-                for (var i = 0; i < response.tweets.statuses.length; i++) {
-                    console.log(my_tweets[i].created_at);
-                    console.log(my_tweets[i].text);
-                }
-                console.log(response);
-    });
+
 });
 
     function dropdown() {
@@ -84,7 +76,18 @@ function page_scroll () {
     var nHeight = $('.navbar').height();
 
     $('.drop_animate').toggle('slow');
-    $('#main_page').animate({top:(-1*xHeight) + (-1*nHeight)+'px'},900);
+    $('#main_page').animate({top:(-1*xHeight) + (-1*nHeight)+'px'},900, function () {
+        apis.twitter.getData('beyonce I am... tour',
+            function (success, response) {
+                var my_tweets = response.tweets.statuses;
+                for (var i = 0; i < response.tweets.statuses.length; i++) {
+                    console.log(my_tweets[i].created_at);
+                    console.log(my_tweets[i].text);
+                }
+                console.log(response);
+                var temp_array = process_twitter_api(response);
+            });
+    });
 }
 
 
@@ -108,12 +111,43 @@ function make_tweet_divs(tweet_object_array){
         $('.twitter_container').append(temp_div);
     }
 }
+function twitterList (tweet_object_array) {
+    //var firstDiv = $('<div>').addClass('twitter_card').attr('data',1);
+    var temp_div = $('<div>').addClass('twitter_card');
+    var temp_text = $('<div>').addClass('tweet_text');
+    var temp_pic = $('<img>').addClass('tweet_user_pic');
+    var temp_user_name = $('<div>').addClass('tweet_user_name');
+    var temp_tweet_date = $('<div>').addClass('tweet_date');
+    var current_tweet = tweet_object_array[0];
+    temp_text.html(current_tweet.tweet_text);
+    temp_pic.attr('src', current_tweet.user_pic);
+    temp_tweet_date.html(current_tweet.tweet_date);
+    temp_div.append(temp_pic, temp_user_name, temp_text);
+    $('.twitter_feed').append(temp_div);
+    var counter = 1;
+    for(i=1; i<tweet_object_array.length; i++) { //array should start at 1
+        var temp_div = $('<div>').addClass('twitter_card');
+        var temp_text = $('<div>').addClass('tweet_text');
+        var temp_pic = $('<img>').addClass('tweet_user_pic');
+        var temp_user_name = $('<div>').addClass('tweet_user_name');
+        var temp_tweet_date = $('<div>').addClass('tweet_date');
+        var current_tweet = tweet_object_array[0];
+        temp_text.html(current_tweet.tweet_text);
+        temp_pic.attr('src', current_tweet.user_pic);
+        temp_tweet_date.html(current_tweet.tweet_date);
+        temp_div.append(temp_pic, temp_user_name, temp_text);
+        var lastPosition = $('.twitter_feed .twitter_card:first-child').position().top;
+        var lastHeight = $('.twitter_feed .twitter_card:first-child').height();
+        $('.twitter_feed').append(temp_div.attr('data-count',counter));
+        $('.twitter_feed div:last-child').animate({top:(lastHeight * counter++) + lastPosition + 'px'}, 1000);
+    }
+}
 
 //tour_date_object constructor
 //input: string  yt_search, string twitter_search, string venue_name, num lat, num lon
 //output: new tour_date object
 
-function Tour_date(yt_search, twitter_search, venue_name, lat, lon{
+function Tour_date(yt_search, twitter_search, venue_name, lat, lon) {
     this.yt_search = yt_search;
     this.twitter_search = twitter_search;
     this.venue_name = venue_name;
@@ -128,3 +162,24 @@ Tour_date.prototype.update_globals = function(){
     google_lat = this.lat;
     google_lon = this.lon;
 };
+
+//Create a Process for Twitter's API
+//Input Raw Json from Twitter API
+//Output Array of objects holding the info we need
+//Info needed in each object user_pic  user_name  tweet_text  tweet_date
+function process_twitter_api(response) {
+    var tweet_array = [];
+    var t_location = response.tweets.statuses;
+    for (var i = 0; i < t_location.length ; i++){
+        var new_tweet_obj = {};
+        new_tweet_obj.text = t_location[i].text;
+        new_tweet_obj.user_pic = t_location[i].user.profile_image_url;
+        new_tweet_obj.user_name = t_location[i].name;
+        new_tweet_obj.date_created = t_location[i].created_at;
+        tweet_array.push(new_tweet_obj);
+    }
+    console.log(tweet_array);
+    twitterList(tweet_array);
+    return tweet_array;
+}
+
