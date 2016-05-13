@@ -154,7 +154,7 @@ body{
 .twitter_card {
     position: absolute;
     background: #FAFAFA;
-    height: 40%;
+    height: 30%;
     width: 90%;
     left: 45%;
     transform: translateX(-45%);
@@ -257,7 +257,7 @@ body{
     margin-left: 25%;
 }
 
-.speaker_puls {
+.speaker_pulse {
     height: 5%;
     width: 20%;
     box-sizing: border-box;
@@ -269,4 +269,27 @@ body{
     left: 45%;
     transform: translateX(-45%);
     background: #ffffff;
+}
+
+.tour_div {
+    color: white;
+    font-size: 2em;
+}
+
+.tour_div div:first-child {
+    position: relative;
+    top: 25%;
+    transform: translateY(-25%);
+}
+
+.tour_div div:nth-child(2) {
+    position: relative;
+    top: 30%;
+    transform: translateY(-30%);
+}
+
+.tour_div div:nth-child(3) {
+    position: relative;
+    top: 40%;
+    transform: translateY(-40%);
 }
