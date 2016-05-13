@@ -15,6 +15,7 @@ var yt_search_str = '';
 var twitter_search_str = '';
 var google_lat = 0;
 var google_lon = 0;
+var venue_name = 0;
 var artist_pic_src = '';
 var artist_bio = '';
 var artist_disc = '';
@@ -34,8 +35,20 @@ $('.artist_list').on('keydown', function (event){
 $(document).ready(function() {
     $('#myModal').load('map2, pano2');
     $("#myModal").on("shown.bs.modal", function () {initialize();});
-
+    // $('#myCarousel').on('click', '.tour_div', )
 });
+
+//function tour_date_click
+//input: dom element that was clicked
+//output: changes the global venue name and lat lon when clicked
+function tour_date_click(clicked_element){
+    var a = clicked_element;
+    var b = global_tour_dates[Number(a.attr('data-id'))];
+    google_lat = b.venue_lat_lon.lat;
+    google_lon = b.venue_lat_lon.lon;
+    venue_name = b.venue_name;
+    //here is where we should update the google modal
+}
 
 //function dropdown:
 //input: none
@@ -44,7 +57,6 @@ function dropdown() {
     if (drop == true) {
         var welcome_position = $('.landing_welcome').position().top;
             var welcome_height = $('.landing_welcome').height();
-
             var drop_div = $('<div>').css({
                 height: '10vh',
                 width: '45vw',
@@ -63,6 +75,9 @@ function dropdown() {
         drop = false;
     }
 }
+
+//input: click event
+//output: click event
 
 function page_scroll (event) {
     var key = event.which;
@@ -200,7 +215,7 @@ function populate_carousel(event_list){
     var first = true;
     for (var i = 0; i < a.length; i++){
         var b = $('<li>').attr('data-target', '#myCarousel');
-        var c = new Tour_date(a[i], first);
+        var c = new Tour_date(a[i], first, i);
         if (first == true){
             first = false;
         }
