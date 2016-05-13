@@ -59,11 +59,11 @@ function dropdown() {
             var welcome_height = $('.landing_welcome').height();
             var drop_div = $('<div>').css({
                 height: '10vh',
-                width: '45vw',
+                width: '43vw',
                 border: '3px solid black',
                 position: 'absolute',
                 top: '45%',
-                left: '45%',
+                left: '50%',
                 transform: 'translate(-45%,-45%)'
             }).addClass('drop_animate');
             var drop_text = $('<input>').addClass('artist_list').attr('onkeydown','page_scroll(event)');
