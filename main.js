@@ -21,9 +21,9 @@ var artist_disc = '';
 var nickleback = [];
 
 $(document).ready(function() {
-    $('#myModal').load('map2, pano2');
-    $("#myModal").on("shown.bs.modal", function () {initialize();});
-
+    $('#venueModal').load('map2, pano2');
+    $("#venueModal").on("shown.bs.modal", function () {initialize();});
+    
 });
 
 function dropdown() {
