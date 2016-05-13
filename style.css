@@ -4,17 +4,17 @@ body{
     width: 100vw;
     margin: 0;
 }
-.navbar {
-    height: 10%;
-    width: 100%;
-    margin: 0;
-    background: transparent;
+
+.navbar-collapse.collapse.navbar-inverse-collapse {
+    background: #212121;
 }
 
-.navbar-brand {
-    font-size: 2em;
-    padding: 0;
-    margin: 0;
+.navbar-collapse.collapse.navbar-inverse-collapse.navbar-fixed-top:hover {
+    visibility: visible;
+}
+
+.navbar-brand div {
+    display: inline-block;
 }
 
 .landing_container {
@@ -53,35 +53,33 @@ body{
     position: relative;
     top: 25%;
     transform: translateY(-45%);
+    cursor: default;
 }
 
 .youtube_container {
     height: 50%;
     width: 100%;
+    border: none;
 }
-.tweet_user_name, .tweet_user_pic {
-    display: inline-block;
-}
-div > .tweet_user_name {
-    font-size: larger;
-    font-weight: 500;
-    width: 65%
-}
-.dummy {
+
+.speaker,
+.youtube {
+    background: #424242;
     height: 100%;
-    box-sizing: border-box;
+    padding: 0;
+}
+
+.speaker {
+    position: relative;
 }
 
 .music_content {
     height: 100%;
-    border: 1px solid black;
-    box-sizing: border-box;
 }
 
 .twitter_feed {
     height: 100%;
-    border: 1px solid black;
-    box-sizing: border-box;
+    background: #E0E0E0;
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -92,17 +90,18 @@ div > .tweet_user_name {
 .twitter_feed {
     padding: 0;
     margin: 0;
+    border: none;
 }
 
 .modal_button_container {
     height: 10%;
     width: 100%;
-    border: 1px solid black;
+    margin: 0;
+    border: none;
     box-sizing: border-box;
 }
 
-.button,
-.tour_dates {
+.button {
     height: 100%;
     border: 1px solid black;
     box-sizing: border-box;
@@ -110,6 +109,7 @@ div > .tweet_user_name {
 
 .tour_holder {
     height: 40%;
+    width: 100%;
 }
 
 .modal_button {
@@ -119,8 +119,7 @@ div > .tweet_user_name {
 
 #ytplayer {
     height: 100%;
-    width: 50%;
-    margin-left: 25%;
+    width: 100%;
 }
 
 #map2 {
@@ -151,28 +150,83 @@ div > .tweet_user_name {
 }
 
 .twitter_card {
-    border: 1px solid black;
     position: absolute;
-    background: #EEEEEE;
+    background: #FAFAFA;
     height: 40%;
-    width: 100%;
+    width: 90%;
+    left: 45%;
+    transform: translateX(-45%);
 }
 
 .tweet_text {
     width: 90%;
-    height: 50%;
-    border: 1px solid black;
+    height: 40%;
     color: black;
     margin: 10% 0 5% 3%;
 }
 .tweet_user_name,
 .tweet_date {
-    width: 90%;
+    color: blue;
+    font-size: 1em;
+    font-weight: 500;
+    width: 40%;
     height: 10%;
-    border: 1px solid black;
     margin: 3% 3%;
 }
 
-.tweet_user_pic {
-    margin: 3%;
+.tweet_user_name:first-letter {
+    color: black;
 }
+
+.tweet_user_pic,
+.tweet_user_name {
+    margin: 3%;
+    display: inline-block;
+}
+
+.btn-group-raised .btn {
+    background-color: #757575;
+    color: #ffffff;
+}
+
+.btn-group-raised .btn:not(.btn-link):active,
+.btn-group-raised .btn:not(.btn-link):hover,
+.btn-group-raised .btn:not(.btn-link):focus {
+    background: #BDBDBD;
+    color: #000000
+}
+
+.carousel {
+    height: 100%;
+    width: 100%;
+}
+
+.carousel .item {
+    height: 40vh;
+    background: #212121;
+}
+
+.speaker_hole {
+    height: 5%;
+    width: 20%;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0;
+    border-radius: 50%;
+    position: absolute;
+    top: 20%;
+    left: 45%;
+    transform: translateX(-45%);
+    background: #212121;
+}
+
+.speaker_grow {
+    background: #E0E0E0;
+}
+
+.speaker_animate {
+    z-index: +1;
+    background: #212121;
+}
+
+
