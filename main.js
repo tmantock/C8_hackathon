@@ -50,7 +50,7 @@ function dropdown() {
                 border: '3px solid black',
                 position: 'absolute',
                 top: '45%',
-                left: '46%',
+                left: '50%',
                 transform: 'translate(-45%,-45%)'
             }).addClass('drop_animate');
             var drop_text = $('<input>').addClass('artist_list').attr('onkeydown','page_scroll(event)');
