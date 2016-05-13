@@ -124,3 +124,12 @@ body{
 #mod-button {
     clear: both;
 }
+.modal-title{
+    text-align: center;
+}
+.beyonce{
+    width: 50%;
+    height: 50%;
+    clear: both;
+
+}

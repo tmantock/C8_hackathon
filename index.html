@@ -38,9 +38,9 @@
                 <div class="col-lg-1 col-md-1 dummy"></div>
             </div>
             <div class = 'modal_button_container'>
-                <div class = 'col-md-4 button'><button class = 'btn-success modal_button'>Artist Information</button></div>
+                <div class = 'col-md-4 button'><button type="button" class="btn-success modal_button" data-toggle="modal" data-target=".bs-example-modal-lg">Artist Information</button></div>
                 <div class = 'col-md-4 button'><button class = 'btn-success modal_button'>Tour Information</button></div>
-                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal" onclick="initialize();">Venue Information</button>
+                <div class = 'col-md-4 button'><button type="button" class="btn-success modal_button" data-toggle="modal" data-target="#myModal" onclick="initialize();">Venue Information</button></div>
             </div>
             <div class = "tour_holder">
                 <div class = 'col-md-4 tour_dates'></div>
@@ -80,7 +80,33 @@
         </div>
     </div>
     <!--Modal End-->
+    <!--Artist Modal-->
+    <div class="modal fade bs-example-modal-lg monk" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class='modal-title text-capitalize col-md-offset-4'>Beyonce<h1>
+                </div>
+                <div class="modal-body">
 
+                    <img class="col-xs-3 col-xs-offset-2" src="http://a.abcnews.com/images/Entertainment/ht_beyonce_150216_1x1_1600.jpg">
+                    <h4>Born: September 4, 1981 (age 34), Houston, TX</h4>
+                    <h4>    Spouse: Jay Z (m. 2008) </h4>
+                    <h4>    Children: Blue Ivy Carter </h4>
+                    <h4> Education: Parker Elementary School, Alief Elsik High School, More</h4>
+                    <h4>    Music group: Destiny's Child (1990 – 2006) </h4>
+                </div>
+                <p>Teaming up with her cousin, Kelly Rowland, and two classmates, Beyoncé formed an all-female singing group. Her father, Matthew Knowles, served as the band's manager. The group went through some name and line-up changes before landing a record deal in 1997 with Columbia Records. Destiny's Child soon became one of the most popular R&B acts, with the release of their first, self-titled album. Gaining momentum, the group scored its first No. 1 single on the pop charts with "Bills, Bills, Bills," off their second album. The recording also featured another smash hit, "Say My Name."
+
+                    While enjoying her group's success, Beyoncé began exploring other projects. She made her acting debut in 2001 with a starring role in MTV's Carmen: A Hip Hopera. She then co-starred with Mike Myers in the Austin Powers spy parody Goldmember the following year. On the musical front, Beyoncé took center stage as a solo artist, releasing her first album, Dangerously in Love, in 2003. The recording became a huge success for her both commercially and critically. It sold millions of copies and won five Grammy Awards. On the album, Beyoncé worked with a number of different artists, including Missy Elliott, Sean Paul and Jay-Z. She was rumored to be dating Jay-Z around this time, but the couple did not publicly acknowledge their relationship.
+                </p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/js/material.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/js/ripples.min.js"></script>
 </body>
