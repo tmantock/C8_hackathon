@@ -192,10 +192,10 @@ Tour_date.prototype.make_dom_object = function(first, id){
         tour_date_dom.addClass('active');
     }
     tour_date_dom.attr('data-id', ''+id);
-    var city_div = $('<div>').html(this.venue_city);
+    var city_div = $('<div>').html('City: ' + this.venue_city);
     var date = $('<div>');
-    var venue_div = $('<div>').html(this.venue_name);
-    date.html(this.event_date);
+    var venue_div = $('<div>').html('Venue: ' + this.venue_name);
+    date.html('Date: ' + this.event_date);
     // tour_date_dom.html(this.venue_city);
     tour_date_dom.append(venue_div, city_div, date);
 
