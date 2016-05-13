@@ -34,11 +34,13 @@ $('.artist_list').on('keydown', function (event){
 $(document).ready(function() {
     $('#myModal').load('map2, pano2');
     $("#myModal").on("shown.bs.modal", function () {initialize();});
-    populate_bey_tour('Beyonce');
-    console.log('tour dates: ', global_tour_dates);
+    // populate_tour('Beyonce');
 
 });
 
+//function dropdown:
+//input: none
+//output: creates a dropdown search bar underneath the main landing div
 function dropdown() {
     if (drop == true) {
         var welcome_position = $('.landing_welcome').position().top;
@@ -104,6 +106,9 @@ function process_twitter_api(response) {
     return tweet_array;
 }
 
+//function twitterList
+//input: array of tweet objects containing information to build a tweet div
+//output: The twitter feed on the right of the page is populated with tweets
 function twitterList (tweet_object_array) {
     //var firstDiv = $('<div>').addClass('twitter_card').attr('data',1);
     var temp_div = $('<div>').addClass('twitter_card');
@@ -153,7 +158,9 @@ function Tour_date(date_object, first, id){
     this.lon = b.venue_lat_lon.lon;
     this.make_dom_object(first, id);
 }
-
+//update_globals function
+//input: none
+//output: Updates global google long/lat values based off of the properties of the Tour_date object
 Tour_date.prototype.update_globals = function(){
     google_lat = this.lat;
     google_lon = this.lon;
@@ -183,6 +190,9 @@ function clear_carousel(){
     console.log('clear carousel?');
 }
 
+//input: List of date objects
+//output: Carousel is populated with an arbitrary number of tour_date divs dynamically generated from bandsintown API
+
 function populate_carousel(event_list){
     clear_carousel();
     console.log(event_list)
@@ -200,7 +210,8 @@ function populate_carousel(event_list){
     console.log('carousel populated?')
 }
 
-
+//input: none
+//output: google modal populated with content based off of the current venue
 
 function initialize() {
     var att = {lat: 32.747778, lng: -97.092778 };
@@ -219,7 +230,11 @@ function initialize() {
     map.setStreetView(panorama);
 }
 
-function populate_bey_tour(artist_name){
+//input: artist_name, string containing the name of the artist that we are going to load content for
+//output: the global array global_tour_dates is full of events based off of the artist that was searched for
+
+function populate_tour(artist_name){
+    global_tour_dates = [];
     $.getJSON("http://api.bandsintown.com/artists/" + artist_name + "/events.json?callback=?&app_id=LF_HACKATHON&date=2010-01-01,2016-01-01", function(result) {
         console.log("if successful: " , result);
         $.each(result, function(key, value){
@@ -255,6 +270,7 @@ function onYouTubePlayerAPIReady() {
         videoId: vid_id
     });
 }
+
 //Function to switch the youtube video
 function video_search(YT_search) {
     apis.youtube.getData(YT_search, 5, function (success, response) {
@@ -265,8 +281,9 @@ function video_search(YT_search) {
         }
     });
 }
-
-//Function for creating the speaker grills beside the youtube video
+//function speaker
+//input: none
+//output: created the speaker grills beside the youtube video
 function speaker () {
     var speaker_position = $('.speaker_hole').position().top;
     var speaker_div = $('<div>').addClass('speaker_hole speaker_animate');
@@ -307,6 +324,9 @@ function ramrod () {
     setTimeout(ramrod, 75);
 }
 
+//function ramrod_leave
+//input: none
+//output: shrinks the ramrod entertainment logo back to its minified form
 function ramrod_leave () {
     $('.text_one,.text_two,.text_three').html('');
     ra = 0;
