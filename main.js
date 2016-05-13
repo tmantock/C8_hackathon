@@ -34,6 +34,7 @@ $('.artist_list').on('keydown', function (event){
 $(document).ready(function() {
     $('#myModal').load('map2, pano2');
     $("#myModal").on("shown.bs.modal", function () {initialize();});
+   
 
 });
 
@@ -151,7 +152,7 @@ function twitterList (tweet_object_array) {
 function Tour_date(date_object, first, id){
     console.log('constructing new object');
     b = date_object;
-    this.event_date = b.event_date
+    this.event_date = b.event_date;
     this.venue_city = b.venue_city;
     this.venue_name = b.venue_name;
     this.lat = b.venue_lat_lon.lat;
@@ -262,6 +263,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // Replace the 'ytplayer' element with an <iframe> and
 // YouTube player after the API code downloads.
+
 var player;
 function onYouTubePlayerAPIReady() {
     player = new YT.Player('ytplayer', {
@@ -269,14 +271,18 @@ function onYouTubePlayerAPIReady() {
         width: '640',
         videoId: vid_id
     });
+ 
 }
+
 
 //Function to switch the youtube video
 function video_search(YT_search) {
     apis.youtube.getData(YT_search, 5, function (success, response) {
         if (success) {
+            console.log(response);
             vid_id = response.video[0].id;
             console.log('Response Video: ', response.video[0].id);
+            youtube(response);
             onYouTubePlayerAPIReady();
         }
     });
@@ -334,3 +340,15 @@ function ramrod_leave () {
     et = 0;
 }
 
+function youtube(response){
+    var youtube_array =[];
+    var tube = response.video;
+    for (var x = 0; x < tube.length; x++){
+        var youtube_obj = {};
+        youtube_obj.id = tube[x].id;
+        youtube_obj.title = tube[x].title;
+        youtube_array.push(youtube_obj);
+    }
+    console.log("My Youtube array", youtube_array);
+    
+}
