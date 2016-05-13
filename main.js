@@ -343,7 +343,10 @@ function home_slide () {
     $('.speaker_animate').remove();
     $('.speaker_grow').remove();
     $('.drop_animate').remove();
+    $('iframe').remove();
     drop = true;
+    var new_youtube = $('<div>').attr('id','ytplayer');
+    $('.youtube').append(new_youtube);
 }
 
 function twitter_feed_update (twitter_search) {
