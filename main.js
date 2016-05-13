@@ -137,13 +137,14 @@ function twitterList (tweet_object_array) {
     var temp_pic = $('<img>').addClass('tweet_user_pic');
     var temp_user_name = $('<div>').addClass('tweet_user_name');
     var temp_tweet_date = $('<div>').addClass('tweet_date');
+    var tweet_icon = $('<i>').addClass('fa fa-twitter-square tweet_icon').attr('aria-hidden','true');
     var current_tweet = tweet_object_array[0];
     temp_text.html(current_tweet.text);
     temp_pic.attr('src', current_tweet.user_pic);
     console.log(tweet_object_array[0]);
     temp_user_name.html('@' + current_tweet.user_name);
     temp_tweet_date.html(current_tweet.date_created);
-    temp_div.append(temp_pic, temp_user_name, temp_text);
+    temp_div.append(temp_pic, temp_user_name, tweet_icon, temp_text);
     $('.twitter_feed').append(temp_div);
     var counter = 1;
 
@@ -153,12 +154,13 @@ function twitterList (tweet_object_array) {
         temp_pic = $('<img>').addClass('tweet_user_pic');
         temp_user_name = $('<div>').addClass('tweet_user_name');
         temp_tweet_date = $('<div>').addClass('tweet_date');
+        tweet_icon = $('<i>').addClass('fa fa-twitter-square tweet_icon').attr('aria-hidden','true');
         current_tweet = tweet_object_array[i];
         temp_text.html(current_tweet.text);
         temp_pic.attr('src', current_tweet.user_pic);
         temp_user_name.html('@' + current_tweet.user_name);
         temp_tweet_date.html(current_tweet.date_created);
-        temp_div.append(temp_pic, temp_user_name, temp_text);
+        temp_div.append(temp_pic, temp_user_name, tweet_icon, temp_text);
         var lastPosition = $('.twitter_feed .twitter_card:first-child').position().top;
         var lastHeight = $('.twitter_feed .twitter_card:first-child').height();
         $('.twitter_feed').append(temp_div.attr('data-count',counter).css({top: lastPosition + 15}));
