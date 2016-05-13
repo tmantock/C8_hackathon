@@ -190,8 +190,26 @@ function initialize() {
 }
 
 function populate_bey_tour(){
-    
+    $.getJSON("http://api.bandsintown.com/artists/Beyonce/events.json?callback=?&app_id=LF_HACKATHON&date=2009-01-01,2010-02-18", function(result) {
+        console.log("success");
+        console.log(result);
+        var i = 0;
+        $.each(result, function(key, value){
+            if(result[key].venue.region == 'CA'){//only target events taking place in california
+                var a = result[key];
+                var temp_obj = {};
+                temp_obj.event_date = a.datetime;
+                temp_obj.venue_name = a.venue.name;
+                temp_obj.venue_city = a.venue.city;
+                temp_obj.venue_lat_lon = {lat: a.venue.latitude, lon:a.venue.longitute};
+                console.log ('key: ' + key + ', info:', temp_obj);
+                bey_tour.push(temp_obj);
+            }
+        });
+    });
+    console.log('bey tour: ', bey_tour);
 }
+populate_bey_tour();
 
 // Load the IFrame Player API code asynchronously.
 var tag = document.createElement('script');
