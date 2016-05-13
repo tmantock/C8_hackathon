@@ -1,9 +1,113 @@
+body{
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+}
 .navbar {
-    height: 10vh;
+    height: 10%;
     width: 100%;
-    color: green;
+    margin: 0;
+    background: transparent;
+}
+
+.navbar_container{
 }
 
 .navbar-brand {
+    font-size: 2em;
+    padding: 0;
+    margin: 0;
+}
 
+.landing_container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+#home_page {
+    background: linear-gradient(rgba(255,255,255,.15),rgba(255,255,255,.25)),url('http://franzwaxman.com/franz-waxman/wp-content/uploads/2013/12/franz-waxman-hollywood-bowl-2000-10001.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#main_page {
+ background: gray;
+}
+
+.landing_welcome {
+    height: 10vh;
+    width: 45vw;
+    border: 3px solid black;
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    transform: translate(-45%,-45%);
+}
+
+.landing_welcome h1 {
+    text-align: center;
+    position: relative;
+    top: 25%;
+    transform: translateY(-45%);
+}
+
+.youtube_container {
+    height: 50%;
+    width: 100%;
+}
+
+.dummy {
+    height: 100%;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.music_content {
+    height: 100%;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.twiiter_feed {
+    height: 100%;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.col-md-9,
+.col-md-3,
+.col-md-10 {
+    padding: 0;
+    margin: 0;
+}
+
+.modal_button_container {
+    height: 10%;
+    width: 100%;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.button,
+.tour_dates {
+    height: 100%;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.tour_holder {
+    height: 40%;
+}
+
+.modal_button {
+    height: 90%;
+    width: 40%;
+}
+#ytplayer {
+    height: 310px;
+    width: 430px;
+    margin-left: 29%;
 }
