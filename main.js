@@ -35,9 +35,11 @@ $('.artist_list').on('keydown', function (event){
 $(document).ready(function() {
     $('#myModal').load('map2, pano2');
     $("#myModal").on("shown.bs.modal", function () {initialize();});
+
     $('#myCarousel').on('click', '.tour_date', function(){
         tour_date_click(this);
     });
+
 });
 
 //function tour_date_click
@@ -75,6 +77,7 @@ function dropdown() {
                 transform: 'translate(-45%,-45%)'
             }).addClass('drop_animate');
             var drop_text = $('<input>').addClass('artist_list').attr('onkeydown','page_scroll(event)');
+            drop_text.attr('placeholder', 'search for artist by name');
             $(drop_div).append(drop_text);
             $('.landing_container').append(drop_div);
         
@@ -285,6 +288,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // Replace the 'ytplayer' element with an <iframe> and
 // YouTube player after the API code downloads.
+
 var player;
 function onYouTubePlayerAPIReady() {
     player = new YT.Player('ytplayer', {
@@ -292,14 +296,18 @@ function onYouTubePlayerAPIReady() {
         width: '640',
         videoId: vid_id
     });
+ 
 }
+
 
 //Function to switch the youtube video
 function video_search(YT_search) {
     apis.youtube.getData(YT_search, 5, function (success, response) {
         if (success) {
+            console.log(response);
             vid_id = response.video[0].id;
             console.log('Response Video: ', response.video[0].id);
+            youtube(response);
             onYouTubePlayerAPIReady();
         }
     });
@@ -365,6 +373,20 @@ function ramrod_leave () {
     et = 0;
 }
 
+
+function youtube(response){
+    var youtube_array =[];
+    var tube = response.video;
+    for (var x = 0; x < tube.length; x++){
+        var youtube_obj = {};
+        youtube_obj.id = tube[x].id;
+        youtube_obj.title = tube[x].title;
+        youtube_array.push(youtube_obj);
+    }
+    console.log("My Youtube array", youtube_array);
+    
+}
+
 function home_slide () {
     var mainHeight = $('#main_page').height();
     $('#main_page').animate({top:mainHeight + 'px'},1500);
@@ -385,3 +407,4 @@ function twitter_feed_update (twitter_search) {
         });
     speaker ();
 }
+

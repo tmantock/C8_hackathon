@@ -293,3 +293,23 @@ body{
     top: 40%;
     transform: translateY(-40%);
 }
+
+::-webkit-input-placeholder {
+    font-size: 50%;
+    color: #212121;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    font-size: 50%;
+    color: #212121;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    font-size: 50%;
+    color: #212121;
+}
+
+:-ms-input-placeholder {
+    font-size: 50%;
+    color: #212121;
+}
