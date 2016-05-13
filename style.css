@@ -229,4 +229,15 @@ body{
     background: #212121;
 }
 
-
+.artist_list {
+    text-align: center;
+    position: relative;
+    top: 46%;
+    border: none;
+    height: 100%;
+    width: 100%;
+    font-size: 36px;
+    background: none;
+    transform: translateY(-45%);
+    visibility: visible;
+}
