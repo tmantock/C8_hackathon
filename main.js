@@ -5,9 +5,10 @@
 **dropdown () - Function to create a dropdown list for main page
  */
 
-//These globals will be used inside update_content to insert content into the page.
-//They are updated every time a tour_date object is clicked
-
+//Global Variables used to update content to respond to user choices.
+//The choices that change these variables are:
+//----Choosing a new venue
+//----Choosing a new artist
 var yt_search_str = '';
 var twitter_search_str = '';
 var venue_name = '';
@@ -17,8 +18,15 @@ var artist_pic_src = '';
 var artist_bio = '';
 var artist_disc = '';
 
-var artist1 = [];
-var nickleback = [];
+//Global variables to store information about artists
+var beyonce = {
+    twitter_search: 'beyonce I am... tour',
+    yt_search: 'beyonce',
+    artist_bg: 'tevin made this',
+    artist_tour: []
+};
+var bey_tour = beyonce.artist_tour;
+
 
 //variable for onclick
 var drop = true;
@@ -229,3 +237,6 @@ function initialize() {
     map.setStreetView(panorama);
 }
 
+function populate_bey_tour(){
+    
+}
