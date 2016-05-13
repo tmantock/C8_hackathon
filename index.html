@@ -23,26 +23,21 @@
     <script src="main.js"></script>
 </head>
 <body>
-    <nav onmouseover="ramrod()" class ='navbar-collapse collapse navbar-inverse-collapse navbar-fixed-top'>
-        <div class = 'container-fluid'>
-            <div class = 'navbar-header'>
-                <a class = 'navbar-brand'>R<div class = 'text_one'></div>R<div class = 'text_two'></div>E<div class = "text_three"></div></a>
+    <nav id="nav-bar">
+        <div class = 'nav-container'>
+            <div class = 'nav-head'>
+                <a onmouseover="ramrod()" class = 'navbar-brand'>R<div class = 'text_one'></div>R<div class = 'text_two'></div>E<div class = "text_three"></div></a>
             </div>
-            <button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navbar-responsive-collapse">
-                <span class = "icon-bar"></span>
-                <span class = "icon-bar"></span>
-                <span class = "icon-bar"></span>
-            </button>
-            <div class = "navbar-collapse collapse navbar-responsive-collapse">
+            <div class = "nav-list">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Search</a></li>
-                    <li><a href="#">Moments</a></li>
+                    <li><a onclick = "home_slide()">Search</a></li>
+                    <li><a onclick = "movedown()">Moments</a></li>
                     <li><a href="#">Explore</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div onmouseover="ramrod_leave()" id = 'home_page' class = 'landing_container'>
+    <div onmouseover="ramrod_leave(); hide_nav()" id = 'home_page' class = 'landing_container'>
         <div class = 'landing_welcome' onclick="dropdown()"><h1>Choose Your Experience</h1></div>
     </div>
     <div id = 'main_page' class = 'landing_container'>
@@ -59,18 +54,15 @@
                 </div>
             </div>
             <div class = 'btn-group btn-group-justified btn-group-raised modal_button_container'>
-                <a href = 'javascript:void(0)' class = 'btn '>Tour Information
+                <a  href = 'javascript:void(0)' class = 'btn ' data-toggle="modal" data-target=".bs-example-modal-lg" >Tour Information
                     <div class = 'ripple-container'></div>
                 </a>
                 <a href = 'javascript:void(0)' class = 'btn '>Artist Information
                     <div class = 'ripple-container'></div>
                 </a>
-                <a href = 'javascript:void(0)' class = 'btn '>Venue Information
+                <a href = 'javascript:void(0)' class = 'btn ' data-toggle="modal" data-target="#myModal" onclick="initialize();">Venue Information
                     <div class = 'ripple-container'></div>
                 </a>
-                <!--<div class = 'col-md-4 button'><button type="button" class="btn-fab modal_button" data-toggle="modal" data-target=".bs-example-modal-lg">Artist Information</button></div>
-                <div class = 'col-md-4 button'><button class = '.btn-group-sm .btn-fab modal_button'>Tour Information</button></div>
-                <div class = 'col-md-4 button'><button type="button" class="btn-fab modal_button" data-toggle="modal" data-target="#myModal" onclick="initialize();">Venue Information</button></div>-->
             </div>
             <div class = "tour_holder">
                 <div id="myCarousel" class="carousel slide" data-ride="carousel">

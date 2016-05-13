@@ -5,16 +5,18 @@ body{
     margin: 0;
 }
 
-.navbar-collapse.collapse.navbar-inverse-collapse {
+#nav-bar {
     background: #212121;
-}
-
-.navbar-collapse.collapse.navbar-inverse-collapse.navbar-fixed-top:hover {
-    visibility: visible;
+    height: 7%;
+    width: 100%;
 }
 
 .navbar-brand div {
     display: inline-block;
+}
+
+.nav.navbar-nav.navbar-right {
+    margin-right: 5%;
 }
 
 .landing_container {
@@ -225,6 +227,14 @@ body{
 .speaker_animate {
     z-index: +1;
     background: #212121;
+}
+
+.nav_hide {
+    display: none !important;
+}
+
+.nav_show {
+    opacity: 100;
 }
 
 
