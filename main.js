@@ -7,7 +7,7 @@
 
 //These globals will be used inside update_content to insert content into the page.
 //They are updated every time a tour_date object is clicked
-
+var drop = true;
 var yt_search_str = '';
 var twitter_search_str = '';
 var venue_name = '';
@@ -20,79 +20,50 @@ var artist_disc = '';
 // var artist1 = [];
 var nickleback = [];
 
-
-// Load the IFrame Player API code asynchronously.
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/player_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-// Replace the 'ytplayer' element with an <iframe> and
-// YouTube player after the API code downloads.
-var player;
-function onYouTubePlayerAPIReady() {
-    player = new YT.Player('ytplayer', {
-        height: '390',
-        width: '640',
-        videoId: vid_id
-    });
-}
-
-$('#myModal').load('map2, pano2');
-$("#myModal").on("shown.bs.modal", function () {initialize();});
-//variable for onclick
-var drop = true;
 $(document).ready(function() {
+    $('#myModal').load('map2, pano2');
+    $("#myModal").on("shown.bs.modal", function () {initialize();});
     apis.youtube.getData('single ladies', 5, function (success, response) {
-        // console.log(success);
         if (success) {
-            // for (var x = 0; x < response.video.length; x++) {
-            //     artist1.push(response.video[x]);
-            // }
             vid_id = response.video[0].id;
             console.log('Response Video: ', response.video[1].id);
             onYouTubePlayerAPIReady();
         }
     });
+});
 
-    apis.twitter.getData('beyonce I am... tour',
-        function (success, response) {
-            process_twitter_api(response);
+function dropdown() {
+    if (drop == true) {
+        var welcome_position = $('.landing_welcome').position().top;
+        var welcome_height = $('.landing_welcome').height();
+
+        var drop_div = $('<div>').css({
+            height: '10vh',
+            width: '45vw',
+            border: '3px solid black',
+            position: 'absolute',
+            top: '45%',
+            left: '45%',
+            transform: 'translate(-45%,-45%)'
+        }).addClass('drop_animate');
+        var drop_text = $('<h1>').text('Beyonce').css({
+            textAlign: 'center',
+            position: 'relative',
+            top: '25%',
+            transform: 'translateY(-45%)',
+            visibility: 'hidden'
+        }).addClass('artist_list');
+        $(drop_div).append(drop_text);
+        $('.landing_container').append(drop_div);
+
+        $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
+            $('.artist_list').attr('onclick', 'page_scroll()').css('visibility', 'visible');
         });
 
-    function dropdown() {
-        if (drop == true) {
-            var welcome_position = $('.landing_welcome').position().top;
-            var welcome_height = $('.landing_welcome').height();
-
-            var drop_div = $('<div>').css({
-                height: '10vh',
-                width: '45vw',
-                border: '3px solid black',
-                position: 'absolute',
-                top: '45%',
-                left: '45%',
-                transform: 'translate(-45%,-45%)'
-            }).addClass('drop_animate');
-            var drop_text = $('<h1>').text('Beyonce').css({
-                textAlign: 'center',
-                position: 'relative',
-                top: '25%',
-                transform: 'translateY(-45%)',
-                visibility: 'hidden'
-            }).addClass('artist_list');
-            $(drop_div).append(drop_text);
-            $('.landing_container').append(drop_div);
-
-            $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
-                $('.artist_list').attr('onclick', 'page_scroll()').css('visibility', 'visible');
-            });
-
-            drop = false;
-        }
+        drop = false;
     }
-});
-    
+}
+
 function page_scroll () {
     var x = $('.navbar').position().top;
     var xHeight = $('#main_page').height();
@@ -104,10 +75,7 @@ function page_scroll () {
             function (success, response) {
                 var my_tweets = response.tweets.statuses;
                 for (var i = 0; i < response.tweets.statuses.length; i++) {
-                    console.log(my_tweets[i].created_at);
-                    console.log(my_tweets[i].text);
                 }
-                console.log(response);
                 var temp_array = process_twitter_api(response);
             });
     });
@@ -130,30 +98,11 @@ function process_twitter_api(response) {
         tweet_array.push(new_tweet_obj);
     }
     console.log(tweet_array);
+    twitterList(tweet_array);
     return tweet_array;
 }
 
-    
-//function make_tweet_divs
-//input: array of objects containing information about tweets
-//output: none
-//result: appends one div per tweet to the twitter container;
-function make_tweet_divs(tweet_object_array){
-    var temp_div = $('<div>').addClass('tweet_div');
-    var temp_text = $('<div>').addClass('tweet_text');
-    var temp_pic = $('<img>').addClass('tweet_user_pic');
-    var temp_user_name = $('<div>').addClass('tweet_user_name');
-    var temp_tweet_date = $('<div>').addClass('tweet_date');
-    for (var i = 0; i < tweet_object_array.length; i++){
-        var current_tweet = tweet_object_array[i];
-        temp_text.html(current_tweet.text);
-        temp_pic.attr('src', current_tweet.user_pic);
-        temp_user_name.html(current_tweet.user_name);
-        temp_tweet_date.html(current_tweet.date_created);
-        temp_div.append(temp_pic, temp_user_name, temp_text);
-        $('.twitter_container').append(temp_div);
-    }
-}
+
 function twitterList (tweet_object_array) {
     //var firstDiv = $('<div>').addClass('twitter_card').attr('data',1);
     var temp_div = $('<div>').addClass('twitter_card');
@@ -162,9 +111,9 @@ function twitterList (tweet_object_array) {
     var temp_user_name = $('<div>').addClass('tweet_user_name');
     var temp_tweet_date = $('<div>').addClass('tweet_date');
     var current_tweet = tweet_object_array[0];
-    temp_text.html(current_tweet.tweet_text);
+    temp_text.html(current_tweet.text);
     temp_pic.attr('src', current_tweet.user_pic);
-    temp_tweet_date.html(current_tweet.tweet_date);
+    temp_tweet_date.html(current_tweet.date_created);
     temp_div.append(temp_pic, temp_user_name, temp_text);
     $('.twitter_feed').append(temp_div);
     var counter = 1;
@@ -174,10 +123,10 @@ function twitterList (tweet_object_array) {
         var temp_pic = $('<img>').addClass('tweet_user_pic');
         var temp_user_name = $('<div>').addClass('tweet_user_name');
         var temp_tweet_date = $('<div>').addClass('tweet_date');
-        var current_tweet = tweet_object_array[0];
-        temp_text.html(current_tweet.tweet_text);
+        var current_tweet = tweet_object_array[i];
+        temp_text.html(current_tweet.text);
         temp_pic.attr('src', current_tweet.user_pic);
-        temp_tweet_date.html(current_tweet.tweet_date);
+        temp_tweet_date.html(current_tweet.date_created);
         temp_div.append(temp_pic, temp_user_name, temp_text);
         var lastPosition = $('.twitter_feed .twitter_card:first-child').position().top;
         var lastHeight = $('.twitter_feed .twitter_card:first-child').height();
@@ -208,26 +157,6 @@ Tour_date.prototype.update_globals = function(){
     google_lon = this.lon;
 };
 
-//Create a Process for Twitter's API
-//Input Raw Json from Twitter API
-//Output Array of objects holding the info we need
-//Info needed in each object user_pic  user_name  tweet_text  tweet_date
-function process_twitter_api(response) {
-    var tweet_array = [];
-    var t_location = response.tweets.statuses;
-    for (var i = 0; i < t_location.length ; i++){
-        var new_tweet_obj = {};
-        new_tweet_obj.text = t_location[i].text;
-        new_tweet_obj.user_pic = t_location[i].user.profile_image_url;
-        new_tweet_obj.user_name = t_location[i].name;
-        new_tweet_obj.date_created = t_location[i].created_at;
-        tweet_array.push(new_tweet_obj);
-    }
-    console.log(tweet_array);
-    twitterList(tweet_array);
-    return tweet_array;
-}
-
 Tour_date.prototype.make_dom_object = function(){
     var new_tour_date_dom = $('<div>');
     new_tour_date_dom.addClass('')
@@ -248,5 +177,23 @@ function initialize() {
             }
         });
     map.setStreetView(panorama);
+}
+
+
+// Load the IFrame Player API code asynchronously.
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/player_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// Replace the 'ytplayer' element with an <iframe> and
+// YouTube player after the API code downloads.
+var player;
+function onYouTubePlayerAPIReady() {
+    player = new YT.Player('ytplayer', {
+        height: '390',
+        width: '640',
+        videoId: vid_id
+    });
 }
     
