@@ -5,20 +5,23 @@
 **dropdown () - Function to create a dropdown list for main page
  */
 
-//These globals will be used inside update_content to insert content into the page.
-//They are updated every time a tour_date object is clicked
+//Global Variables used to update content to respond to user choices.
+//The choices that change these variables are:
+//----Choosing a new venue
+//----Choosing a new artist
+
 var drop = true;
 var yt_search_str = '';
 var twitter_search_str = '';
-var venue_name = '';
 var google_lat = 0;
 var google_lon = 0;
 var artist_pic_src = '';
 var artist_bio = '';
 var artist_disc = '';
 
-// var artist1 = [];
-var nickleback = [];
+//Global variables to store information about artists
+
+var global_tour_dates = [];
 
 $('.artist_list').on('keydown', function (event){
     var keycode = event.which;
@@ -31,6 +34,8 @@ $('.artist_list').on('keydown', function (event){
 $(document).ready(function() {
     $('#myModal').load('map2, pano2');
     $("#myModal").on("shown.bs.modal", function () {initialize();});
+    populate_bey_tour('Beyonce');
+    console.log('tour dates: ', global_tour_dates);
 
 });
 
@@ -135,31 +140,67 @@ function twitterList (tweet_object_array) {
 }
 
 //tour_date_object constructor
-//input: string  yt_search, string twitter_search, string venue_name, num lat, num lon
-//output: new tour_date object
+//input: date object
+//output: new tour_date object and corresponding DOM elements in carousel
 
-
-function Tour_date(yt_search, twitter_search, venue_name, lat, lon){
-
-    this.yt_search = yt_search;
-    this.twitter_search = twitter_search;
-    this.venue_name = venue_name;
-    this.lat = lat;
-    this.lon = lon;
+function Tour_date(date_object, first, id){
+    console.log('constructing new object');
+    b = date_object;
+    this.event_date = b.event_date
+    this.venue_city = b.venue_city;
+    this.venue_name = b.venue_name;
+    this.lat = b.venue_lat_lon.lat;
+    this.lon = b.venue_lat_lon.lon;
+    this.make_dom_object(first, id);
 }
 
 Tour_date.prototype.update_globals = function(){
-    yt_search_str = this.yt_search;
-    twitter_search_str = this.twitter_search;
-    venue_name = this.venue_name;
     google_lat = this.lat;
     google_lon = this.lon;
 };
 
-Tour_date.prototype.make_dom_object = function(){
-    var new_tour_date_dom = $('<div>');
-    new_tour_date_dom.addClass('')
+//input: none
+//output: A DOM element with class item and class tour_date for the carousel
+Tour_date.prototype.make_dom_object = function(first, id){
+    var tour_date_dom = $('<div>').addClass('item');
+    tour_date_dom.addClass('tour_date');
+    if (first){
+        tour_date_dom.addClass('active');
+    }
+    tour_date_dom.attr('data-id', ''+id);
+    var date = $('<div>');
+    date.html(this.event_date);
+    tour_date_dom.html(this.venue_city);
+    $('#myCarousel .carousel-inner').append(tour_date_dom);
+    console.log('appending dom to carousel');
 };
+
+//input: none
+//output: an empty carousel in the main page
+function clear_carousel(){
+    $('#myCarousel.carousel.slide .carousel-indicators').children().remove();
+    $('#myCarousel .carousel-inner').children().remove();
+    console.log('clear carousel?');
+}
+
+function populate_carousel(event_list){
+    clear_carousel();
+    console.log(event_list)
+    var a = event_list;
+    var first = true;
+    for (var i = 0; i < a.length; i++){
+        var b = $('<li>').attr('data-target', '#myCarousel');
+        var c = new Tour_date(a[i], first);
+        if (first == true){
+            first = false;
+        }
+        b.attr('data-slide-to', ''+i);
+        $('#myCarousel .carousel-indicators').append(b);
+    }
+    console.log('carousel populated?')
+}
+
+
 
 function initialize() {
     var att = {lat: 32.747778, lng: -97.092778 };
@@ -177,15 +218,26 @@ function initialize() {
         });
     map.setStreetView(panorama);
 }
-// function video_load () {
-//     apis.youtube.getData('single ladies', 5, function (success, response) {
-//         if (success) {
-//             vid_id = response.video[0].id;
-//             console.log('Response Video: ', response.video[1].id);
-//             onYouTubePlayerAPIReady();
-//         }
-//     });
-// }
+
+function populate_bey_tour(artist_name){
+    $.getJSON("http://api.bandsintown.com/artists/" + artist_name + "/events.json?callback=?&app_id=LF_HACKATHON&date=2010-01-01,2016-01-01", function(result) {
+        console.log("if successful: " , result);
+        $.each(result, function(key, value){
+            if(result[key].venue.region == 'CA'){//only target events taking place in california
+                var a = result[key];
+                var temp_obj = {};
+                temp_obj.event_date = a.datetime;
+                temp_obj.venue_name = a.venue.name;
+                temp_obj.venue_city = a.venue.city;
+                temp_obj.venue_lat_lon = {lat: a.venue.latitude, lon:a.venue.longitute};
+                console.log ('key: ' + key + ', info:', temp_obj);
+                global_tour_dates.push(temp_obj);
+            }
+        });
+        populate_carousel(global_tour_dates);
+    });
+    console.log("Tour populated");
+}
 
 // Load the IFrame Player API code asynchronously.
 var tag = document.createElement('script');
