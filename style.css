@@ -106,4 +106,21 @@ body{
     height: 90%;
     width: 40%;
 }
-
+#map2 {
+    float: left;
+    height: 95%;
+    width: 45%;
+    padding: 5%;
+}
+#pano2 {
+    float: right;
+    height: 95%;
+    width: 45%;
+    padding: 5%;
+}
+#modal-map {
+    height: 60vh;
+}
+#mod-button {
+    clear: both;
+}
