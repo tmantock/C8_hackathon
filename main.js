@@ -19,6 +19,8 @@ var venue_name = 0;
 var artist_pic_src = '';
 var artist_bio = '';
 var artist_disc = '';
+var youtube_array = [];
+var vid_index = 0;
 
 //Global variables to store information about artists
 
@@ -39,6 +41,16 @@ $(document).ready(function() {
     $('#myCarousel').on('click', '.tour_date', function(){
         tour_date_click(this);
     });
+    $( '#speaker_right').on('click', function(){
+        console.log('BRUH');
+        next_video();
+    });
+
+    $('#speaker_left').on('click', function(){
+        prev_video();
+    });
+    
+  
 
 });
 
@@ -105,6 +117,12 @@ function page_scroll (event) {
     $('#main_page').animate({top:(-1*xHeight) + 'px'},900, function() {
     })
     }
+
+    // $('.next_vid').click( function(){
+    //     console.log("IS this working");
+    //
+    //
+    // });
 }
 
 //Create a Process for Twitter's API
@@ -306,9 +324,11 @@ function video_search(YT_search) {
     apis.youtube.getData(YT_search, 5, function (success, response) {
         if (success) {
             console.log(response);
-            vid_id = response.video[0].id;
+            vid_id = response.video[vid_index].id;
             console.log('Response Video: ', response.video[0].id);
             youtube(response);
+            var temp_array = youtube_array;
+            
             onYouTubePlayerAPIReady();
         }
     });
@@ -322,7 +342,7 @@ function speaker () {
     $('.speaker').append(speaker_div.css('top',speaker_position));
     var second_speaker_position;
     var large_speaker;
-    var backward = $('<span>').addClass('glyphicon glyphicon-step-backward speaker_glyph');
+    var backward = $('<span>').addClass('glyphicon glyphicon-step-backward speaker_glyph prev_vid');
     var forward = $('<span>').addClass('glyphicon glyphicon-step-forward speaker_glyph');
 
     $('.speaker_animate').animate({top: speaker_position + 250 + 'px'},1000, function () {
@@ -331,7 +351,7 @@ function speaker () {
     });
     setTimeout(function () {
         second_speaker_position = $('.speaker_animate').position().top;
-        large_speaker = $('<div>').addClass('speaker_hole speaker_grow');
+        large_speaker = $('<div>').addClass('speaker_hole speaker_grow next_vid');
         $('.speaker').append(large_speaker.css('top', second_speaker_position));
         $('.speaker_grow').animate({top: '-=25', height: '+=50', width: '+=50'},500);
     },1000);
@@ -376,7 +396,7 @@ function ramrod_leave () {
 
 
 function youtube(response){
-    var youtube_array =[];
+    
     var tube = response.video;
     for (var x = 0; x < tube.length; x++){
         var youtube_obj = {};
@@ -385,6 +405,7 @@ function youtube(response){
         youtube_array.push(youtube_obj);
     }
     console.log("My Youtube array", youtube_array);
+    return youtube_array;
     
 }
 
@@ -410,6 +431,36 @@ function twitter_feed_update (twitter_search) {
             var temp_array = process_twitter_api(response);
         });
     speaker ();
+}
+
+
+function next_video (){
+    if(vid_index === youtube_array.length-1){
+        return;
+    }
+    else{
+        vid_index++;
+        vid_id = youtube_array[vid_index].id;
+        console.log(vid_id);
+        $('iframe').remove();
+        var new_youtube = $('<div>').attr('id','ytplayer');
+        $('.youtube').append(new_youtube);
+        onYouTubePlayerAPIReady()
+    } 
+}
+
+function prev_video (){
+    if(vid_index === 0) {
+        return;
+    }
+    else{
+        vid_index--;
+        vid_id = youtube_array[vid_index].id;
+        $('iframe').remove();
+        var new_youtube = $('<div>').attr('id','ytplayer');
+        $('.youtube').append(new_youtube);
+        onYouTubePlayerAPIReady()
+    }
 }
 
 function nickleback() {
