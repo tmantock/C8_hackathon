@@ -69,21 +69,14 @@ function page_scroll (event) {
     if(key == 13) {
         video_search($('.artist_list').val());
         populate_tour($('.artist_list').val());
+        twitter_feed_update($('.artist_list').val());
     var xposition = $('#home_page').position().top;
     var xHeight = $('#home_page').height();
 
 
     $('.drop_animate').toggle('slow');
-    $('#main_page').animate({top:(-1*xHeight) + 'px'},900, function () {
-        apis.twitter.getData('beyonce I am... tour',
-            function (success, response) {
-                var my_tweets = response.tweets.statuses;
-                for (var i = 0; i < response.tweets.statuses.length; i++) {
-                }
-                var temp_array = process_twitter_api(response);
-            });
-        speaker ();
-    });
+    $('#main_page').animate({top:(-1*xHeight) + 'px'},900, function() {
+    })
     }
 }
 
@@ -342,3 +335,13 @@ function home_slide () {
     $('#main_page').animate({top:mainHeight + 'px'},1500);
 }
 
+function twitter_feed_update (twitter_search) {
+    apis.twitter.getData(twitter_search,
+        function (success, response) {
+            var my_tweets = response.tweets.statuses;
+            for (var i = 0; i < response.tweets.statuses.length; i++) {
+            }
+            var temp_array = process_twitter_api(response);
+        });
+    speaker ();
+}
