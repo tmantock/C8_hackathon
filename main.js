@@ -47,13 +47,10 @@ $(document).ready(function() {
 //output: changes the global venue name and lat lon when clicked
 function tour_date_click(clicked_element){
     // clicked_element = this;
-    console.log('suh');
     var a = clicked_element;
     var b = global_tour_dates[Number($(a).attr('data-id'))];
     google_lat = b.venue_lat_lon.lat;
     google_lon = b.venue_lat_lon.lon;
-    console.log(b);
-    console.log (google_lat, google_lon);
     venue_name = b.venue_name;
     $('#myModal .modal-dialog .modal-content .modal-header .modal-title').html(venue_name);
     initialize();
@@ -89,7 +86,6 @@ function dropdown() {
 
 //input: click event
 //output: dropdown menu is created
-
 function page_scroll (event) {
     var key = event.which;
     if(key == 13) {
@@ -236,9 +232,17 @@ function populate_carousel(event_list){
     console.log('carousel populated?')
 }
 
+function load_google(){
+    var b = global_tour_dates[$('.item.active').attr('data-id')];
+    google_lat = b.venue_lat_lon.lat;
+    google_lon = b.venue_lat_lon.lon;
+    venue_name = b.venue_name;
+    $('#myModal .modal-dialog .modal-content .modal-header .modal-title').html(venue_name);
+    initialize();
+}
+
 //input: none
 //output: google modal populated with content based off of the current venue
-
 function initialize() {
     var att = {lat: Number(google_lat), lng: Number(google_lon) };
     var map = new google.maps.Map(document.getElementById('map2'), {
