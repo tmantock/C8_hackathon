@@ -65,6 +65,7 @@ $(document).ready(function() {
             $(drop_div).append(drop_text);
             $('.landing_container').append(drop_div);
 
+            $('#main_page').css('background',"linear-gradient(rgba(255,255,255,.15),rgba(255,255,255,.25)),url('http://wallpapersdsc.net/wp-content/uploads/2016/01/Beyonce-Wallpapers-HD.jpg')");
             $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
                 $('.artist_list').attr('onclick','page_scroll()').css('visibility', 'visible');
             });
@@ -92,26 +93,6 @@ function page_scroll () {
                 var temp_array = process_twitter_api(response);
             });
     });
-}
-
-
-//Create a Process for Twitter's API
-//Input Raw Json from Twitter API
-//Output Array of objects holding the info we need
-//Info needed in each object user_pic  user_name  tweet_text  tweet_date
-function process_twitter_api(response) {
-    var tweet_array = [];
-    var t_location = response.tweets.statuses;
-    for (var i = 0; i < t_location.length ; i++){
-        var new_tweet_obj = {};
-        new_tweet_obj.text = t_location[i].text;
-        new_tweet_obj.user_pic = t_location[i].user.profile_image_url;
-        new_tweet_obj.user_name = t_location[i].name;
-        new_tweet_obj.date_created = t_location[i].created_at;
-        tweet_array.push(new_tweet_obj);
-    }
-    console.log(tweet_array);
-    return tweet_array;
 }
 
     
@@ -143,8 +124,10 @@ function twitterList (tweet_object_array) {
     var temp_user_name = $('<div>').addClass('tweet_user_name');
     var temp_tweet_date = $('<div>').addClass('tweet_date');
     var current_tweet = tweet_object_array[0];
-    temp_text.html(current_tweet.tweet_text);
+    temp_text.html(current_tweet.text);
     temp_pic.attr('src', current_tweet.user_pic);
+    console.log(tweet_object_array[0]);
+    temp_user_name.html(current_tweet.user_name);
     temp_tweet_date.html(current_tweet.tweet_date);
     temp_div.append(temp_pic, temp_user_name, temp_text);
     $('.twitter_feed').append(temp_div);
@@ -155,9 +138,10 @@ function twitterList (tweet_object_array) {
         var temp_pic = $('<img>').addClass('tweet_user_pic');
         var temp_user_name = $('<div>').addClass('tweet_user_name');
         var temp_tweet_date = $('<div>').addClass('tweet_date');
-        var current_tweet = tweet_object_array[0];
-        temp_text.html(current_tweet.tweet_text);
+        var current_tweet = tweet_object_array[i];
+        temp_text.html(current_tweet.text);
         temp_pic.attr('src', current_tweet.user_pic);
+        temp_user_name.html(current_tweet.user_name);
         temp_tweet_date.html(current_tweet.tweet_date);
         temp_div.append(temp_pic, temp_user_name, temp_text);
         var lastPosition = $('.twitter_feed .twitter_card:first-child').position().top;
@@ -198,8 +182,9 @@ function process_twitter_api(response) {
         var new_tweet_obj = {};
         new_tweet_obj.text = t_location[i].text;
         new_tweet_obj.user_pic = t_location[i].user.profile_image_url;
-        new_tweet_obj.user_name = t_location[i].name;
+        new_tweet_obj.user_name = t_location[i].user.screen_name;
         new_tweet_obj.date_created = t_location[i].created_at;
+        console.log('pushing: ' + new_tweet_obj.user_name);
         tweet_array.push(new_tweet_obj);
     }
     console.log(tweet_array);
