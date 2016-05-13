@@ -411,11 +411,18 @@ function twitter_feed_update (twitter_search) {
 }
 
 function nickleback() {
-    apis.youtube.getData('look at this graph', 1, function (success, response) {
+    var loading_spinner = $('<div>').addClass('loader');
+    $('#vine-player').append(loading_spinner);
+    apis.vine.getData('look at this graph', function (success, response) {
         if (success) {
-            vid_id = response.video[0].id;
-            onYouTubePlayerAPIReady();
+            $('.loader').remove();
+            var vid_id = response.vines[0].html;
+            console.log('This is vine vid_id: ',vid_id);
+            $('#vine-player').append(vid_id);
         }
     });
 }
 
+function remove_the_back () {
+    $('#vine-player').html('');
+}

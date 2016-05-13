@@ -318,4 +318,23 @@ body{
     font-size: 50%;
     color: #212121;
 }
+.loader {
+    margin: 25%;
+    border-top: 26px solid cyan;
+    border-right: 26px solid pink;
+    border-bottom: 26px solid cyan;
+    border-left: 26px solid pink;
+    border-radius: 50%;
+    width: 220px;
+    height: 220px;
+    animation: spin 1s linear infinite;
+}
 
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#vine-player {
+    padding-left: 17%;
+}
