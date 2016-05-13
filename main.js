@@ -17,24 +17,41 @@ var artist_pic_src = '';
 var artist_bio = '';
 var artist_disc = '';
 
-var artist1 = [];
+// var artist1 = [];
 var nickleback = [];
+
+
+// Load the IFrame Player API code asynchronously.
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/player_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// Replace the 'ytplayer' element with an <iframe> and
+// YouTube player after the API code downloads.
+var player;
+function onYouTubePlayerAPIReady() {
+    player = new YT.Player('ytplayer', {
+        height: '390',
+        width: '640',
+        videoId: vid_id
+    });
+}
+
 
 //variable for onclick
 var drop = true;
 $(document).ready(function() {
-    apis.youtube.getData('beyonce', 5, function (success, response) {
-        // console.log(success);
+    apis.youtube.getData('single ladies', 5, function (success, response) {
         if (success) {
-            for (var x = 0; x < response.video.length; x++) {
-                artist1.push(response.video[x]);
-                // console.log('response', response);
-
-            }
-            // console.log(artist1)
+            // for (var x = 0; x < response.video.length; x++) {
+            //     artist1.push(response.video[x]);
+            // }
+            vid_id = response.video[0].id;
+            console.log('Response Video: ' , response.video[1].id);
+            onYouTubePlayerAPIReady();
         }
     });
-    
     apis.twitter.getData('beyonce I am... tour',
             function (success, response) {
                 process_twitter_api(response);

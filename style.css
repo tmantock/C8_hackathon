@@ -106,4 +106,8 @@ body{
     height: 90%;
     width: 40%;
 }
-
+#ytplayer {
+    height: 310px;
+    width: 430px;
+    margin-left: 29%;
+}
