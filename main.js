@@ -42,7 +42,8 @@ function onYouTubePlayerAPIReady() {
 //variable for onclick
 var drop = true;
 $(document).ready(function() {
-    apis.youtube.getData('single ladies', 5, function (success, response) {
+    apis.youtube.getData('beyonce single ladies' +
+        '', 5, function (success, response) {
         if (success) {
             // for (var x = 0; x < response.video.length; x++) {
             //     artist1.push(response.video[x]);
