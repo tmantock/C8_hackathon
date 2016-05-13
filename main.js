@@ -23,18 +23,22 @@ var nickleback = [];
 //variable for onclick
 var drop = true;
 $(document).ready(function() {
+
+    $('#myModal').load('map2, pano2');
+    $("#myModal").on("shown.bs.modal", function () {initialize();});
+
+
     apis.youtube.getData('beyonce', 5, function (success, response) {
-        console.log(success);
+        // console.log(success);
         if (success) {
             for (var x = 0; x < response.video.length; x++) {
                 artist1.push(response.video[x]);
-                console.log('response', response);
+                // console.log('response', response);
 
             }
-            console.log(artist1)
+            // console.log(artist1)
         }
     });
-
 });
 
     function dropdown() {
@@ -91,6 +95,25 @@ function page_scroll () {
 }
 
 
+//Create a Process for Twitter's API
+//Input Raw Json from Twitter API
+//Output Array of objects holding the info we need
+//Info needed in each object user_pic  user_name  tweet_text  tweet_date
+function process_twitter_api(response) {
+    var tweet_array = [];
+    var t_location = response.tweets.statuses;
+    for (var i = 0; i < t_location.length ; i++){
+        var new_tweet_obj = {};
+        new_tweet_obj.text = t_location[i].text;
+        new_tweet_obj.user_pic = t_location[i].user.profile_image_url;
+        new_tweet_obj.user_name = t_location[i].name;
+        new_tweet_obj.date_created = t_location[i].created_at;
+        tweet_array.push(new_tweet_obj);
+    }
+    console.log(tweet_array);
+    return tweet_array;
+}
+
     
 //function make_tweet_divs
 //input: array of objects containing information about tweets
@@ -104,9 +127,10 @@ function make_tweet_divs(tweet_object_array){
     var temp_tweet_date = $('<div>').addClass('tweet_date');
     for (var i = 0; i < tweet_object_array.length; i++){
         var current_tweet = tweet_object_array[i];
-        temp_text.html(current_tweet.tweet_text);
+        temp_text.html(current_tweet.text);
         temp_pic.attr('src', current_tweet.user_pic);
-        temp_tweet_date.html(current_tweet.tweet_date);
+        temp_user_name.html(current_tweet.user_name);
+        temp_tweet_date.html(current_tweet.date_created);
         temp_div.append(temp_pic, temp_user_name, temp_text);
         $('.twitter_container').append(temp_div);
     }
@@ -147,7 +171,7 @@ function twitterList (tweet_object_array) {
 //input: string  yt_search, string twitter_search, string venue_name, num lat, num lon
 //output: new tour_date object
 
-function Tour_date(yt_search, twitter_search, venue_name, lat, lon) {
+function Tour_date(yt_search, twitter_search, venue_name, lat, lon){
     this.yt_search = yt_search;
     this.twitter_search = twitter_search;
     this.venue_name = venue_name;
@@ -181,5 +205,27 @@ function process_twitter_api(response) {
     console.log(tweet_array);
     twitterList(tweet_array);
     return tweet_array;
+}
+
+Tour_date.prototype.make_dom_object = function(){
+    var new_tour_date_dom = $('<div>');
+    new_tour_date_dom.addClass('')
+};
+
+function initialize() {
+    var att = {lat: 32.747778, lng: -97.092778 };
+    var map = new google.maps.Map(document.getElementById('map2'), {
+        center: att,
+        zoom: 15
+    });
+    var panorama = new google.maps.StreetViewPanorama(
+        document.getElementById('pano2'), {
+            position: att,
+            pov: {
+                heading: 34,
+                pitch: 10
+            }
+        });
+    map.setStreetView(panorama);
 }
 
