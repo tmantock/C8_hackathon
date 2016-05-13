@@ -5,20 +5,31 @@
 **dropdown () - Function to create a dropdown list for main page
  */
 
-//These globals will be used inside update_content to insert content into the page.
-//They are updated every time a tour_date object is clicked
+//Global Variables used to update content to respond to user choices.
+//The choices that change these variables are:
+//----Choosing a new venue
+//----Choosing a new artist
+
 var drop = true;
 var yt_search_str = '';
 var twitter_search_str = '';
-var venue_name = '';
 var google_lat = 0;
 var google_lon = 0;
 var artist_pic_src = '';
 var artist_bio = '';
 var artist_disc = '';
 
-// var artist1 = [];
-var nickleback = [];
+//Global variables to store information about artists
+
+var global_tour_dates = [];
+
+$('.artist_list').on('keydown', function (event){
+    var keycode = event.which;
+    var key = keycode.keyCode;
+    if (key == 13) {
+        video_search
+    }
+});
 
 $(document).ready(function() {
     $('#myModal').load('map2, pano2');
@@ -26,6 +37,9 @@ $(document).ready(function() {
 
 });
 
+//function dropdown:
+//input: none
+//output: creates a dropdown search bar underneath the main landing div
 function dropdown() {
     if (drop == true) {
         var welcome_position = $('.landing_welcome').position().top;
@@ -40,25 +54,21 @@ function dropdown() {
                 left: '45%',
                 transform: 'translate(-45%,-45%)'
             }).addClass('drop_animate');
-            var drop_text = $('<h1>').text('Beyonce').css({
-                textAlign: 'center',
-                position: 'relative',
-                top: '25%',
-                transform: 'translateY(-45%)',
-                visibility: 'hidden',
-                cursor: 'default'
-            }).addClass('artist_list').on('click', video_load);
+            var drop_text = $('<input>').addClass('artist_list').attr('onkeydown','page_scroll(event)');
             $(drop_div).append(drop_text);
             $('.landing_container').append(drop_div);
         
             $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
-                $('.artist_list').attr('onclick','page_scroll()').css('visibility', 'visible');
             });
         drop = false;
     }
 }
 
-function page_scroll () {
+function page_scroll (event) {
+    var key = event.which;
+    if(key == 13) {
+        video_search($('.artist_list').val());
+        populate_tour($('.artist_list').val());
     var xposition = $('#home_page').position().top;
     var xHeight = $('#home_page').height();
 
@@ -74,6 +84,7 @@ function page_scroll () {
             });
         speaker ();
     });
+    }
 }
 
 //Create a Process for Twitter's API
@@ -96,6 +107,9 @@ function process_twitter_api(response) {
     return tweet_array;
 }
 
+//function twitterList
+//input: array of tweet objects containing information to build a tweet div
+//output: The twitter feed on the right of the page is populated with tweets
 function twitterList (tweet_object_array) {
     var temp_div = $('<div>').addClass('twitter_card');
     var temp_text = $('<div>').addClass('tweet_text');
@@ -132,31 +146,73 @@ function twitterList (tweet_object_array) {
 }
 
 //tour_date_object constructor
-//input: string  yt_search, string twitter_search, string venue_name, num lat, num lon
-//output: new tour_date object
+//input: date object
+//output: new tour_date object and corresponding DOM elements in carousel
 
-
-function Tour_date(yt_search, twitter_search, venue_name, lat, lon){
-
-    this.yt_search = yt_search;
-    this.twitter_search = twitter_search;
-    this.venue_name = venue_name;
-    this.lat = lat;
-    this.lon = lon;
+function Tour_date(date_object, first, id){
+    console.log('constructing new object');
+    b = date_object;
+    this.event_date = b.event_date
+    this.venue_city = b.venue_city;
+    this.venue_name = b.venue_name;
+    this.lat = b.venue_lat_lon.lat;
+    this.lon = b.venue_lat_lon.lon;
+    this.make_dom_object(first, id);
 }
-
+//update_globals function
+//input: none
+//output: Updates global google long/lat values based off of the properties of the Tour_date object
 Tour_date.prototype.update_globals = function(){
-    yt_search_str = this.yt_search;
-    twitter_search_str = this.twitter_search;
-    venue_name = this.venue_name;
     google_lat = this.lat;
     google_lon = this.lon;
 };
 
-Tour_date.prototype.make_dom_object = function(){
-    var new_tour_date_dom = $('<div>');
-    new_tour_date_dom.addClass('')
+//input: none
+//output: A DOM element with class item and class tour_date for the carousel
+Tour_date.prototype.make_dom_object = function(first, id){
+    var tour_date_dom = $('<div>').addClass('item');
+    tour_date_dom.addClass('tour_date');
+    if (first){
+        tour_date_dom.addClass('active');
+    }
+    tour_date_dom.attr('data-id', ''+id);
+    var date = $('<div>');
+    date.html(this.event_date);
+    tour_date_dom.html(this.venue_city);
+    $('#myCarousel .carousel-inner').append(tour_date_dom);
+    console.log('appending dom to carousel');
 };
+
+//input: none
+//output: an empty carousel in the main page
+function clear_carousel(){
+    $('#myCarousel.carousel.slide .carousel-indicators').children().remove();
+    $('#myCarousel .carousel-inner').children().remove();
+    console.log('clear carousel?');
+}
+
+//input: List of date objects
+//output: Carousel is populated with an arbitrary number of tour_date divs dynamically generated from bandsintown API
+
+function populate_carousel(event_list){
+    clear_carousel();
+    console.log(event_list)
+    var a = event_list;
+    var first = true;
+    for (var i = 0; i < a.length; i++){
+        var b = $('<li>').attr('data-target', '#myCarousel');
+        var c = new Tour_date(a[i], first);
+        if (first == true){
+            first = false;
+        }
+        b.attr('data-slide-to', ''+i);
+        $('#myCarousel .carousel-indicators').append(b);
+    }
+    console.log('carousel populated?')
+}
+
+//input: none
+//output: google modal populated with content based off of the current venue
 
 function initialize() {
     var att = {lat: 32.747778, lng: -97.092778 };
@@ -174,14 +230,29 @@ function initialize() {
         });
     map.setStreetView(panorama);
 }
-function video_load () {
-    apis.youtube.getData('single ladies', 5, function (success, response) {
-        if (success) {
-            vid_id = response.video[0].id;
-            console.log('Response Video: ', response.video[1].id);
-            onYouTubePlayerAPIReady();
-        }
+
+//input: artist_name, string containing the name of the artist that we are going to load content for
+//output: the global array global_tour_dates is full of events based off of the artist that was searched for
+
+function populate_tour(artist_name){
+    global_tour_dates = [];
+    $.getJSON("http://api.bandsintown.com/artists/" + artist_name + "/events.json?callback=?&app_id=LF_HACKATHON&date=2010-01-01,2016-01-01", function(result) {
+        console.log("if successful: " , result);
+        $.each(result, function(key, value){
+            if(result[key].venue.region == 'CA'){//only target events taking place in california
+                var a = result[key];
+                var temp_obj = {};
+                temp_obj.event_date = a.datetime;
+                temp_obj.venue_name = a.venue.name;
+                temp_obj.venue_city = a.venue.city;
+                temp_obj.venue_lat_lon = {lat: a.venue.latitude, lon:a.venue.longitute};
+                console.log ('key: ' + key + ', info:', temp_obj);
+                global_tour_dates.push(temp_obj);
+            }
+        });
+        populate_carousel(global_tour_dates);
     });
+    console.log("Tour populated");
 }
 
 // Load the IFrame Player API code asynchronously.
@@ -201,7 +272,19 @@ function onYouTubePlayerAPIReady() {
     });
 }
 
-//Function for creating the speaker grills beside the youtube video
+//Function to switch the youtube video
+function video_search(YT_search) {
+    apis.youtube.getData(YT_search, 5, function (success, response) {
+        if (success) {
+            vid_id = response.video[0].id;
+            console.log('Response Video: ', response.video[0].id);
+            onYouTubePlayerAPIReady();
+        }
+    });
+}
+//function speaker
+//input: none
+//output: created the speaker grills beside the youtube video
 function speaker () {
     var speaker_position = $('.speaker_hole').position().top;
     var speaker_div = $('<div>').addClass('speaker_hole speaker_animate');
@@ -244,6 +327,9 @@ function ramrod () {
     setTimeout(ramrod, 75);
 }
 
+//function ramrod_leave
+//input: none
+//output: shrinks the ramrod entertainment logo back to its minified form
 function ramrod_leave () {
     $('.text_one,.text_two,.text_three').html('');
     ra = 0;

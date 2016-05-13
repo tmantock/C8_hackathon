@@ -31,7 +31,9 @@ body{
     background-repeat: no-repeat;
     background-position: center center;
 }
-
+.landing_welcome > h1 {
+    cursor: default;
+}
 #main_page {
     background-size: cover;
     background-repeat: no-repeat;
@@ -229,12 +231,16 @@ body{
     background: #212121;
 }
 
-.nav_hide {
-    display: none !important;
+.artist_list {
+    text-align: center;
+    position: relative;
+    top: 46%;
+    border: none;
+    height: 100%;
+    width: 100%;
+    font-size: 36px;
+    background: none;
+    transform: translateY(-45%);
+    visibility: visible;
 }
-
-.nav_show {
-    opacity: 100;
-}
-
 
