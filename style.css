@@ -17,6 +17,7 @@ body{
 
 .nav.navbar-nav.navbar-right {
     margin-right: 5%;
+    float: right;
 }
 
 .landing_container {
@@ -33,6 +34,7 @@ body{
 }
 .landing_welcome > h1 {
     cursor: default;
+    font-size: 2em;
 }
 #main_page {
     top: 7%;
@@ -152,17 +154,18 @@ body{
 .twitter_card {
     position: absolute;
     background: #FAFAFA;
-    height: 30%;
+    height: 40%;
     width: 90%;
     left: 45%;
     transform: translateX(-45%);
-    box-shadow: 10px 10px 5px #888888;;
+    box-shadow: 10px 10px 5px #888888;
+    overflow: hidden;
 }
 
 .tweet_text {
     width: 90%;
     height: 40%;
-    font-size: 1.3em;
+    font-size: 1em;
     color: black;
     margin: 10% 0 5% 3%;
 }
@@ -349,4 +352,10 @@ body{
     display: inline-block;
     margin-left: 20%;
 
+}
+
+@media screen and (max-width: 375px) {
+    .landing_welcome > h1 {
+        display: none;
+    }
 }
