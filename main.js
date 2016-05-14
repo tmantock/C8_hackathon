@@ -474,7 +474,6 @@ function nickleback() {
         if (success) {
             $('.loader').remove();
             var vid_id = response.vines[0].html;
-            console.log('This is vine vid_id: ',vid_id);
             $('#vine-player').append(vid_id);
         }
     });
@@ -482,4 +481,19 @@ function nickleback() {
 
 function remove_the_back () {
     $('#vine-player').html('');
+}
+
+function rick_roll () {
+    apis.flickr.getData("grumpy cat", 5, function (success,response) {
+       if (success) {
+           var pic_id = response.urls[4];
+           var pic_to_append = $('<img>').attr('src',pic_id);
+           $('#rick_roll').append(pic_to_append);
+           console.log(pic_id);
+       }
+    })
+}
+
+function remove_the_grump () {
+    $('#rick_roll').html('');
 }
