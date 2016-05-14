@@ -2,7 +2,6 @@
  * Created by Mantock on 5/12/16.
  */
 /*
-**dropdown () - Function to create a dropdown list for main page
  */
 
 //Global Variables used to update content to respond to user choices.
@@ -21,9 +20,6 @@ var artist_bio = '';
 var artist_disc = '';
 var youtube_array = [];
 var vid_index = 0;
-
-//Global variables to store information about artists
-
 var global_tour_dates = [];
 
 $('.artist_list').on('keydown', function (event){
