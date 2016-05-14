@@ -314,7 +314,7 @@ function empty_carousel(){
     var c = $('<div>').addClass('item');
     c.addClass('tour_div');
     c.addClass('active');
-    c.html('Who?');
+    c.html('Who? \n No artist found.');
     c.css('text-align', 'center');
     $('.carousel-inner').append(c);
 }
