@@ -41,14 +41,13 @@ $(document).ready(function() {
     $('#myCarousel').on('click', '.tour_date', function(){
         tour_date_click(this);
     });
-    $( '#speaker_right').on('click', function(){
+   /* $( '#speaker_right').on('click','.next_vid', function(){
         console.log('BRUH');
         next_video();
-    });
-
-    $('#speaker_left').on('click', function(){
+    }); */
+   /* $('#speaker_left').on('click', function(){
         prev_video();
-    });
+    }); */
     
   
 
@@ -363,7 +362,7 @@ function speaker () {
     var second_speaker_position;
     var large_speaker;
     var backward = $('<span>').addClass('glyphicon glyphicon-step-backward speaker_glyph prev_vid');
-    var forward = $('<span>').addClass('glyphicon glyphicon-step-forward speaker_glyph');
+    var forward = $('<span>').addClass('glyphicon glyphicon-step-forward speaker_glyph next_vid');
 
     $('.speaker_animate').animate({top: speaker_position + 250 + 'px'},1000, function () {
         $('#speaker_left .speaker_animate').append(backward);
@@ -371,10 +370,17 @@ function speaker () {
     });
     setTimeout(function () {
         second_speaker_position = $('.speaker_animate').position().top;
-        large_speaker = $('<div>').addClass('speaker_hole speaker_grow next_vid');
+        large_speaker = $('<div>').addClass('speaker_hole speaker_grow ');
         $('.speaker').append(large_speaker.css('top', second_speaker_position));
         $('.speaker_grow').animate({top: '-=25', height: '+=50', width: '+=50'},500);
     },1000);
+    $( '#speaker_right').on('click','.next_vid', function(){
+        console.log('BRUH');
+        next_video();
+    });
+    $('#speaker_left').on('click','.prev_vid', function(){
+        prev_video();
+    });
 }
 
 var ra = 0;
