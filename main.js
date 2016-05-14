@@ -236,7 +236,7 @@ function clear_carousel(){
 
 function populate_carousel(event_list){
     clear_carousel();
-    console.log(event_list)
+    console.log(event_list);
     var a = event_list;
     var first = true;
     for (var i = 0; i < a.length; i++){
@@ -283,24 +283,40 @@ function initialize() {
 //output: the global array global_tour_dates is full of events based off of the artist that was searched for
 
 function populate_tour(artist_name){
+    var no_events = false;
     global_tour_dates = [];
     $.getJSON("http://api.bandsintown.com/artists/" + artist_name + "/events.json?callback=?&app_id=LF_HACKATHON&date=2010-01-01,2016-01-01", function(result) {
-        console.log("if successful: " , result);
-        $.each(result, function(key, value){
-            if(result[key].venue.region == 'CA'){//only target events taking place in california
-                var a = result[key];
-                var temp_obj = {};
-                temp_obj.event_date = a.datetime;
-                temp_obj.venue_name = a.venue.name;
-                temp_obj.venue_city = a.venue.city;
-                temp_obj.venue_lat_lon = {lat: a.venue.latitude, lon:a.venue.longitude};
-                console.log ('key: ' + key + ', info:', temp_obj);
-                global_tour_dates.push(temp_obj);
-            }
+            $.each(result, function(key, value){
+                if(key == 'errors'){
+                    empty_carousel();
+                    no_events=true;
+                    return;
+                }
+                if(result[key].venue.region == 'CA'){//only target events taking place in california
+                    var a = result[key];
+                    var temp_obj = {};
+                    temp_obj.event_date = a.datetime;
+                    temp_obj.venue_name = a.venue.name;
+                    temp_obj.venue_city = a.venue.city;
+                    temp_obj.venue_lat_lon = {lat: a.venue.latitude, lon:a.venue.longitude};
+                    console.log ('key: ' + key + ', info:', temp_obj);
+                    global_tour_dates.push(temp_obj);
+                }
+            });
+        if(no_events){return;}
+            populate_carousel(global_tour_dates);
         });
-        populate_carousel(global_tour_dates);
-    });
-    console.log("Tour populated");
+        console.log("Tour populated");
+}
+function empty_carousel(){
+    clear_carousel();
+    console.log('no events found');
+    var c = $('<div>').addClass('item');
+    c.addClass('tour_div');
+    c.addClass('active');
+    c.html('Who? \n No artist found.');
+    c.css('text-align', 'center');
+    $('.carousel-inner').append(c);
 }
 
 // Load the IFrame Player API code asynchronously.
@@ -497,3 +513,4 @@ function rick_roll () {
 function remove_the_grump () {
     $('#rick_roll').html('');
 }
+
