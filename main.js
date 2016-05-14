@@ -41,14 +41,13 @@ $(document).ready(function() {
     $('#myCarousel').on('click', '.tour_date', function(){
         tour_date_click(this);
     });
-    $( '#speaker_right').on('click', function(){
+   /* $( '#speaker_right').on('click','.next_vid', function(){
         console.log('BRUH');
         next_video();
-    });
-
-    $('#speaker_left').on('click', function(){
+    }); */
+   /* $('#speaker_left').on('click', function(){
         prev_video();
-    });
+    }); */
     
   
 
@@ -94,9 +93,9 @@ function dropdown() {
         drop = false;
     }
 }
-
+//function page_scroll
 //input: click event
-//output: dropdown menu is created
+//output: dropdown search_bar is created
 function page_scroll (event) {
     var key = event.which;
     if(key == 13) {
@@ -236,7 +235,7 @@ function clear_carousel(){
 
 function populate_carousel(event_list){
     clear_carousel();
-    console.log(event_list)
+    console.log(event_list);
     var a = event_list;
     var first = true;
     for (var i = 0; i < a.length; i++){
@@ -283,24 +282,40 @@ function initialize() {
 //output: the global array global_tour_dates is full of events based off of the artist that was searched for
 
 function populate_tour(artist_name){
+    var no_events = false;
     global_tour_dates = [];
     $.getJSON("http://api.bandsintown.com/artists/" + artist_name + "/events.json?callback=?&app_id=LF_HACKATHON&date=2010-01-01,2016-01-01", function(result) {
-        console.log("if successful: " , result);
-        $.each(result, function(key, value){
-            if(result[key].venue.region == 'CA'){//only target events taking place in california
-                var a = result[key];
-                var temp_obj = {};
-                temp_obj.event_date = a.datetime;
-                temp_obj.venue_name = a.venue.name;
-                temp_obj.venue_city = a.venue.city;
-                temp_obj.venue_lat_lon = {lat: a.venue.latitude, lon:a.venue.longitude};
-                console.log ('key: ' + key + ', info:', temp_obj);
-                global_tour_dates.push(temp_obj);
-            }
+            $.each(result, function(key, value){
+                if(key == 'errors'){
+                    empty_carousel();
+                    no_events=true;
+                    return;
+                }
+                if(result[key].venue.region == 'CA'){//only target events taking place in california
+                    var a = result[key];
+                    var temp_obj = {};
+                    temp_obj.event_date = a.datetime;
+                    temp_obj.venue_name = a.venue.name;
+                    temp_obj.venue_city = a.venue.city;
+                    temp_obj.venue_lat_lon = {lat: a.venue.latitude, lon:a.venue.longitude};
+                    console.log ('key: ' + key + ', info:', temp_obj);
+                    global_tour_dates.push(temp_obj);
+                }
+            });
+        if(no_events){return;}
+            populate_carousel(global_tour_dates);
         });
-        populate_carousel(global_tour_dates);
-    });
-    console.log("Tour populated");
+        console.log("Tour populated");
+}
+function empty_carousel(){
+    clear_carousel();
+    console.log('no events found');
+    var c = $('<div>').addClass('item');
+    c.addClass('tour_div');
+    c.addClass('active');
+    c.html('Who? \n No artist found.');
+    c.css('text-align', 'center');
+    $('.carousel-inner').append(c);
 }
 
 // Load the IFrame Player API code asynchronously.
@@ -323,7 +338,8 @@ function onYouTubePlayerAPIReady() {
 }
 
 
-//Function to switch the youtube video
+//Function video_search
+//input: YT_search string
 function video_search(YT_search) {
     apis.youtube.getData(YT_search, 5, function (success, response) {
         if (success) {
@@ -332,7 +348,6 @@ function video_search(YT_search) {
             console.log('Response Video: ', response.video[0].id);
             youtube(response);
             var temp_array = youtube_array;
-            
             onYouTubePlayerAPIReady();
         }
     });
@@ -347,7 +362,7 @@ function speaker () {
     var second_speaker_position;
     var large_speaker;
     var backward = $('<span>').addClass('glyphicon glyphicon-step-backward speaker_glyph prev_vid');
-    var forward = $('<span>').addClass('glyphicon glyphicon-step-forward speaker_glyph');
+    var forward = $('<span>').addClass('glyphicon glyphicon-step-forward speaker_glyph next_vid');
 
     $('.speaker_animate').animate({top: speaker_position + 150 + 'px'},1000, function () {
         $('#speaker_left .speaker_animate').append(backward);
@@ -355,16 +370,25 @@ function speaker () {
     });
     setTimeout(function () {
         second_speaker_position = $('.speaker_animate').position().top;
-        large_speaker = $('<div>').addClass('speaker_hole speaker_grow next_vid');
+        large_speaker = $('<div>').addClass('speaker_hole speaker_grow ');
         $('.speaker').append(large_speaker.css('top', second_speaker_position));
         $('.speaker_grow').animate({top: '-=25', height: '+=50', width: '+=50'},500);
     },1000);
+    $( '#speaker_right').on('click','.next_vid', function(){
+        console.log('BRUH');
+        next_video();
+    });
+    $('#speaker_left').on('click','.prev_vid', function(){
+        prev_video();
+    });
 }
 
 var ra = 0;
 var rd = 0;
 var et = 0;
 
+//input: none
+//output: really? I have to tell you?
 function ramrod () {
     var ram = 'am';
     var rod = 'od';
@@ -398,9 +422,9 @@ function ramrod_leave () {
     et = 0;
 }
 
-
+//input: response from the youtube API call
+//output: global array youtube_array is loaded with information for all the videos in response
 function youtube(response){
-    
     var tube = response.video;
     for (var x = 0; x < tube.length; x++){
         var youtube_obj = {};
@@ -410,9 +434,10 @@ function youtube(response){
     }
     console.log("My Youtube array", youtube_array);
     return youtube_array;
-    
 }
 
+//input: none
+//output: the main_content page animates outside and becomes hidden. All dynamic content is cleared.
 function home_slide () {
     var mainHeight = $('#main_page').height();
     $('#main_page').animate({top:mainHeight + 'px'},1500);
@@ -426,6 +451,9 @@ function home_slide () {
     $('.youtube').append(new_youtube);
 }
 
+//function twitter_feed_update
+//input: twitter_search string
+//output: calls process_twitter_api() to populate the twitter feed on the right side. calls speaker() to animate the speakers
 function twitter_feed_update (twitter_search) {
     apis.twitter.getData(twitter_search,
         function (success, response) {
@@ -437,7 +465,9 @@ function twitter_feed_update (twitter_search) {
     speaker ();
 }
 
-
+//function next_video
+//input: none
+//output: Moves to the next video in the array of videos pulled from the YT api, if possible.
 function next_video (){
     if(vid_index === youtube_array.length-1){
         return;
@@ -453,6 +483,9 @@ function next_video (){
     } 
 }
 
+//function prev_video
+//input: none
+//output: Moves to the previous video in the array of videos pulled from the YT api, if possible.
 function prev_video (){
     if(vid_index === 0) {
         return;
@@ -467,6 +500,9 @@ function prev_video (){
     }
 }
 
+//function nickleback()
+//input: Despair
+//output: more despair (nickleback video plays in modal)
 function nickleback() {
     var loading_spinner = $('<div>').addClass('loader');
     $('#vine-player').append(loading_spinner);
@@ -474,12 +510,34 @@ function nickleback() {
         if (success) {
             $('.loader').remove();
             var vid_id = response.vines[0].html;
-            console.log('This is vine vid_id: ',vid_id);
             $('#vine-player').append(vid_id);
         }
     });
 }
-
+//function remove_the_back()
+//input: Hope
+//output: Life (nickleback is removed)
 function remove_the_back () {
     $('#vine-player').html('');
 }
+
+
+//input: none
+//output: a grumpy cat
+function rick_roll () {
+    apis.flickr.getData("grumpy cat", 5, function (success,response) {
+       if (success) {
+           var pic_id = response.urls[4];
+           var pic_to_append = $('<img>').attr('src',pic_id);
+           $('#rick_roll').append(pic_to_append);
+           console.log(pic_id);
+       }
+    })
+}
+
+//input: none
+//output: grumpy cat is gone;
+function remove_the_grump () {
+    $('#rick_roll').html('');
+}
+
