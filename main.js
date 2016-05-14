@@ -349,7 +349,7 @@ function speaker () {
     var backward = $('<span>').addClass('glyphicon glyphicon-step-backward speaker_glyph prev_vid');
     var forward = $('<span>').addClass('glyphicon glyphicon-step-forward speaker_glyph');
 
-    $('.speaker_animate').animate({top: speaker_position + 250 + 'px'},1000, function () {
+    $('.speaker_animate').animate({top: speaker_position + 150 + 'px'},1000, function () {
         $('#speaker_left .speaker_animate').append(backward);
         $('#speaker_right .speaker_animate').append(forward);
     });

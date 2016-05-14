@@ -32,8 +32,6 @@
             <div class = "nav-list">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a onclick = "home_slide()">Search</a></li>
-                    <li><a onclick = "movedown()">Moments</a></li>
-                    <li><a href="#">Explore</a></li>
                 </ul>
             </div>
         </div>
@@ -42,27 +40,27 @@
         <div class = 'landing_welcome' onclick="dropdown()"><h1>Choose Your Experience</h1></div>
     </div>
     <div id = 'main_page' class = 'landing_container'>
-        <div class = 'music_content col-md-10'>
+        <div class = 'music_content col-md-10 col-sm-12'>
 
             <div class="youtube_container">
 
-                <div id = 'speaker_left' class="col-lg-1 col-md-1 speaker">
+                <div id = 'speaker_left' class="col-lg-1 col-md-1 hidden-xs hidden-sm speaker">
                     <div class = 'speaker_hole'></div>
                 </div>
-                <div class="col-lg-10 col-md-10 youtube"><div id="ytplayer"></div><p>Youtube</p></div>
-                <div id = 'speaker_right' class="col-lg-1 col-md-1 speaker">
+                <div class="col-lg-10 col-md-10 col-sm-12 youtube"><div id="ytplayer"></div></div>
+                <div id = 'speaker_right' class="col-lg-1 col-md-1 hidden-xs hidden-sm speaker">
                     <div class = 'speaker_hole'></div>
                 </div>
             </div>
             <div class = 'btn-group btn-group-justified btn-group-raised modal_button_container'>
-                <a  href = 'javascript:void(0)' class = 'btn ' data-toggle="modal" data-target=".bs-example-modal-lg" >Tour Information
+                <a  href = 'javascript:void(0)' class = 'btn ' data-toggle="modal" data-target=".bs-example-modal-lg" >Tour
                     <div class = 'ripple-container'></div>
                 </a>
-                <a href = 'javascript:void(0)' class = 'btn ' onclick="nickleback()" data-toggle="modal" data-target=".bs-example-modal-lg">Artist Information
+                <a href = 'javascript:void(0)' class = 'btn ' onclick="nickleback()" data-toggle="modal" data-target=".bs-example-modal-lg">Artist
                     <div class = 'ripple-container'></div>
                 </a>
 
-                <a href = 'javascript:void(0)' class = 'btn ' data-toggle="modal" data-target="#myModal" onclick="load_google()">Venue Information
+                <a href = 'javascript:void(0)' class = 'btn ' data-toggle="modal" data-target="#myModal" onclick="load_google()">Venue
                     <div class = 'ripple-container'></div>
                 </a>
             </div>
@@ -107,7 +105,7 @@
                 </div>
             </div>
         </div>
-        <div class = 'twitter_feed col-md-2'></div>
+        <div class = 'twitter_feed col-md-2 hidden-xs'></div>
     </div>
 
     <!--Modal Start-->
