@@ -99,17 +99,17 @@ function dropdown() {
 function page_scroll (event) {
     var key = event.which;
     if(key == 13) {
-        setTimeout(function () {
-        video_search($('.artist_list').val());
-        },1000);
         populate_tour($('.artist_list').val());
-        twitter_feed_update($('.artist_list').val());
+        setTimeout(function () {
+            video_search($('.artist_list').val());
+        },1500);
     var xposition = $('#home_page').position().top;
     var xHeight = $('#home_page').height();
 
 
     $('.drop_animate').toggle('slow');
     $('#main_page').animate({top:(-1*xHeight) + 'px'},900, function() {
+        twitter_feed_update($('.artist_list').val());
     })
     }
 
@@ -156,7 +156,7 @@ function twitterList (tweet_object_array) {
     console.log(tweet_object_array[0]);
     temp_user_name.html('@' + current_tweet.user_name);
     temp_tweet_date.html(current_tweet.date_created);
-    temp_div.append(temp_pic, temp_user_name, tweet_icon, temp_text);
+    temp_div.append(temp_pic, temp_user_name, temp_text, tweet_icon);
     $('.twitter_feed').append(temp_div);
     var counter = 1;
 
@@ -172,7 +172,7 @@ function twitterList (tweet_object_array) {
         temp_pic.attr('src', current_tweet.user_pic);
         temp_user_name.html('@' + current_tweet.user_name);
         temp_tweet_date.html(current_tweet.date_created);
-        temp_div.append(temp_pic, temp_user_name, tweet_icon, temp_text);
+        temp_div.append(temp_pic, temp_user_name, temp_text, tweet_icon);
         var lastPosition = $('.twitter_feed .twitter_card:first-child').position().top;
         var lastHeight = $('.twitter_feed .twitter_card:first-child').height();
         $('.twitter_feed').append(temp_div.attr('data-count',counter).css({top: lastPosition + 15}));
