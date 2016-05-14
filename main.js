@@ -521,6 +521,9 @@ function remove_the_back () {
     $('#vine-player').html('');
 }
 
+
+//input: none
+//output: a grumpy cat
 function rick_roll () {
     apis.flickr.getData("grumpy cat", 5, function (success,response) {
        if (success) {
@@ -532,6 +535,8 @@ function rick_roll () {
     })
 }
 
+//input: none
+//output: grumpy cat is gone;
 function remove_the_grump () {
     $('#rick_roll').html('');
 }
