@@ -59,10 +59,10 @@ $(document).ready(function() {
 function tour_date_click(clicked_element){
     // clicked_element = this;
     var a = clicked_element;
-    var b = global_tour_dates[Number($(a).attr('data-id'))];
-    google_lat = b.venue_lat_lon.lat;
-    google_lon = b.venue_lat_lon.lon;
-    venue_name = b.venue_name;
+    var temp_venue = global_tour_dates[Number($(a).attr('data-id'))];
+    google_lat = temp_venue.venue_lat_lon.lat;
+    google_lon = temp_venue.venue_lat_lon.lon;
+    venue_name = temp_venue.venue_name;
     $('#myModal .modal-dialog .modal-content .modal-header .modal-title').html(venue_name);
     initialize();
     //here is where we should update the google modal
@@ -186,12 +186,12 @@ function twitterList (tweet_object_array) {
 
 function Tour_date(date_object, first, id){
     console.log('constructing new object');
-    b = date_object;
-    this.event_date = b.event_date;
-    this.venue_city = b.venue_city;
-    this.venue_name = b.venue_name;
-    this.lat = b.venue_lat_lon.lat;
-    this.lon = b.venue_lat_lon.lon;
+    date_object;
+    this.event_date = date_object.event_date;
+    this.venue_city = date_object.city;
+    this.venue_name = date_object.name;
+    this.lat = date_object.lat_lon.lat;
+    this.lon = date_object.lat_lon.lon;
     this.make_dom_object(first, id);
 }
 //update_globals function
@@ -231,30 +231,30 @@ function clear_carousel(){
 }
 
 //input: List of date objects
-//output: Carousel is populated with an arbitrary number of tour_date divs dynamically generated from bandsintown API
-
+//output: Carousel is populated with tour_date divs generated from bandsintown API
 function populate_carousel(event_list){
     clear_carousel();
     console.log(event_list);
-    var a = event_list;
     var first = true;
-    for (var i = 0; i < a.length; i++){
-        var b = $('<li>').attr('data-target', '#myCarousel');
-        var c = new Tour_date(a[i], first, i);
+    for (var i = 0; i < event_list.length; i++){
+        var new_indicator = $('<li>').attr('data-target', '#myCarousel');
+        new Tour_date(event_list[i], first, i);
         if (first == true){
             first = false;
         }
-        b.attr('data-slide-to', ''+i);
-        $('#myCarousel .carousel-indicators').append(b);
+        new_indicator.attr('data-slide-to', ''+i);
+        $('#myCarousel .carousel-indicators').append(new_indicator);
     }
-    console.log('carousel populated?')
 }
 
+
+//input: none, triggered when clicking the venue information button
+//output: Loads information about the currently displayed venue for gmaps and street view
 function load_google(){
-    var b = global_tour_dates[$('.item.active').attr('data-id')];
-    google_lat = b.venue_lat_lon.lat;
-    google_lon = b.venue_lat_lon.lon;
-    venue_name = b.venue_name;
+    var current_venue = global_tour_dates[$('.item.active').attr('data-id')];
+    google_lat = current_venue.lat_lon.lat;
+    google_lon = current_venue.lat_lon.lon;
+    venue_name = current_venue.name;
     $('#myModal .modal-dialog .modal-content .modal-header .modal-title').html(venue_name);
     initialize();
 }
@@ -282,40 +282,40 @@ function initialize() {
 //output: the global array global_tour_dates is full of events based off of the artist that was searched for
 
 function populate_tour(artist_name){
-    var no_events = false;
+    var no_artist = false;
     global_tour_dates = [];
     $.getJSON("http://api.bandsintown.com/artists/" + artist_name + "/events.json?callback=?&app_id=LF_HACKATHON&date=2010-01-01,2016-01-01", function(result) {
             $.each(result, function(key, value){
                 if(key == 'errors'){
-                    empty_carousel();
-                    no_events=true;
+                    no_artist_carousel();
+                    no_artist=true;
                     return;
                 }
                 if(result[key].venue.region == 'CA'){//only target events taking place in california
-                    var a = result[key];
-                    var temp_obj = {};
-                    temp_obj.event_date = a.datetime;
-                    temp_obj.venue_name = a.venue.name;
-                    temp_obj.venue_city = a.venue.city;
-                    temp_obj.venue_lat_lon = {lat: a.venue.latitude, lon:a.venue.longitude};
-                    console.log ('key: ' + key + ', info:', temp_obj);
-                    global_tour_dates.push(temp_obj);
+                    var temp_venue_info = result[key];
+                    var temp_venue = {};
+                    temp_venue.event_date = temp_venue_info.datetime;
+                    temp_venue.name = temp_venue_info.venue.name;
+                    temp_venue.city = temp_venue_info.venue.city;
+                    temp_venue.lat_lon = {lat: temp_venue_info.venue.latitude, lon:temp_venue_info.venue.longitude};
+                    console.log ('key: ' + key + ', info:', temp_venue);
+                    global_tour_dates.push(temp_venue);
                 }
             });
-        if(no_events){return;}
+        if(no_artist){return;}
             populate_carousel(global_tour_dates);
         });
         console.log("Tour populated");
 }
-function empty_carousel(){
+function no_artist_carousel(){
     clear_carousel();
     console.log('no events found');
-    var c = $('<div>').addClass('item');
-    c.addClass('tour_div');
-    c.addClass('active');
-    c.html('Who? \n No artist found.');
-    c.css('text-align', 'center');
-    $('.carousel-inner').append(c);
+    var no_artist_div = $('<div>').addClass('item');
+    no_artist_div.addClass('tour_div');
+    no_artist_div.addClass('active');
+    no_artist_div.html('Who? <br> (No artist found.)');
+    no_artist_div.css('text-align', 'center');
+    $('.carousel-inner').append(no_artist_div);
 }
 
 // Load the IFrame Player API code asynchronously.
@@ -326,7 +326,6 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // Replace the 'ytplayer' element with an <iframe> and
 // YouTube player after the API code downloads.
-
 var player;
 function onYouTubePlayerAPIReady() {
     player = new YT.Player('ytplayer', {
@@ -340,21 +339,20 @@ function onYouTubePlayerAPIReady() {
 
 //Function video_search
 //input: YT_search string
+//output: Loads youtube videos using the search string. Initializes the YT player and
 function video_search(YT_search) {
     apis.youtube.getData(YT_search, 5, function (success, response) {
         if (success) {
             console.log(response);
             vid_id = response.video[vid_index].id;
-            console.log('Response Video: ', response.video[0].id);
-            youtube(response);
-            var temp_array = youtube_array;
+            populate_youtube_array(response);
             onYouTubePlayerAPIReady();
         }
     });
 }
 //function speaker
 //input: none
-//output: created the speaker grills beside the youtube video
+//output: creates the speaker grills beside the youtube video
 function speaker () {
     var speaker_position = $('.speaker_hole').position().top;
     var speaker_div = $('<div>').addClass('speaker_hole speaker_animate');
@@ -375,7 +373,6 @@ function speaker () {
         $('.speaker_grow').animate({top: '-=25', height: '+=50', width: '+=50'},500);
     },1000);
     $( '#speaker_right').on('click','.next_vid', function(){
-        console.log('BRUH');
         next_video();
     });
     $('#speaker_left').on('click','.prev_vid', function(){
@@ -387,8 +384,8 @@ var ra = 0;
 var rd = 0;
 var et = 0;
 
-//input: none
-//output: really? I have to tell you?
+//input: none, triggered when the user hovers over the RRE logo in the top left
+//output: Expands the logo to display the full name of the team.
 function ramrod () {
     var ram = 'am';
     var rod = 'od';
@@ -413,8 +410,8 @@ function ramrod () {
 }
 
 //function ramrod_leave
-//input: none
-//output: shrinks the ramrod entertainment logo back to its minified form
+//input: none, triggers when the user moves the cursor off the navbar
+//output: shrinks the team name back down to RRE
 function ramrod_leave () {
     $('.text_one,.text_two,.text_three').html('');
     ra = 0;
@@ -422,9 +419,9 @@ function ramrod_leave () {
     et = 0;
 }
 
-//input: response from the youtube API call
-//output: global array youtube_array is loaded with information for all the videos in response
-function youtube(response){
+//input: response: Object with info from the youtube API call
+//output: global array youtube_array is populated with info from the YT api call
+function populate_youtube_array(response){
     var tube = response.video;
     for (var x = 0; x < tube.length; x++){
         var youtube_obj = {};
@@ -437,7 +434,7 @@ function youtube(response){
 }
 
 //input: none
-//output: the main_content page animates outside and becomes hidden. All dynamic content is cleared.
+//output: the main_content page slides down and becomes hidden. All content is cleared.
 function home_slide () {
     var mainHeight = $('#main_page').height();
     $('#main_page').animate({top:mainHeight + 'px'},1500);
@@ -453,7 +450,7 @@ function home_slide () {
 
 //function twitter_feed_update
 //input: twitter_search string
-//output: calls process_twitter_api() to populate the twitter feed on the right side. calls speaker() to animate the speakers
+//output: calls process_twitter_api() to fill the twitter feed on the right side and calls speaker().
 function twitter_feed_update (twitter_search) {
     apis.twitter.getData(twitter_search,
         function (success, response) {
@@ -501,8 +498,8 @@ function prev_video (){
 }
 
 //function nickleback()
-//input: Despair
-//output: more despair (nickleback video plays in modal)
+//input: None, triggered when clicking the artist info button
+//output: Despair (nickleback video plays in modal)
 function nickleback() {
     var loading_spinner = $('<div>').addClass('loader');
     $('#vine-player').append(loading_spinner);
@@ -515,14 +512,14 @@ function nickleback() {
     });
 }
 //function remove_the_back()
-//input: Hope
+//input: none, triggered when closing the nickleback function
 //output: Life (nickleback is removed)
 function remove_the_back () {
     $('#vine-player').html('');
 }
 
 
-//input: none
+//input: none, triggered when clicking the tour info button
 //output: a grumpy cat
 function rick_roll () {
     apis.flickr.getData("grumpy cat", 5, function (success,response) {
