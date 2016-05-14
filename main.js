@@ -94,8 +94,8 @@ function dropdown() {
     }
 }
 //function page_scroll
-//input: click event
-//output: dropdown search_bar is created
+//input: keyboard event
+//output: main page will scroll up and calls on apis to update content and populate DOM elements
 function page_scroll (event) {
     var key = event.which;
     if(key == 13) {
