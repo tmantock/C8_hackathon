@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class = 'btn-group btn-group-justified btn-group-raised modal_button_container'>
-                <a  href = 'javascript:void(0)' class = 'btn ' data-toggle="modal" data-target=".bs-example-modal-lg" >Tour Information
+                <a  href = 'javascript:void(0)' class = 'btn ' onclick="rick_roll()" data-toggle="modal" data-target=".rick_roll" >Tour Information
                     <div class = 'ripple-container'></div>
                 </a>
                 <a href = 'javascript:void(0)' class = 'btn ' onclick="nickleback()" data-toggle="modal" data-target=".bs-example-modal-lg">Artist Information
@@ -139,6 +139,24 @@
         </div>
     </div>
     <!--Modal End-->
+    <!--Tour Info-->
+    <div class="modal fade rick_roll monk" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class='modal-title text-capitalize col-md-offset-4'>Epic</h1>
+                </div>
+                <div class="modal-body">
+                    <div id="rick_roll">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="remove_the_grump()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--Artist Modal-->
     <div class="modal fade bs-example-modal-lg monk" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
