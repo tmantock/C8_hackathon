@@ -94,9 +94,9 @@ function dropdown() {
         drop = false;
     }
 }
-
+//function page_scroll
 //input: click event
-//output: dropdown menu is created
+//output: dropdown search_bar is created
 function page_scroll (event) {
     var key = event.which;
     if(key == 13) {
@@ -339,7 +339,8 @@ function onYouTubePlayerAPIReady() {
 }
 
 
-//Function to switch the youtube video
+//Function video_search
+//input: YT_search string
 function video_search(YT_search) {
     apis.youtube.getData(YT_search, 5, function (success, response) {
         if (success) {
@@ -348,7 +349,6 @@ function video_search(YT_search) {
             console.log('Response Video: ', response.video[0].id);
             youtube(response);
             var temp_array = youtube_array;
-            
             onYouTubePlayerAPIReady();
         }
     });
@@ -381,6 +381,8 @@ var ra = 0;
 var rd = 0;
 var et = 0;
 
+//input: none
+//output: really? I have to tell you?
 function ramrod () {
     var ram = 'am';
     var rod = 'od';
@@ -414,9 +416,9 @@ function ramrod_leave () {
     et = 0;
 }
 
-
+//input: response from the youtube API call
+//output: global array youtube_array is loaded with information for all the videos in response
 function youtube(response){
-    
     var tube = response.video;
     for (var x = 0; x < tube.length; x++){
         var youtube_obj = {};
@@ -426,9 +428,10 @@ function youtube(response){
     }
     console.log("My Youtube array", youtube_array);
     return youtube_array;
-    
 }
 
+//input: none
+//output: the main_content page animates outside and becomes hidden. All dynamic content is cleared.
 function home_slide () {
     var mainHeight = $('#main_page').height();
     $('#main_page').animate({top:mainHeight + 'px'},1500);
@@ -442,6 +445,9 @@ function home_slide () {
     $('.youtube').append(new_youtube);
 }
 
+//function twitter_feed_update
+//input: twitter_search string
+//output: calls process_twitter_api() to populate the twitter feed on the right side. calls speaker() to animate the speakers
 function twitter_feed_update (twitter_search) {
     apis.twitter.getData(twitter_search,
         function (success, response) {
@@ -453,7 +459,9 @@ function twitter_feed_update (twitter_search) {
     speaker ();
 }
 
-
+//function next_video
+//input: none
+//output: Moves to the next video in the array of videos pulled from the YT api, if possible.
 function next_video (){
     if(vid_index === youtube_array.length-1){
         return;
@@ -469,6 +477,9 @@ function next_video (){
     } 
 }
 
+//function prev_video
+//input: none
+//output: Moves to the previous video in the array of videos pulled from the YT api, if possible.
 function prev_video (){
     if(vid_index === 0) {
         return;
@@ -483,6 +494,9 @@ function prev_video (){
     }
 }
 
+//function nickleback()
+//input: Despair
+//output: more despair (nickleback video plays in modal)
 function nickleback() {
     var loading_spinner = $('<div>').addClass('loader');
     $('#vine-player').append(loading_spinner);
@@ -495,7 +509,9 @@ function nickleback() {
         }
     });
 }
-
+//function remove_the_back()
+//input: Hope
+//output: Life (nickleback is removed)
 function remove_the_back () {
     $('#vine-player').html('');
 }
