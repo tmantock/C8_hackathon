@@ -58,13 +58,10 @@ $(document).ready(function() {
 //output: changes the global venue name and lat lon when clicked
 function tour_date_click(clicked_element){
     // clicked_element = this;
-    console.log('suh');
     var a = clicked_element;
     var b = global_tour_dates[Number($(a).attr('data-id'))];
     google_lat = b.venue_lat_lon.lat;
     google_lon = b.venue_lat_lon.lon;
-    console.log(b);
-    console.log (google_lat, google_lon);
     venue_name = b.venue_name;
     $('#myModal .modal-dialog .modal-content .modal-header .modal-title').html(venue_name);
     initialize();
@@ -99,7 +96,6 @@ function dropdown() {
 
 //input: click event
 //output: dropdown menu is created
-
 function page_scroll (event) {
     var key = event.which;
     if(key == 13) {
@@ -215,10 +211,10 @@ Tour_date.prototype.make_dom_object = function(first, id){
         tour_date_dom.addClass('active');
     }
     tour_date_dom.attr('data-id', ''+id);
-    var city_div = $('<div>').html(this.venue_city);
+    var city_div = $('<div>').html('City: ' + this.venue_city);
     var date = $('<div>');
-    var venue_div = $('<div>').html(this.venue_name);
-    date.html(this.event_date);
+    var venue_div = $('<div>').html('Venue: ' + this.venue_name);
+    date.html('Date: ' + this.event_date);
     // tour_date_dom.html(this.venue_city);
     tour_date_dom.append(venue_div, city_div, date);
 
@@ -239,7 +235,7 @@ function clear_carousel(){
 
 function populate_carousel(event_list){
     clear_carousel();
-    console.log(event_list)
+    console.log(event_list);
     var a = event_list;
     var first = true;
     for (var i = 0; i < a.length; i++){
@@ -254,9 +250,17 @@ function populate_carousel(event_list){
     console.log('carousel populated?')
 }
 
+function load_google(){
+    var b = global_tour_dates[$('.item.active').attr('data-id')];
+    google_lat = b.venue_lat_lon.lat;
+    google_lon = b.venue_lat_lon.lon;
+    venue_name = b.venue_name;
+    $('#myModal .modal-dialog .modal-content .modal-header .modal-title').html(venue_name);
+    initialize();
+}
+
 //input: none
 //output: google modal populated with content based off of the current venue
-
 function initialize() {
     var att = {lat: Number(google_lat), lng: Number(google_lon) };
     var map = new google.maps.Map(document.getElementById('map2'), {
@@ -278,24 +282,40 @@ function initialize() {
 //output: the global array global_tour_dates is full of events based off of the artist that was searched for
 
 function populate_tour(artist_name){
+    var no_events = false;
     global_tour_dates = [];
     $.getJSON("http://api.bandsintown.com/artists/" + artist_name + "/events.json?callback=?&app_id=LF_HACKATHON&date=2010-01-01,2016-01-01", function(result) {
-        console.log("if successful: " , result);
-        $.each(result, function(key, value){
-            if(result[key].venue.region == 'CA'){//only target events taking place in california
-                var a = result[key];
-                var temp_obj = {};
-                temp_obj.event_date = a.datetime;
-                temp_obj.venue_name = a.venue.name;
-                temp_obj.venue_city = a.venue.city;
-                temp_obj.venue_lat_lon = {lat: a.venue.latitude, lon:a.venue.longitude};
-                console.log ('key: ' + key + ', info:', temp_obj);
-                global_tour_dates.push(temp_obj);
-            }
+            $.each(result, function(key, value){
+                if(key == 'errors'){
+                    empty_carousel();
+                    no_events=true;
+                    return;
+                }
+                if(result[key].venue.region == 'CA'){//only target events taking place in california
+                    var a = result[key];
+                    var temp_obj = {};
+                    temp_obj.event_date = a.datetime;
+                    temp_obj.venue_name = a.venue.name;
+                    temp_obj.venue_city = a.venue.city;
+                    temp_obj.venue_lat_lon = {lat: a.venue.latitude, lon:a.venue.longitude};
+                    console.log ('key: ' + key + ', info:', temp_obj);
+                    global_tour_dates.push(temp_obj);
+                }
+            });
+        if(no_events){return;}
+            populate_carousel(global_tour_dates);
         });
-        populate_carousel(global_tour_dates);
-    });
-    console.log("Tour populated");
+        console.log("Tour populated");
+}
+function empty_carousel(){
+    clear_carousel();
+    console.log('no events found');
+    var c = $('<div>').addClass('item');
+    c.addClass('tour_div');
+    c.addClass('active');
+    c.html('Who? \n No artist found.');
+    c.css('text-align', 'center');
+    $('.carousel-inner').append(c);
 }
 
 // Load the IFrame Player API code asynchronously.
@@ -470,11 +490,18 @@ function prev_video (){
 }
 
 function nickleback() {
-    apis.youtube.getData('look at this graph', 1, function (success, response) {
+    var loading_spinner = $('<div>').addClass('loader');
+    $('#vine-player').append(loading_spinner);
+    apis.vine.getData('look at this graph', function (success, response) {
         if (success) {
-            vid_id = response.video[0].id;
-            onYouTubePlayerAPIReady();
+            $('.loader').remove();
+            var vid_id = response.vines[0].html;
+            console.log('This is vine vid_id: ',vid_id);
+            $('#vine-player').append(vid_id);
         }
     });
 }
 
+function remove_the_back () {
+    $('#vine-player').html('');
+}
