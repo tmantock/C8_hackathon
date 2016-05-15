@@ -48,9 +48,6 @@ $(document).ready(function() {
    /* $('#speaker_left').on('click', function(){
         prev_video();
     }); */
-    
-  
-
 });
 
 //function tour_date_click
@@ -94,7 +91,7 @@ function page_scroll (event) {
         populate_tour($('.artist_list').val());
         setTimeout(function () {
             video_search($('.artist_list').val());
-        },1500);
+        },1000);
     var xposition = $('#home_page').position().top;
     var xHeight = $('#home_page').height();
 
@@ -168,7 +165,7 @@ function twitterList (tweet_object_array) {
         var lastPosition = $('.twitter_feed .twitter_card:first-child').position().top;
         var lastHeight = $('.twitter_feed .twitter_card:first-child').height();
         $('.twitter_feed').append(temp_div.attr('data-count',counter).css({top: lastPosition + 15}));
-        $('.twitter_feed div:last-child').animate({top:(lastHeight * counter) + (15 * counter++) + 'px'}, 1000);
+        $('.twitter_feed div:last-child').animate({top:(lastHeight * counter) + (15 * counter++) + 'px'}, 1100);
     }
 }
 
@@ -396,7 +393,6 @@ function ramrod () {
     if (et < entertainment.length) {
         var stringLetterThree = entertainment.charAt(et++);
         $(".text_three").text($(".text_three").text() + stringLetterThree);
-
     }
     else {
         return false;
