@@ -75,20 +75,12 @@ function dropdown() {
     if (drop == true) {
         var welcome_position = $('.landing_welcome').position().top;
             var welcome_height = $('.landing_welcome').height();
-            var drop_div = $('<div>').css({
-                height: '10vh',
-                width: '43vw',
-                border: '3px solid black',
-                position: 'absolute',
-                top: '45%',
-                left: '50%',
-                transform: 'translate(-45%,-45%)'
-            }).addClass('drop_animate');
+            var drop_div = $('<div>').addClass('drop_animate');
             var drop_text = $('<input>').addClass('artist_list').attr('onkeydown','page_scroll(event)');
             drop_text.attr('placeholder', 'search for artist by name');
             $(drop_div).append(drop_text);
             $('.landing_container').append(drop_div);
-            $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
+            $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 600, function () {
             });
         drop = false;
     }
