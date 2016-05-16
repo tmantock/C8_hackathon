@@ -48,9 +48,6 @@ $(document).ready(function() {
    /* $('#speaker_left').on('click', function(){
         prev_video();
     }); */
-    
-  
-
 });
 
 //function tour_date_click
@@ -75,41 +72,33 @@ function dropdown() {
     if (drop == true) {
         var welcome_position = $('.landing_welcome').position().top;
             var welcome_height = $('.landing_welcome').height();
-            var drop_div = $('<div>').css({
-                height: '10vh',
-                width: '43vw',
-                border: '3px solid black',
-                position: 'absolute',
-                top: '45%',
-                left: '50%',
-                transform: 'translate(-45%,-45%)'
-            }).addClass('drop_animate');
+            var drop_div = $('<div>').addClass('drop_animate');
             var drop_text = $('<input>').addClass('artist_list').attr('onkeydown','page_scroll(event)');
             drop_text.attr('placeholder', 'search for artist by name');
             $(drop_div).append(drop_text);
             $('.landing_container').append(drop_div);
-            $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 500, function () {
+            $('.drop_animate').animate({top: welcome_position + welcome_height * 2 + 'px'}, 600, function () {
             });
         drop = false;
     }
 }
 //function page_scroll
-//input: click event
-//output: dropdown search_bar is created
+//input: keyboard event
+//output: main page will scroll up and calls on apis to update content and populate DOM elements
 function page_scroll (event) {
     var key = event.which;
     if(key == 13) {
-        setTimeout(function () {
-        video_search($('.artist_list').val());
-        },1000);
         populate_tour($('.artist_list').val());
-        twitter_feed_update($('.artist_list').val());
+        setTimeout(function () {
+            video_search($('.artist_list').val());
+        },1600);
     var xposition = $('#home_page').position().top;
     var xHeight = $('#home_page').height();
 
 
     $('.drop_animate').toggle('slow');
     $('#main_page').animate({top:(-1*xHeight) + 'px'},900, function() {
+        twitter_feed_update($('.artist_list').val());
     })
     }
 
@@ -156,7 +145,7 @@ function twitterList (tweet_object_array) {
     console.log(tweet_object_array[0]);
     temp_user_name.html('@' + current_tweet.user_name);
     temp_tweet_date.html(current_tweet.date_created);
-    temp_div.append(temp_pic, temp_user_name, tweet_icon, temp_text);
+    temp_div.append(temp_pic, temp_user_name, temp_text, tweet_icon);
     $('.twitter_feed').append(temp_div);
     var counter = 1;
 
@@ -172,11 +161,11 @@ function twitterList (tweet_object_array) {
         temp_pic.attr('src', current_tweet.user_pic);
         temp_user_name.html('@' + current_tweet.user_name);
         temp_tweet_date.html(current_tweet.date_created);
-        temp_div.append(temp_pic, temp_user_name, tweet_icon, temp_text);
+        temp_div.append(temp_pic, temp_user_name, temp_text, tweet_icon);
         var lastPosition = $('.twitter_feed .twitter_card:first-child').position().top;
         var lastHeight = $('.twitter_feed .twitter_card:first-child').height();
         $('.twitter_feed').append(temp_div.attr('data-count',counter).css({top: lastPosition + 15}));
-        $('.twitter_feed div:last-child').animate({top:(lastHeight * counter) + (15 * counter++) + 'px'}, 1000);
+        $('.twitter_feed div:last-child').animate({top:(lastHeight * counter) + (15 * counter++) + 'px'}, 1100);
     }
 }
 
@@ -404,7 +393,6 @@ function ramrod () {
     if (et < entertainment.length) {
         var stringLetterThree = entertainment.charAt(et++);
         $(".text_three").text($(".text_three").text() + stringLetterThree);
-
     }
     else {
         return false;

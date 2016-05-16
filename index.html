@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="initial-scale=1, user-scalable=no">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>RR Entertainment</title>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <!-- Material Design fonts -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -36,10 +36,10 @@
             </div>
         </div>
     </nav>
-    <div onmouseover="ramrod_leave(); hide_nav()" id = 'home_page' class = 'landing_container'>
+    <div onmouseover="ramrod_leave()" id = 'home_page' class = 'landing_container'>
         <div class = 'landing_welcome' onclick="dropdown()"><h1>Choose Your Experience</h1></div>
     </div>
-    <div id = 'main_page' class = 'landing_container'>
+    <div onmouseover="ramrod_leave()" id = 'main_page' class = 'landing_container'>
         <div class = 'music_content col-md-10 col-sm-12'>
 
             <div class="youtube_container">
@@ -175,7 +175,7 @@
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/js/ripples.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.9/js/material.min.js"></script>
     <script>
-        $.material.ripples(".btn , .landing_welcome");
+        $.material.ripples(".btn , .landing_welcome, .speaker_grow");
     </script>
 </body>
 </html>
