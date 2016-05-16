@@ -507,8 +507,9 @@ function remove_the_back () {
 //output: a grumpy cat
 function rick_roll () {
     apis.flickr.getData("grumpy cat", 5, function (success,response) {
-       if (success) {
-           var pic_id = response.urls[4];
+        if (success) {
+           var rand_ind = Math.floor(Math.random()* 5);
+           var pic_id = response.urls[rand_ind];
            var pic_to_append = $('<img>').attr('src',pic_id);
            $('#rick_roll').append(pic_to_append);
            console.log(pic_id);
