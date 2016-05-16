@@ -17,11 +17,12 @@ body{
 
 .nav.navbar-nav.navbar-right {
     margin-right: 5%;
+    float: right;
 }
 
 .landing_container {
     position: relative;
-    height: 100%;
+    height: 93%;
     width: 100%;
 }
 
@@ -33,9 +34,7 @@ body{
 }
 .landing_welcome > h1 {
     cursor: default;
-}
-#main_page {
-    top: 7%;
+    font-size: 2em;
 }
 
 .landing_welcome {
@@ -152,17 +151,18 @@ body{
 .twitter_card {
     position: absolute;
     background: #FAFAFA;
-    height: 30%;
+    height: 40%;
     width: 90%;
     left: 45%;
     transform: translateX(-45%);
-    box-shadow: 10px 10px 5px #888888;;
+    box-shadow: 10px 10px 5px #888888;
+    overflow: hidden;
 }
 
 .tweet_text {
     width: 90%;
     height: 40%;
-    font-size: 1.3em;
+    font-size: 1em;
     color: black;
     margin: 10% 0 5% 3%;
 }
@@ -174,6 +174,11 @@ body{
     width: 40%;
     height: 10%;
     margin: 3% 3%;
+}
+
+.tweet_icon {
+    float: right;
+    margin: 17% 3% 0 0;
 }
 
 .tweet_user_name:first-letter {
@@ -209,8 +214,8 @@ body{
 }
 
 .speaker_hole {
-    height: 5%;
-    width: 20%;
+    height: 8%;
+    width: 28%;
     box-sizing: border-box;
     display: inline-block;
     margin: 0;
@@ -254,9 +259,13 @@ body{
 
 .speaker_glyph {
     color: white;
-    margin-left: 25%;
+    position: relative;
+    top: 45%;
+    left: 45%;
+    transform: translate(-45%,-45%);
 }
 
+/*
 .speaker_pulse {
     height: 5%;
     width: 20%;
@@ -270,7 +279,7 @@ body{
     transform: translateX(-45%);
     background: #ffffff;
 }
-
+*/
 .nav-list> ul > li  {
     cursor: default;
 }
@@ -283,20 +292,20 @@ body{
 
 .tour_div div:first-child {
     position: relative;
-    top: 25%;
-    transform: translateY(-25%);
+    top: 15%;
+    transform: translateY(-15%);
 }
 
 .tour_div div:nth-child(2) {
     position: relative;
-    top: 30%;
-    transform: translateY(-30%);
+    top: 20%;
+    transform: translateY(-20%);
 }
 
 .tour_div div:nth-child(3) {
     position: relative;
-    top: 40%;
-    transform: translateY(-40%);
+    top: 25%;
+    transform: translateY(-25%);
 }
 
 ::-webkit-input-placeholder {
@@ -318,13 +327,61 @@ body{
     font-size: 50%;
     color: #212121;
 }
+.loader {
+    margin: 25%;
+    border-top: 26px solid cyan;
+    border-right: 26px solid pink;
+    border-bottom: 26px solid cyan;
+    border-left: 26px solid pink;
+    border-radius: 50%;
+    width: 220px;
+    height: 220px;
+    animation: spin 1s linear infinite;
+}
 
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#vine-player {
+    padding-left: 17%;
+}
+#rick_roll {
+    margin-left: 25%;
+}
 
 .tweet_icon {
     font-size: 2em;
     color: black;
     display: inline-block;
     margin-left: 20%;
+
+}
+
+.drop_animate {
+    height: 10vh;
+    width: 43vw;
+    border: 3px solid black;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-45%,-45%);
+}
+
+@media screen and (max-width: 375px) {
+    .landing_welcome > h1 {
+        display: none;
+    }
+
+    #nav-bar {
+        z-index: +1;
+    }
+
+    .artist_list {
+        font-size: 1.3em;
+    }
 }
 #search-form, .form-control {
     margin-bottom: 20px;
