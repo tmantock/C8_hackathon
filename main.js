@@ -91,7 +91,7 @@ function page_scroll (event) {
         populate_tour($('.artist_list').val());
         setTimeout(function () {
             video_search($('.artist_list').val());
-        },1000);
+        },1600);
     var xposition = $('#home_page').position().top;
     var xHeight = $('#home_page').height();
 
